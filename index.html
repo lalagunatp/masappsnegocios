@@ -1106,6 +1106,7 @@ async function attemptLogin(numeroRaw){
   const loading = document.getElementById('lockLoading');
   setLockError('');
   btn.disabled = true;
+  btn.textContent = 'Verificando…';
   loading.classList.add('show');
 
   try{
@@ -1113,16 +1114,15 @@ async function attemptLogin(numeroRaw){
     const emp = EMPLOYEES[numero];
     if(!emp){
       setLockError('No encontramos ese número de empleado. Verifica e intenta de nuevo.');
-      btn.disabled = false; loading.classList.remove('show');
       return;
     }
     localStorage.setItem(SESSION_KEY, JSON.stringify({numero, ts:Date.now()}));
     showWelcome(emp);
   } catch(err){
     console.error('Error verificando número de empleado:', err);
-    setLockError('No se pudo conectar con el directorio de empleados. Revisa que la hoja de Google esté compartida como "Cualquier persona con el enlace" y vuelve a intentar.');
+    setLockError('No se pudo conectar con el directorio de empleados (' + (err && err.message ? err.message : 'error desconocido') + '). Revisa que la hoja esté compartida como "Cualquier persona con el enlace" e intenta de nuevo.');
   } finally {
-    btn.disabled = false; loading.classList.remove('show');
+    btn.disabled = false; btn.textContent = 'Entrar'; loading.classList.remove('show');
   }
 }
 
@@ -1137,6 +1137,23 @@ document.getElementById('enterBtn').addEventListener('click', unlockApp);
 document.getElementById('logoutBtn').addEventListener('click', ()=>{
   localStorage.removeItem(SESSION_KEY);
   location.reload();
+});
+
+// red de seguridad: si algo truena en cualquier parte de la página,
+// que se vea el motivo en el candado en vez de quedarse "sin hacer nada"
+window.addEventListener('error', e=>{
+  const box = document.getElementById('lockFileWarn');
+  if(box){
+    box.style.display = 'block';
+    box.innerHTML = '⚠️ Ocurrió un error técnico: ' + (e.message||'desconocido') + '. Toma captura de esto y compártela para poder corregirlo.';
+  }
+});
+window.addEventListener('unhandledrejection', e=>{
+  const box = document.getElementById('lockFileWarn');
+  if(box){
+    box.style.display = 'block';
+    box.innerHTML = '⚠️ Ocurrió un error de conexión: ' + (e.reason && e.reason.message ? e.reason.message : e.reason) + '. Toma captura de esto y compártela para poder corregirlo.';
+  }
 });
 
 // si ya había una sesión válida guardada, re-verifica en silencio y entra directo
