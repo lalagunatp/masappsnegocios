@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Totalplay Negocios | Guía de ventas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fdf3de;
+    --card:#ffffff;
+    --navy:#173049;
+    --navy-soft:#4d6579;
+    --coral:#ef5a3c;
+    --coral-soft:#fbdfd6;
+    --coral-text:#c1432b;
+    --amber-bg:#fbe7bd;
+    --amber-text:#8a5a17;
+    --blue-bg:#e7eef4;
+    --blue-text:#2b4859;
+    --green-bg:#dcf3e3;
+    --green-text:#1f7a43;
+    --teal-bg:#d9f0ef;
+    --teal-text:#136a68;
+    --line:#eee2c8;
+    --header-h:64px;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--navy);
+    font-family:'Inter',sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    padding-top:var(--header-h);
+  }
+  img,svg{max-width:100%;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px 70px;}
+
+  /* ================= HEADER + HAMBURGUESA ================= */
+  .topbar{
+    position:fixed;top:0;left:0;right:0;height:var(--header-h);z-index:100;
+    background:var(--navy);color:#fff;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 16px;box-shadow:0 2px 10px rgba(0,0,0,.12);
+  }
+  .topbar .left{display:flex;align-items:center;gap:12px;min-width:0;}
+  .burger{
+    width:42px;height:42px;border-radius:11px;border:none;background:rgba(255,255,255,.1);
+    display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;
+    cursor:pointer;flex-shrink:0;
+  }
+  .burger span{display:block;width:20px;height:2.5px;background:#fff;border-radius:2px;transition:.25s;}
+  .burger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+  .burger.open span:nth-child(2){opacity:0;}
+  .burger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+  .topbar .brand{font-family:'Poppins',sans-serif;font-weight:700;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .topbar .brand small{display:block;font-weight:400;font-size:10.5px;color:#b9c8d4;}
+  .topbar .current{
+    font-family:'Poppins',sans-serif;font-weight:600;font-size:13.5px;color:#ffd9cd;
+    display:none;text-align:right;max-width:50%;
+  }
+  @media (min-width:640px){ .topbar .current{display:block;} }
+
+  /* overlay + panel */
+  .nav-overlay{
+    position:fixed;inset:0;background:rgba(10,20,30,.5);opacity:0;pointer-events:none;
+    transition:opacity .25s ease;z-index:101;
+  }
+  .nav-overlay.open{opacity:1;pointer-events:auto;}
+  .nav-panel{
+    position:fixed;top:0;left:0;bottom:0;width:min(320px,86vw);background:#fff;z-index:102;
+    transform:translateX(-105%);transition:transform .28s ease;
+    display:flex;flex-direction:column;box-shadow:4px 0 24px rgba(0,0,0,.15);
+  }
+  .nav-panel.open{transform:translateX(0);}
+  .nav-head{
+    padding:18px 18px 14px;background:var(--navy);color:#fff;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .nav-head .t{font-family:'Poppins',sans-serif;font-weight:700;font-size:15.5px;}
+  .nav-head .t small{display:block;font-weight:400;font-size:11px;color:#b9c8d4;margin-top:2px;}
+  .nav-close{width:34px;height:34px;border-radius:9px;border:none;background:rgba(255,255,255,.12);color:#fff;font-size:17px;cursor:pointer;}
+  .nav-scroll{overflow-y:auto;flex:1;padding:14px 12px 24px;}
+  .nav-group-label{
+    font-family:'Poppins',sans-serif;font-weight:700;font-size:11px;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--navy-soft);padding:14px 10px 8px;
+  }
+  .nav-item{
+    display:flex;align-items:center;gap:11px;width:100%;text-align:left;
+    background:none;border:none;border-radius:11px;padding:11px 10px;cursor:pointer;
+    font-family:'Inter',sans-serif;font-size:14px;font-weight:600;color:var(--navy);
+  }
+  .nav-item:hover{background:var(--bg);}
+  .nav-item.active{background:var(--coral-soft);color:var(--coral-text);}
+  .nav-item .ic{font-size:19px;width:24px;text-align:center;flex-shrink:0;}
+
+  /* ================= VIEWS ================= */
+  .view{display:none;}
+  .view.active{display:block;animation:fade .3s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+  /* ---------- HOME ---------- */
+  .home-hero{padding:34px 0 8px;}
+  .eyebrow{
+    font-family:'Poppins',sans-serif;font-weight:700;font-size:12.5px;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--coral);margin-bottom:8px;
+  }
+  h1{font-family:'Poppins',sans-serif;font-weight:800;font-size:clamp(24px,4.6vw,36px);line-height:1.15;margin:0 0 10px;color:var(--navy);}
+  .lead{color:var(--navy-soft);font-size:15px;max-width:620px;margin:0 0 26px;}
+  .home-group-title{font-family:'Poppins',sans-serif;font-weight:800;font-size:18px;margin:26px 0 14px;color:var(--navy);}
+  .home-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px;}
+  .home-card{
+    background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;cursor:pointer;
+    transition:.15s;box-shadow:0 3px 12px rgba(23,48,73,.05);
+  }
+  .home-card:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(23,48,73,.1);}
+  .home-card .ic{font-size:26px;margin-bottom:8px;display:block;}
+  .home-card .t{font-family:'Poppins',sans-serif;font-weight:700;font-size:14.5px;color:var(--navy);margin-bottom:3px;}
+  .home-card .s{font-size:12px;color:var(--navy-soft);line-height:1.35;}
+
+  /* ---------- shared meta / pills ---------- */
+  .meta-row{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:14px;}
+  .pill{background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:12.5px;color:var(--navy-soft);font-weight:500;}
+  .pill b{color:var(--navy);font-weight:700;}
+  .warn{background:var(--coral-soft);border:1px solid #f3b8a8;border-radius:14px;padding:13px 16px;font-size:13px;color:var(--coral-text);max-width:760px;margin-bottom:12px;}
+  .warn b{color:var(--coral);}
+  .dirigido{font-size:12px;color:var(--navy-soft);background:#fff;border:1px solid var(--line);border-radius:14px;padding:11px 16px;max-width:820px;}
+  .dirigido b{color:var(--navy);}
+  .back-link{
+    display:inline-flex;align-items:center;gap:6px;background:none;border:none;color:var(--navy-soft);
+    font-size:13px;font-weight:600;cursor:pointer;padding:8px 0;margin-bottom:6px;
+  }
+  .back-link:hover{color:var(--coral);}
+
+  .section-title{font-family:'Poppins',sans-serif;font-weight:800;font-size:clamp(20px,3.4vw,26px);margin:10px 0 16px;color:var(--navy);}
+
+  /* ---------- family toggle ---------- */
+  .fam-toggle{display:flex;gap:9px;margin-bottom:22px;flex-wrap:wrap;}
+  .fam-btn{
+    display:flex;align-items:center;gap:8px;font-family:'Poppins',sans-serif;font-weight:600;font-size:13.5px;
+    background:#fff;color:var(--navy);border:1.5px solid var(--line);border-radius:12px;padding:11px 18px;cursor:pointer;
+  }
+  .fam-btn.active{background:var(--navy);color:#fff;border-color:var(--navy);}
+
+  /* ---------- plan card grid (streaming) ---------- */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:19px;box-shadow:0 3px 14px rgba(23,48,73,.05);}
+  .card h3{font-family:'Poppins',sans-serif;font-weight:800;font-size:21px;margin:0;color:var(--navy);}
+  .card .plan-sub{font-size:11.5px;color:var(--navy-soft);margin:2px 0 13px;font-weight:500;}
+  .card .price{font-family:'Poppins',sans-serif;font-weight:800;font-size:24px;color:var(--coral);}
+  .card .price small{font-family:'Inter',sans-serif;font-weight:600;font-size:12.5px;color:var(--navy-soft);}
+  .divider{border:none;border-top:1.5px dashed var(--line);margin:13px 0 11px;}
+  .tag-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:7px;}
+  .tag{font-size:11px;font-weight:600;border-radius:8px;padding:5px 9px;white-space:nowrap;}
+  .tag.amber{background:var(--amber-bg);color:var(--amber-text);}
+  .tag.blue{background:var(--blue-bg);color:var(--blue-text);}
+  .tag.coral{background:var(--coral-soft);color:var(--coral-text);}
+  .tag.green{background:var(--green-bg);color:var(--green-text);}
+  .tag.teal{background:var(--teal-bg);color:var(--teal-text);}
+  .empty-state{font-size:12px;color:var(--navy-soft);font-style:italic;padding:6px 0 2px;}
+  .footnote{font-size:11.5px;color:var(--navy-soft);margin-top:20px;max-width:820px;}
+  .footnote b{color:var(--navy);}
+
+  /* ---------- accordion ---------- */
+  .rules-block{margin-top:40px;}
+  .rules-title{font-family:'Poppins',sans-serif;font-weight:800;font-size:20px;margin:0 0 6px;color:var(--navy);}
+  .rules-intro{background:#fff;border:1px solid var(--line);border-left:4px solid var(--coral);border-radius:10px;padding:12px 15px;font-size:13px;color:var(--navy-soft);margin-bottom:14px;max-width:820px;}
+  .rules-intro b{color:var(--navy);}
+  .acc-item{background:#fff;border:1px solid var(--line);border-radius:14px;margin-bottom:9px;overflow:hidden;}
+  .acc-head{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;cursor:pointer;gap:10px;}
+  .acc-head .tier{font-family:'Poppins',sans-serif;font-weight:700;font-size:14px;color:var(--navy);}
+  .acc-head .tier small{display:block;color:var(--navy-soft);font-weight:400;font-size:11.5px;margin-top:2px;}
+  .acc-head .chev{color:var(--coral);font-size:19px;transition:.25s;font-weight:700;flex-shrink:0;}
+  .acc-item.open .chev{transform:rotate(45deg);}
+  .acc-body{max-height:0;overflow:hidden;transition:max-height .3s ease;}
+  .acc-item.open .acc-body{max-height:1100px;}
+  .acc-body-inner{padding:0 16px 16px;font-size:13px;color:var(--navy-soft);}
+  .acc-body-inner ul{margin:0 0 12px;padding-left:18px;}
+  .acc-body-inner li{margin-bottom:6px;}
+  .model-box{background:#f6f9fb;border:1px solid var(--blue-bg);border-radius:10px;padding:11px 13px;margin-top:10px;}
+  .model-label{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--navy-soft);margin-bottom:8px;}
+  .codes{display:flex;flex-wrap:wrap;gap:7px;}
+  .code-chip{background:var(--navy);color:#fff;font-size:10.5px;font-weight:600;border-radius:7px;padding:6px 9px;font-family:'Inter',monospace;}
+  .flag{background:var(--coral-soft);border:1px dashed var(--coral);border-radius:10px;padding:10px 12px;font-size:12px;color:var(--coral-text);margin-top:10px;}
+
+  /* ---------- opcion 2 table ---------- */
+  .disc-note{margin:4px 0 20px;}
+  .disc-note .big{font-family:'Poppins',sans-serif;font-weight:800;font-size:clamp(24px,5.6vw,38px);color:var(--coral);line-height:1;}
+  .disc-note .sub{color:var(--navy-soft);font-size:13.5px;margin-top:4px;}
+  .table-card{background:#fff;border:1px solid var(--line);border-radius:18px;overflow-x:auto;margin-bottom:18px;box-shadow:0 3px 14px rgba(23,48,73,.05);-webkit-overflow-scrolling:touch;}
+  table{width:100%;border-collapse:collapse;min-width:600px;}
+  thead th{font-family:'Poppins',sans-serif;font-weight:700;font-size:12px;color:var(--navy);text-align:center;padding:13px 7px 9px;border-bottom:2px solid var(--coral);white-space:nowrap;}
+  thead th small{display:block;font-weight:500;color:var(--navy-soft);font-size:10px;}
+  tbody td{text-align:center;padding:11px 7px;font-size:13px;border-bottom:1px solid var(--line);color:var(--navy-soft);}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:hover td{background:#fbf7ec;}
+  td.megas{font-weight:800;color:var(--navy);}
+  td.price{font-weight:700;color:var(--navy-soft);}
+  td.disc{font-weight:700;color:var(--coral);}
+
+  /* ---------- DIGITAL SERVICE PAGE ---------- */
+  .svc-header{display:flex;align-items:center;gap:14px;margin-bottom:6px;flex-wrap:wrap;}
+  .svc-icon{font-size:34px;background:#fff;border:1px solid var(--line);border-radius:16px;width:60px;height:60px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .svc-title{font-family:'Poppins',sans-serif;font-weight:800;font-size:clamp(20px,3.6vw,28px);color:var(--navy);margin:0;}
+  .svc-tag{font-size:13px;color:var(--navy-soft);margin-top:2px;}
+  .svc-intro{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 18px;font-size:14px;color:var(--navy-soft);margin:16px 0 22px;max-width:820px;}
+  .svc-block-title{font-family:'Poppins',sans-serif;font-weight:700;font-size:15.5px;color:var(--navy);margin:0 0 12px;display:flex;align-items:center;gap:8px;}
+  .svc-block-title .dot{width:7px;height:7px;border-radius:50%;background:var(--coral);display:inline-block;}
+  .bullet-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin-bottom:28px;}
+  .bullet-card{background:#fff;border:1px solid var(--line);border-radius:13px;padding:13px 15px;font-size:13px;color:var(--navy-soft);display:flex;gap:10px;align-items:flex-start;}
+  .bullet-card .chk{color:var(--green-text);font-weight:800;flex-shrink:0;}
+  .q-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:28px;}
+  .q-card{background:var(--blue-bg);border-radius:14px;padding:16px;text-align:center;}
+  .q-card .num{font-family:'Poppins',sans-serif;font-weight:800;font-size:13px;color:var(--blue-text);opacity:.6;margin-bottom:6px;}
+  .q-card .q{font-size:13.5px;font-weight:600;color:var(--navy);}
+  .tips-box{background:var(--teal-bg);border-radius:16px;padding:18px 20px;margin-bottom:26px;}
+  .tips-box ul{margin:0;padding-left:18px;}
+  .tips-box li{font-size:13.5px;color:var(--teal-text);margin-bottom:8px;font-weight:500;}
+  .tips-box li:last-child{margin-bottom:0;}
+  .contact-row{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:20px;}
+  .contact-card{background:#fff;border:1px solid var(--line);border-radius:13px;padding:13px 16px;flex:1;min-width:170px;}
+  .contact-card .lbl{font-size:11px;color:var(--navy-soft);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px;}
+  .contact-card .val{font-size:13.5px;font-weight:700;color:var(--navy);word-break:break-word;}
+  .included-badge{display:inline-block;background:var(--green-bg);color:var(--green-text);font-size:12px;font-weight:700;border-radius:8px;padding:6px 12px;margin-top:6px;}
+  .chan-table{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:20px;overflow-x:auto;}
+  .chan-table table{min-width:420px;}
+
+  /* ---------- footer ---------- */
+  .footer{margin-top:40px;padding-top:22px;border-top:1px solid var(--line);font-size:12px;color:var(--navy-soft);}
+  .footer .web{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px 18px;max-width:680px;margin-bottom:12px;}
+  .footer .web b{color:var(--coral);}
+  .footer a{color:var(--navy);font-weight:700;text-decoration:none;}
+  .internal-note{font-size:11px;color:var(--navy-soft);opacity:.8;margin-top:6px;}
+
+  /* ================= RESPONSIVE ================= */
+  @media (max-width:900px){
+    .wrap{padding:0 16px 60px;}
+  }
+  @media (max-width:640px){
+    .wrap{padding:0 14px 50px;}
+    .grid,.home-grid{grid-template-columns:repeat(auto-fill,minmax(145px,1fr));}
+    .card,.home-card{padding:15px;}
+    .bullet-grid{grid-template-columns:1fr;}
+  }
+  /* landscape phones: shrink header + vertical paddings so content isn't squeezed */
+  @media (orientation:landscape) and (max-height:480px){
+    :root{--header-h:52px;}
+    .home-hero{padding:18px 0 6px;}
+    h1{font-size:22px;margin-bottom:6px;}
+    .lead{margin-bottom:16px;}
+    .nav-head{padding:12px 14px 10px;}
+  }
+  @media (min-width:1000px){
+    .wrap{padding:0 32px 80px;}
+  }
+
+  /* ================= CANDADO DE ACCESO ================= */
+  #lockScreen{
+    position:fixed;inset:0;z-index:999;
+    background:radial-gradient(1100px 700px at 15% -10%, #1f3b55 0%, var(--navy) 60%) fixed, var(--navy);
+    display:flex;align-items:center;justify-content:center;
+    padding:24px;
+  }
+  #lockScreen.hidden{display:none;}
+  .lock-card{
+    background:#fff;border-radius:22px;max-width:380px;width:100%;
+    padding:32px 28px;box-shadow:0 20px 60px rgba(0,0,0,.35);text-align:center;
+  }
+  .lock-badge{
+    width:56px;height:56px;border-radius:16px;background:var(--coral-soft);
+    display:flex;align-items:center;justify-content:center;font-size:26px;
+    margin:0 auto 16px;
+  }
+  .lock-card h2{font-family:'Poppins',sans-serif;font-weight:800;font-size:20px;color:var(--navy);margin:0 0 6px;}
+  .lock-card p{font-size:13.5px;color:var(--navy-soft);margin:0 0 22px;}
+  .lock-input{
+    width:100%;padding:13px 15px;border-radius:12px;border:1.5px solid var(--line);
+    font-size:16px;font-family:'Inter',sans-serif;font-weight:600;color:var(--navy);
+    text-align:center;letter-spacing:.03em;margin-bottom:12px;background:#fbf7ec;
+  }
+  .lock-input:focus{outline:none;border-color:var(--coral);background:#fff;}
+  .lock-btn{
+    width:100%;padding:13px;border:none;border-radius:12px;background:var(--navy);color:#fff;
+    font-family:'Poppins',sans-serif;font-weight:700;font-size:14.5px;cursor:pointer;transition:.15s;
+  }
+  .lock-btn:hover{background:#0e2237;}
+  .lock-btn:disabled{opacity:.6;cursor:default;}
+  .lock-error{
+    background:var(--coral-soft);color:var(--coral-text);border-radius:10px;
+    padding:10px 12px;font-size:12.5px;font-weight:600;margin-bottom:12px;display:none;
+  }
+  .lock-error.show{display:block;}
+  .lock-loading{font-size:12.5px;color:var(--navy-soft);margin-top:14px;display:none;}
+  .lock-loading.show{display:block;}
+
+  .welcome-card{display:none;}
+  .welcome-card.show{display:block;animation:fade .35s ease;}
+  .welcome-ico{
+    width:64px;height:64px;border-radius:50%;background:var(--green-bg);
+    display:flex;align-items:center;justify-content:center;font-size:30px;margin:0 auto 16px;
+  }
+  .welcome-name{font-family:'Poppins',sans-serif;font-weight:800;font-size:19px;color:var(--navy);margin-bottom:14px;line-height:1.3;}
+  .welcome-tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:22px;}
+  .welcome-tags .tag{font-size:12px;padding:7px 13px;}
+</style>
+</head>
+<body>
+
+<!-- ================= CANDADO DE ACCESO ================= -->
+<div id="lockScreen">
+  <div class="lock-card">
+
+    <!-- estado: formulario -->
+    <div id="lockForm">
+      <div class="lock-badge">🔒</div>
+      <h2>Acceso para fuerza de ventas</h2>
+      <p>Escribe tu número de empleado para entrar a la guía de ventas.</p>
+      <div class="lock-error" id="lockError"></div>
+      <input type="text" inputmode="numeric" class="lock-input" id="lockInput" placeholder="Número de empleado" maxlength="20">
+      <button class="lock-btn" id="lockBtn">Entrar</button>
+      <div class="lock-loading" id="lockLoading">Verificando…</div>
+    </div>
+
+    <!-- estado: bienvenida -->
+    <div class="welcome-card" id="welcomeCard">
+      <div class="welcome-ico">👋</div>
+      <div class="welcome-name" id="welcomeName">¡Bienvenido!</div>
+      <div class="welcome-tags">
+        <span class="tag blue" id="welcomePosicion"></span>
+        <span class="tag teal" id="welcomeDistrito"></span>
+      </div>
+      <button class="lock-btn" id="enterBtn">Empezar</button>
+    </div>
+
+  </div>
+</div>
+
+<div class="topbar">
+  <div class="left">
+    <button class="burger" id="burgerBtn" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="brand">Totalplay Negocios<small>Guía de ventas</small></div>
+  </div>
+  <div class="current" id="currentTitle">Inicio</div>
+</div>
+
+<div class="nav-overlay" id="navOverlay"></div>
+<nav class="nav-panel" id="navPanel">
+  <div class="nav-head">
+    <div class="t">Menú<small>Elige lo que quieres ver</small></div>
+    <button class="nav-close" id="navCloseBtn" aria-label="Cerrar menú">✕</button>
+  </div>
+  <div class="nav-scroll" id="navScroll"></div>
+  <div style="padding:12px 12px 16px;border-top:1px solid var(--line);">
+    <div id="navUserInfo" style="font-size:11.5px;color:var(--navy-soft);margin-bottom:8px;"></div>
+    <button class="nav-item" id="logoutBtn" style="color:var(--coral-text);"><span class="ic">🚪</span>Cerrar sesión</button>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- ================= HOME ================= -->
+  <section class="view active" id="view-home">
+    <div class="home-hero">
+      <div class="eyebrow">Totalplay Negocios</div>
+      <h1>Todo lo que necesitas para vender, en un solo lugar</h1>
+      <p class="lead">Elige una promoción vigente o una solución digital para ver la información completa, fácil de explicar a tu cliente.</p>
+    </div>
+
+    <div class="home-group-title">🎁 Promociones vigentes</div>
+    <div class="home-grid" id="homePromoGrid"></div>
+
+    <div class="home-group-title">💻 Soluciones digitales</div>
+    <div class="home-grid" id="homeServiceGrid"></div>
+  </section>
+
+  <!-- ================= OPCION 1: STREAMING ================= -->
+  <section class="view" id="view-streaming">
+    <button class="back-link" onclick="showView('home')">← Volver al inicio</button>
+    <div class="eyebrow">Oferta Negocios · Totalplay</div>
+    <h1 style="font-size:clamp(22px,4vw,32px);">Llegaron los planes con plataformas de streaming incluido</h1>
+    <div class="meta-row">
+      <div class="pill">🗓️ Vigencia: <b>22 al 31 de julio 2026</b></div>
+      <div class="pill">📍 Alcance: <b>Nacional</b></div>
+      <div class="pill">📋 Informativo para: <b>Centro de Soluciones</b></div>
+    </div>
+    <div class="warn">⚠️ <b>Nota importante:</b> revisa con cuidado este comunicado. Si tienes alguna duda, acude con tu jefe inmediato antes de ofrecer el plan al cliente.</div>
+    <div class="dirigido"><b>Dirigido a:</b> todos los canales de venta (Telemarketing, Auto empresarios, Cambaceo, Desarrollo, Cadenas, Punto de Venta), Instalaciones (cuadrillas internas y externas), Cobranza, Mesa de Control y Aseguramiento de Ingresos.</div>
+
+    <div class="section-title">Totalplayer: TV + Internet o solo Internet</div>
+    <div class="fam-toggle" id="familyToggle">
+      <button class="fam-btn active" data-family="tv"><span>📺</span> TV + Internet</button>
+      <button class="fam-btn" data-family="internet"><span>🌐</span> Solo Internet</button>
+    </div>
+    <div class="grid" id="cardGrid"></div>
+    <div class="footnote">Las etiquetas <b style="color:#8a5a17">ámbar</b> son promocionales (tiempo limitado); el resto se mantienen incluidas de forma indefinida mientras el cliente conserve su plan y adicionales. Solo los planes de 5,000 y 10,000 Megas incluyen las apps <b>sin anuncios</b>; el resto las incluye <b>con anuncios</b>.</div>
+
+    <div class="rules-block">
+      <div class="rules-title">Cómo modelar esta promoción en sistema</div>
+      <div class="rules-intro">Los <b>códigos NEG-</b> que aparecen en cada Megaje <b>no son características del plan</b>: son el nombre de la promoción que debes seleccionar/capturar en el sistema al modelar la venta. Toca cada Megaje para ver sus reglas y el código exacto a modelar.</div>
+      <div id="accordion"></div>
+    </div>
+  </section>
+
+  <!-- ================= OPCION 2: TOTALAMIGO ================= -->
+  <section class="view" id="view-totalamigo">
+    <button class="back-link" onclick="showView('home')">← Volver al inicio</button>
+    <div class="section-title">Descuento Totalamigo</div>
+    <div class="disc-note">
+      <div class="big">Hasta $150 de descuento</div>
+      <div class="sub">Durante 5 meses · Nacional · verifica la tabla de descuento por Megaje</div>
+    </div>
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th>Megas</th>
+            <th>PP<br><small>Internet</small></th>
+            <th>Precio c/ desc.<br><small>Mes 1 a 5</small></th>
+            <th>Precio 6º mes<br><small>Internet</small></th>
+            <th>PP<br><small>TV + Internet</small></th>
+            <th>Precio c/ desc.<br><small>Mes 1 a 5</small></th>
+            <th>Precio 6º mes<br><small>TV + Internet</small></th>
+          </tr>
+        </thead>
+        <tbody id="discBody"></tbody>
+      </table>
+    </div>
+    <div class="rules-block">
+      <div class="rules-title">Cómo modelar esta promoción en sistema</div>
+      <div class="rules-intro">El código <b>NEG-TOTALAMIGO</b> es el que debes capturar en el sistema al modelar esta promoción. No conviven con él las promociones de Netflix, HBO, Universal+ o Disney+.</div>
+      <div class="acc-item open">
+        <div class="acc-body" style="max-height:600px;">
+          <div class="acc-body-inner">
+            <ul>
+              <li>Aplica solo para <b>clientes nuevos</b> de las familias Totalplay Internet y Totalplay TV + Internet.</li>
+              <li>Aplica para los planes <b>Elemental, Esencial, Dinámico, Emprendedor y Experto</b>.</li>
+              <li>Convive con la promoción de <b>portabilidad</b>.</li>
+              <li><b>No convive</b> con promociones de Netflix, HBO, Universal+ o Disney+.</li>
+              <li>El descuento aplica del mes 1 al mes 5, sobre la renta del plan.</li>
+              <li>Habilitado para <b>upsell</b>, siempre que no aplique sobre promociones del mismo adicional o se trate de un upgrade.</li>
+            </ul>
+            <div class="model-box">
+              <div class="model-label">Código a modelar en sistema</div>
+              <div class="codes"><span class="code-chip">NEG-TOTALAMIGO</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= DIGITAL SERVICE (template, generado con JS) ================= -->
+  <section class="view" id="view-service">
+    <button class="back-link" onclick="showView('home')">← Volver al inicio</button>
+    <div id="serviceContent"></div>
+  </section>
+
+  <div class="footer">
+    <div class="web">🌐 <b>Soluciones de negocio + Página Web incluidas sin costo.</b><br>
+    Ya vienen incluidas en la solución contratada — no se modela ninguna promoción.<br>
+    Invita a tu cliente a activarla en <a href="http://www.asesorvirtual.com.mx" target="_blank">www.asesorvirtual.com.mx</a> o por WhatsApp <a href="#">55 53 50 87 01</a>.</div>
+    <div>Informativo para Centro de Soluciones · Alcance Nacional · Vigencia del 22 al 31 de julio de 2026</div>
+    <div class="internal-note">Este material es únicamente de uso interno y está prohibida su distribución.</div>
+  </div>
+
+</div>
+
+<script>
+/* ============================================================
+   DATOS: PROMOCIONES (Opción 1 y 2) — igual que antes
+   ============================================================ */
+const PLAT_LABEL = {netflix:'Netflix', universal:'Universal+', appletv:'Apple TV', hbomax:'HBO Max', disney:'Disney+'};
+const PLATFORMS = ['netflix','universal','appletv','hbomax','disney'];
+
+const DATA = {
+  tv: [
+    {megas:'10,000', plan:'Élite',       pp:'$3,159', adminNeg:true,  row:[2,2,2,'plain',2]},
+    {megas:'5,000',  plan:'Ejecutivo',   pp:'$2,649', adminNeg:true,  row:[2,2,2,'plain',2]},
+    {megas:'1,000',  plan:'Experto',     pp:'$1,240', adminNeg:true,  row:[1,1,1,'plain',1]},
+    {megas:'500',    plan:'Emprendedor', pp:'$1,030', adminNeg:true,  row:[1,1,1,'plain',0]},
+    {megas:'350',    plan:'Dinámico',    pp:'$829',   adminNeg:false, row:[1,1,'plain',0,0]},
+    {megas:'250',    plan:'Esencial',    pp:'$720',   adminNeg:false, row:['5m','5m','5m',0,0]},
+    {megas:'150',    plan:'Elemental',   pp:'$619',   adminNeg:false, row:['5m','5m','5m',0,0]},
+    {megas:'100',    plan:'Plan base',   pp:'$510',   adminNeg:false, row:[0,0,0,0,0]},
+  ],
+  internet: [
+    {megas:'10,000', plan:'Élite',       pp:'$2,659', device:'VSB', adminNeg:true,  row:[2,2,2,'plain',2]},
+    {megas:'5,000',  plan:'Ejecutivo',   pp:'$2,149', device:'VSB', adminNeg:true,  row:[2,2,2,'plain',2]},
+    {megas:'1,000',  plan:'Experto',     pp:'$1,039', device:'VSB', adminNeg:true,  row:[1,1,1,'plain',1]},
+    {megas:'500',    plan:'Emprendedor', pp:'$890',   device:'VSB', adminNeg:true,  row:[1,1,1,'plain',0]},
+    {megas:'350',    plan:'Dinámico',    pp:'$690',   device:'TV',  adminNeg:false, row:[1,1,'plain',0,0]},
+    {megas:'250',    plan:'Esencial',    pp:'$580',   device:'TV',  adminNeg:false, row:['3m','3m','3m',0,0]},
+    {megas:'150',    plan:'Elemental',   pp:'$480',   device:'TV',  adminNeg:false, row:['3m','3m','3m',0,0]},
+    {megas:'100',    plan:'Plan base',   pp:'$410',   device:'TV',  adminNeg:false, row:[0,0,0,0,0]},
+  ]
+};
+
+const DISCOUNT = [
+  {megas:'1,000', ppNet:'$1,039', descNet:'$889', mes6Net:'$959', ppTv:'$1,240', descTv:'$1,090', mes6Tv:'$1,140'},
+  {megas:'500',   ppNet:'$890',   descNet:'$790', mes6Net:'$820', ppTv:'$1,030', descTv:'$960',   mes6Tv:'$970'},
+  {megas:'350',   ppNet:'$690',   descNet:'$620', mes6Net:'$660', ppTv:'$829',   descTv:'$759',   mes6Tv:'$789'},
+  {megas:'250',   ppNet:'$580',   descNet:'$520', mes6Net:'$560', ppTv:'$720',   descTv:'$660',   mes6Tv:'$690'},
+  {megas:'150',   ppNet:'$480',   descNet:'$420', mes6Net:'$460', ppTv:'$619',   descTv:'$559',   mes6Tv:'$589'},
+];
+
+const RULES = [
+  {
+    tier:'150 y 250 Megas', sub:'Elemental 150 · Esencial 250 — Netflix Ads + Apple TV + Universal+',
+    items:[
+      'Promoción de Netflix Ads por <b>3 meses</b> en la familia Totalplay Internet, y por <b>5 meses</b> en la familia Totalplay TV + Internet.',
+      'Aplica para clientes nuevos y existentes (por contención, retención y upsell).',
+      'No aplica para planes base, con Bundle Netflix Estándar o Netflix Premium.',
+      'El descuento aplica sobre la renta del plan desde el mes 1 hasta el mes 3 (Internet) o mes 5 (TV+Internet).',
+      'A partir del mes 6, el cliente paga la renta de su plan con descuento por lealtad.',
+      'Si el cliente no llama para cancelar al mes siguiente de terminar la promoción, pagará el costo total del plan más los precios vigentes de Netflix, Apple TV y Universal+.',
+      'No conviven con TOTALAMIGO, empleado ni promociones segmentadas.'
+    ],
+    codes:['NEG-NETFLIX ADS INCLUIDO X 3 MESES O 5 MESES','NEG-UNIVERSAL+ ESTÁNDAR CON ANUNCIOS INCLUIDO X 3 MESES O 5 MESES']
+  },
+  {
+    tier:'350 Megas', sub:'Dinámico — Netflix Ads + Apple TV + Universal+ (permanente)',
+    items:[
+      'Aplica el plan Dinámico 350 Megas con anuncios, en ambas familias (Totalplay Internet y TV + Internet).',
+      'No aplica para planes base, con Bundle Netflix Estándar o Netflix Premium.',
+      'Aplica para clientes nuevos y existentes (por contención, retención y upsell).',
+      'A partir del mes 6, el cliente paga la renta con descuento por lealtad.',
+      'El descuento es <b>permanente</b> mientras el cliente conserve su plan más los adicionales.',
+      'El cliente cuenta con Netflix Ads, Apple TV y Universal+ con anuncios incluidos por permanencia.',
+      'No convive con TOTALAMIGO, empleado ni promociones segmentadas.'
+    ],
+    codes:['NEG-NETFLIX ADS INCLUIDO','NEG-UNIVERSAL+ ESTÁNDAR CON ANUNCIOS INCLUIDO']
+  },
+  {
+    tier:'500 Megas', sub:'Emprendedor — incluye Administrador de Negocios permanente',
+    items:[
+      'Aplica en el plan Emprendedor 500 Megas: Netflix Ads + Apple TV + Universal+ con anuncios + Disney+ con anuncios, según la regla de negocio.',
+      'Incluye Administrador de Negocios de manera permanente.',
+      'No aplica para planes base, con Bundle Netflix Estándar o Netflix Premium.',
+      'El descuento es permanente mientras el cliente conserve su plan más los adicionales.',
+      'No convive con TOTALAMIGO, empleado ni promociones segmentadas.'
+    ],
+    codes:['NEG-NETFLIX ADS INCLUIDO','NEG-UNIVERSAL+ ESTÁNDAR CON ANUNCIOS INCLUIDO','NEG ADMINISTRADOR DE NEGOCIOS INCLUIDO','NEG-DISNEY ADS INCLUIDO'],
+    flag:'⚠️ La tabla de planes de este comunicado muestra HBO Max incluido y Disney+ como NA en el Megaje de 500 — lo contrario a lo que describe esta regla de negocio. Confirma con tu jefe inmediato cuál plataforma aplica antes de ofrecerlo.'
+  },
+  {
+    tier:'1,000 Megas', sub:'Experto — incluye Administrador de Negocios permanente',
+    items:[
+      'Aplica en el plan Experto 1,000 Megas: Netflix Ads + Apple TV + Universal+ con anuncios + Disney+ con anuncios + HBO Max con anuncios.',
+      'Incluye Administrador de Negocios de manera permanente.',
+      'No aplica para planes base, con Bundle Netflix Estándar o Netflix Premium.',
+      'El descuento es permanente mientras el cliente conserve su plan más los adicionales.',
+      'No convive con TOTALAMIGO, empleado ni promociones segmentadas.'
+    ],
+    codes:['NEG-NETFLIX ADS INCLUIDO','NEG-UNIVERSAL+ ESTÁNDAR CON ANUNCIOS INCLUIDO','NEG ADMINISTRADOR DE NEGOCIOS INCLUIDO','NEG-HBO MAX CON ANUNCIOS INCLUIDO','NEG-DISNEY ADS INCLUIDO']
+  },
+  {
+    tier:'5,000 y 10,000 Megas', sub:'Ejecutivo · Élite — streaming estándar sin anuncios',
+    items:[
+      'Aplica en los planes Ejecutivo 5,000 y Élite 10,000 Megas: Netflix Estándar + Apple TV + Universal+ estándar sin anuncios + Disney+ estándar sin anuncios + HBO Max estándar sin anuncios.',
+      'Incluye Administrador de Negocios de manera permanente.',
+      'No aplica para planes base, con Bundle Netflix Ads o Netflix Premium.',
+      'A partir del 6º mes, se suma el descuento por lealtad.',
+      'El descuento es permanente mientras el cliente conserve su plan más los adicionales.',
+      'No convive con TOTALAMIGO, empleado ni promociones segmentadas.'
+    ],
+    codes:['NEG ADMINISTRADOR DE NEGOCIOS INCLUIDO','NEG-NETFLIX ESTÁNDAR INCLUIDO','NEG-UNIVERSAL+ ESTÁNDAR CON ANUNCIOS INCLUIDO','NEG-HBO MAX ESTÁNDAR INCLUIDO','NEG-DISNEY ESTÁNDAR INCLUIDO']
+  }
+];
+
+/* ============================================================
+   DATOS: SOLUCIONES DIGITALES (Manual_Servicios_Digitales.pdf)
+   ============================================================ */
+const SERVICES = [
+  {
+    id:'aliado-digital', icon:'🧑‍💼', title:'Aliado Digital',
+    tag:'Asistencia técnica, legal y contable, 24/7',
+    intro:'Aliado Digital ayuda a los negocios a resolver dudas técnicas, legales y contables para operar de forma segura. Está disponible las 24 horas del día, los 7 días de la semana, por chat, teléfono o correo. Se activa con una llamada personalizada después de contratar el plan.',
+    bullets:[
+      'Ingenieros que apoyan en la activación y uso de las herramientas digitales, y resuelven fallas de cómputo.',
+      'Asesoría legal en temas de contratos, permisos, sociedades y trámites del negocio (no incluye trámites presenciales ni gestiones ante autoridades).',
+      'Asesoría contable y fiscal para cumplir con el SAT sin gastos extra.',
+      'Se activa fácil: llega un correo "Bienvenid@ a Totalplay Negocios" para crear la contraseña y entrar a la plataforma.'
+    ],
+    questions:[
+      '¿Ha tenido problemas técnicos o administrativos que afecten su operación?',
+      '¿Ha tenido problemas para instalar, configurar o actualizar su computadora o celular?',
+      '¿Ha tenido dudas legales o fiscales relacionadas con su negocio?'
+    ],
+    tips:[
+      'Relaciónalo con lo que busca el cliente: crecer, digitalizarse o estar en regla.',
+      'Resalta que el soporte es 24/7, sin depender de terceros ni pagar de más.',
+      'Explica que no solo resuelve fallas técnicas: también da asesoría legal y contable, reduciendo riesgos y costos.'
+    ],
+    contact:{chat:'asesoriavirtual.com.mx', email:'ayuda@asesorvirtual.com.mx', phone:'(55) 5350-8701'}
+  },
+  {
+    id:'internet-seguro', icon:'🛡️', title:'Internet Seguro',
+    tag:'Protección Bitdefender contra amenazas digitales',
+    intro:'Internet Seguro protege al negocio contra amenazas digitales, con navegación segura y localización de dispositivos. Usa la tecnología Bitdefender, de primer nivel en ciberseguridad.',
+    bullets:[
+      'Funciona en Windows, Mac OS, iOS y Android.',
+      'La cantidad de dispositivos protegidos depende del plan contratado.',
+      'Detiene amenazas de red antes de que ocurran, y bloquea sitios infectados.',
+      'Ubica dispositivos extraviados por geolocalización.',
+      'Permite controlar qué contenido usan los colaboradores, para mejorar su productividad.',
+      'Protege pagos en línea, banca digital y detecta correos falsos (fraudes).',
+      'Bloquea sitios y apps que distraen en el trabajo.'
+    ],
+    questions:[
+      '¿Cómo protege actualmente la información y los dispositivos de su negocio contra virus?',
+      '¿Ha sufrido intentos de fraude, virus o pérdida de datos en el último año?',
+      '¿Qué tan importante es para usted la seguridad en pagos y navegación en línea?'
+    ],
+    tips:[
+      'Pregunta si el cliente ha tenido robo de datos, virus o fraudes en línea.',
+      'Destaca que Bitdefender es una marca reconocida mundialmente contra amenazas digitales.',
+      'Explica que Internet Seguro protege tanto los dispositivos como la información crítica del negocio.'
+    ],
+    activation:'El cliente recibe un código de licencia y lo activa en <b>seguridad.asesorvirtual.com.mx</b>.'
+  },
+  {
+    id:'nube', icon:'☁️', title:'Almacenamiento en la nube',
+    tag:'HeyValue Cloud — guarda y comparte archivos seguros',
+    intro:'Permite guardar, sincronizar y acceder a archivos, fotos, videos y documentos desde cualquier dispositivo y lugar, con seguridad y privacidad. Ideal para negocios que necesitan acceso remoto y respaldo seguro.',
+    bullets:[
+      'Espacio disponible: desde 50 GB hasta 1 TB, según el plan contratado.',
+      'Acceso desde cualquier dispositivo y sistema operativo.',
+      'Sincronización automática en todos los dispositivos.',
+      'Copias de seguridad (respaldo) automáticas.',
+      'Los archivos están protegidos, guardados o viajando por internet.',
+      'Permite controlar el acceso y compartir archivos en equipo.'
+    ],
+    questions:[
+      '¿Cómo gestiona actualmente el respaldo y acceso a los archivos de su negocio?',
+      '¿Ha tenido dificultades para compartir documentos entre equipos o ubicaciones?',
+      '¿Qué tan importante es para usted la seguridad y disponibilidad de su información en todo momento?'
+    ],
+    tips:[
+      'Pregunta si el cliente ha tenido problemas para compartir archivos o pérdida de datos.',
+      'Destaca la seguridad y privacidad, ideal para negocios con información sensible.',
+      'Explica que permite trabajar en equipo sin importar la ubicación, evitando interrupciones.'
+    ],
+    activation:'Llega un correo con el asunto "Se ha creado su cuenta de HeyValue Cloud" para crear la contraseña y empezar a usar la nube.'
+  },
+  {
+    id:'notas-remision', icon:'🧾', title:'Notas de remisión y gestión de ventas',
+    tag:'Parte de la plataforma Factura Total (sin implicaciones fiscales)',
+    intro:'Permite emitir notas de remisión y llevar el control de ventas de forma ágil y organizada, sin generar facturas electrónicas. Ideal para mejorar la atención al cliente y optimizar procesos internos.',
+    bullets:[
+      'Ideal para ventas rápidas, cotizaciones o entregas parciales.',
+      'Registro de productos y servicios, y elaboración de recibos de nómina (no timbrados).',
+      'Se personaliza con los colores y el logo del negocio.',
+      'Muestra reportes de ventas por periodo y el top 10 de clientes frecuentes.',
+      'Funciona desde cualquier dispositivo, en la nube.',
+      'Sin costo adicional: incluido en planes desde 100 Megas, con 15 timbres al mes.'
+    ],
+    questions:[
+      '¿Cómo gestiona actualmente las ventas y pedidos de su negocio?',
+      '¿Tiene control sobre los ingresos de su negocio?',
+      '¿Qué tan importante es para usted contar con reportes claros de sus ingresos?'
+    ],
+    tips:[
+      'Explica que sirve para generar comprobantes de operaciones internas o ventas que no requieren factura.',
+      'Destaca que es ideal para controlar ventas sin invertir en sistemas complejos.',
+      'Pregunta si el cliente necesita mejorar la organización de sus ventas y reducir errores en pedidos.'
+    ],
+    activation:'Llega un correo para crear la contraseña y empezar a usar las notas de remisión.'
+  },
+  {
+    id:'factura-total', icon:'📄', title:'Factura Total',
+    tag:'Facturación electrónica (CFDI) ilimitada ante el SAT',
+    intro:'Permite emitir facturas electrónicas ilimitadas (CFDI), cumpliendo con los requisitos del SAT, de forma rápida y segura desde cualquier dispositivo. Sin costos adicionales por volumen de facturación.',
+    bullets:[
+      'Facturas, notas de crédito y recibos de pago según la normativa vigente del SAT.',
+      'Incluye complementos fiscales como pago, carta porte y otros requeridos por la autoridad.',
+      'Valida en tiempo real el RFC y el timbrado autorizado por el PAC.',
+      'Descarga de XML y PDF, historial de facturación y control de clientes.',
+      'Acceso desde la nube, en cualquier dispositivo, con respaldo automático.',
+      'Sin costo adicional: incluido en planes desde 250 Megas.'
+    ],
+    questions:[
+      '¿Cómo gestiona actualmente la emisión de facturas electrónicas y complementos fiscales?',
+      '¿Ha tenido inconvenientes con el timbrado o la validación ante el SAT?',
+      '¿Qué tan importante es para usted contar con facturación sin costos adicionales?'
+    ],
+    tips:[
+      'Explica que el servicio asegura que las facturas cumplen con las reglas más recientes del SAT.',
+      'Destaca la facturación ilimitada, ideal para negocios con alto volumen de operaciones.',
+      'Pregunta si el cliente ha tenido problemas con timbrado, complementos o control de facturas.'
+    ],
+    activation:'Llega un correo para crear la contraseña; si el cliente lo desea, un especialista lo apoya con un tour por la plataforma.'
+  },
+  {
+    id:'pagina-web', icon:'🌐', title:'Página web + tienda',
+    tag:'Presencia digital profesional para el negocio',
+    intro:'Le da al negocio una página web personalizada, una tienda en línea y correos corporativos con dominio propio, para aumentar su visibilidad y vender en línea con una imagen confiable.',
+    bullets:[
+      'Sitio web que se adapta a celular y computadora, creado por diseñadores expertos.',
+      'Se personaliza con logotipo, colores y contenido del negocio.',
+      'Tienda en línea con catálogo de productos, carrito de compras y pagos seguros.',
+      '5 cuentas de correo con dominio propio, con acceso desde cualquier dispositivo.',
+      'Hosting en servidores AWS en la nube, con cambios y asesorías ilimitadas.',
+      'Actualizaciones y soporte técnico y de diseño incluidos.'
+    ],
+    questions:[
+      '¿Cuenta actualmente con una página web profesional para su negocio?',
+      '¿Le gustaría vender sus productos o servicios en línea de manera segura?',
+      '¿Qué tan importante es para usted tener correos corporativos con dominio personalizado?'
+    ],
+    tips:[
+      'Pregunta si el cliente busca correos con dominio propio para dar más confianza.',
+      'Destaca la tienda en línea, ideal para vender más allá de su ubicación física.',
+      'Explica que ayuda a captar clientes en línea y mejora la imagen profesional del negocio.'
+    ],
+    activation:'El cliente llena un formulario con la información de su negocio; si es necesario, un experto en diseño web lo contacta para resolver dudas.'
+  },
+  {
+    id:'administrador-negocio', icon:'📊', title:'Administrador del negocio',
+    tag:'Plataforma HeyERP — controla todo el negocio en un lugar',
+    intro:'HeyERP es una plataforma para gestionar todas las áreas del negocio desde un solo lugar: ventas, compras, inventarios, clientes y finanzas, para tomar mejores decisiones.',
+    bullets:[
+      'Módulo de Ventas: registro y seguimiento de pedidos, control de clientes y cotizaciones.',
+      'Módulo de Compras: control de proveedores y órdenes de compra.',
+      'Módulo de CRM: seguimiento de clientes y oportunidades de negocio.',
+      'Módulo de Inventarios: gestión de productos y avisos cuando el stock está bajo.',
+      'Módulo de Finanzas: reportes básicos y control de cuentas por cobrar y pagar.',
+      'Todo disponible en la nube, desde cualquier dispositivo, con respaldo automático.'
+    ],
+    questions:[
+      '¿Cómo gestiona actualmente las ventas, inventarios y finanzas de su negocio?',
+      '¿Qué tan importante es para usted contar con reportes sobre el inventario de su negocio?',
+      '¿Ha tenido dificultades para integrar la información de diferentes áreas en un solo sistema?'
+    ],
+    tips:[
+      'Pregunta si el cliente tiene problemas para controlar inventarios, ventas o finanzas.',
+      'Destaca la eficiencia: ideal para reducir errores y mejorar la productividad.',
+      'Explica que HeyERP centraliza toda la operación del negocio en una sola plataforma.'
+    ],
+    contact:{chat:'asesoriavirtual.com.mx', email:'ayuda@asesorvirtual.com.mx', phone:'(55) 5350-8701'}
+  },
+  {
+    id:'activacion', icon:'⚡', title:'Proceso de activación del servicio',
+    tag:'3 formas sencillas de activar las soluciones',
+    intro:'Una vez instalado el servicio, el cliente puede activar las soluciones de Totalplay Negocios de forma sencilla, por tres opciones. El objetivo es que la activación sea rápida y segura.',
+    bullets:[
+      'Llamada de un Asesor de Activaciones: 24 horas después de la instalación, un asesor contacta al cliente al (55) 5350-8701 y lo guía paso a paso.',
+      'Correo de bienvenida: el cliente recibe un enlace para crear su contraseña y entrar a la plataforma Asesor Virtual.',
+      'Cualquier medio de contacto: el cliente puede comunicarse 24/7 por chat, teléfono o correo, y un asesor lo apoya.'
+    ],
+    tips:[
+      'Resalta que hay varios canales disponibles: chat, teléfono, WhatsApp y correo, para mayor comodidad.',
+      'Destaca el acompañamiento: siempre hay un asesor disponible para resolver dudas.',
+      'Enfatiza la facilidad y rapidez: el cliente elige la opción que más le acomode.'
+    ],
+    channels:[
+      {medio:'Chat', tiempo:'30 segundos', dato:'asesoriavirtual.com.mx'},
+      {medio:'Correo electrónico', tiempo:'40 minutos', dato:'ayuda@asesorvirtual.com.mx'},
+      {medio:'Teléfono / WhatsApp', tiempo:'60 segundos', dato:'(55) 5350-8701'}
+    ]
+  }
+];
+
+/* ============================================================
+   NAV: construir menú hamburguesa + home
+   ============================================================ */
+const NAV_STRUCTURE = [
+  {group:'Inicio', items:[{id:'home', icon:'🏠', label:'Inicio'}]},
+  {group:'Promociones vigentes', items:[
+    {id:'streaming', icon:'📺', label:'Streaming incluido'},
+    {id:'totalamigo', icon:'🎁', label:'Descuento Totalamigo'}
+  ]},
+  {group:'Soluciones digitales', items: SERVICES.map(s=>({id:'svc:'+s.id, icon:s.icon, label:s.title}))}
+];
+
+function buildNav(){
+  let html = '';
+  NAV_STRUCTURE.forEach(g=>{
+    html += `<div class="nav-group-label">${g.group}</div>`;
+    g.items.forEach(it=>{
+      html += `<button class="nav-item" data-target="${it.id}"><span class="ic">${it.icon}</span>${it.label}</button>`;
+    });
+  });
+  document.getElementById('navScroll').innerHTML = html;
+
+  document.querySelectorAll('.nav-item').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const t = btn.dataset.target;
+      if(t.startsWith('svc:')) openService(t.slice(4));
+      else showView(t);
+      closeNav();
+    });
+  });
+}
+
+function buildHome(){
+  let promoHtml = `
+    <div class="home-card" data-target="streaming"><span class="ic">📺</span><div class="t">Streaming incluido</div><div class="s">Planes con Netflix, HBO Max, Disney+ y más — vigente del 22 al 31 de julio.</div></div>
+    <div class="home-card" data-target="totalamigo"><span class="ic">🎁</span><div class="t">Descuento Totalamigo</div><div class="s">Hasta $150 de descuento durante 5 meses para clientes nuevos.</div></div>
+  `;
+  document.getElementById('homePromoGrid').innerHTML = promoHtml;
+
+  let svcHtml = '';
+  SERVICES.forEach(s=>{
+    svcHtml += `<div class="home-card" data-target="svc:${s.id}"><span class="ic">${s.icon}</span><div class="t">${s.title}</div><div class="s">${s.tag}</div></div>`;
+  });
+  document.getElementById('homeServiceGrid').innerHTML = svcHtml;
+
+  document.querySelectorAll('.home-card').forEach(card=>{
+    card.addEventListener('click', ()=>{
+      const t = card.dataset.target;
+      if(t.startsWith('svc:')) openService(t.slice(4));
+      else showView(t);
+    });
+  });
+}
+
+/* ============================================================
+   RENDER: tarjetas de planes (streaming)
+   ============================================================ */
+function tagFor(platform, code){
+  const label = PLAT_LABEL[platform];
+  if(code===0) return '';
+  if(code===2 || code===1 || code==='plain') return `<span class="tag blue">${label}</span>`;
+  if(code==='3m') return `<span class="tag amber">${label} · 3 meses</span>`;
+  if(code==='5m') return `<span class="tag amber">${label} · 5 meses</span>`;
+  return '';
+}
+let currentFamily = 'tv';
+function renderCards(){
+  const rows = DATA[currentFamily];
+  let html = '';
+  rows.forEach(r=>{
+    const anyAds = r.row.some(v=>v===1||v==='3m'||v==='5m');
+    const anyNoAds = r.row.some(v=>v===2);
+    const anyIncluded = r.row.some(v=>v!==0);
+    let tags = '';
+    r.row.forEach((v,i)=>{ tags += tagFor(PLATFORMS[i], v); });
+    let statusTag = '';
+    if(anyNoAds) statusTag += '<span class="tag green">Sin anuncios</span>';
+    if(anyAds) statusTag += '<span class="tag coral">Con anuncios</span>';
+    let deviceTag = '';
+    if(r.device === 'VSB') deviceTag = '<span class="tag teal">Módem VSB incluido</span>';
+    if(r.device === 'TV') deviceTag = '<span class="tag teal">Decodificador TV incluido</span>';
+    let adminTag = r.adminNeg ? '<span class="tag teal">Administrador de Negocios</span>' : '';
+    html += `<div class="card">
+      <h3>${r.megas}</h3>
+      <div class="plan-sub">${r.plan} · Simétricos</div>
+      <div class="price">${r.pp}<small>/mes</small></div>
+      <hr class="divider">
+      ${anyIncluded ? `<div class="tag-row">${tags}</div><div class="tag-row">${statusTag}${adminTag}${deviceTag}</div>` : `<div class="empty-state">Sin streaming incluido</div>${deviceTag ? `<div class="tag-row" style="margin-top:8px;">${deviceTag}</div>` : ''}`}
+    </div>`;
+  });
+  document.getElementById('cardGrid').innerHTML = html;
+}
+function renderDiscTable(){
+  let body = '';
+  DISCOUNT.forEach(r=>{
+    body += `<tr><td class="megas">${r.megas}</td><td class="price">${r.ppNet}</td><td class="disc">${r.descNet}</td><td>${r.mes6Net}</td><td class="price">${r.ppTv}</td><td class="disc">${r.descTv}</td><td>${r.mes6Tv}</td></tr>`;
+  });
+  document.getElementById('discBody').innerHTML = body;
+}
+function renderAccordion(){
+  let html = '';
+  RULES.forEach((r,i)=>{
+    html += `<div class="acc-item ${i===0?'open':''}">
+      <div class="acc-head" onclick="toggleAcc(this)">
+        <div class="tier">${r.tier}<small>${r.sub}</small></div>
+        <div class="chev">+</div>
+      </div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <ul>${r.items.map(it=>`<li>${it}</li>`).join('')}</ul>
+        <div class="model-box"><div class="model-label">Código a modelar en sistema</div>
+        <div class="codes">${r.codes.map(c=>`<span class="code-chip">${c}</span>`).join('')}</div></div>
+        ${r.flag ? `<div class="flag">${r.flag}</div>` : ''}
+      </div></div>
+    </div>`;
+  });
+  document.getElementById('accordion').innerHTML = html;
+}
+function toggleAcc(el){ el.parentElement.classList.toggle('open'); }
+
+/* ============================================================
+   RENDER: página de servicio digital
+   ============================================================ */
+function openService(id){
+  const s = SERVICES.find(x=>x.id===id);
+  if(!s) return;
+  let html = `
+    <div class="svc-header">
+      <div class="svc-icon">${s.icon}</div>
+      <div><h1 class="svc-title">${s.title}</h1><div class="svc-tag">${s.tag}</div></div>
+    </div>
+    <div class="svc-intro">${s.intro}</div>
+    <div class="svc-block-title"><span class="dot"></span> Datos y puntos importantes</div>
+    <div class="bullet-grid">${s.bullets.map(b=>`<div class="bullet-card"><span class="chk">✓</span><span>${b}</span></div>`).join('')}</div>
+  `;
+  if(s.questions){
+    html += `<div class="svc-block-title"><span class="dot"></span> 3 preguntas clave para detectar la necesidad</div>
+    <div class="q-grid">${s.questions.map((q,i)=>`<div class="q-card"><div class="num">0${i+1}</div><div class="q">${q}</div></div>`).join('')}</div>`;
+  }
+  if(s.tips){
+    html += `<div class="svc-block-title"><span class="dot"></span> ¿Cómo ofrecer este servicio?</div>
+    <div class="tips-box"><ul>${s.tips.map(t=>`<li>💡 ${t}</li>`).join('')}</ul></div>`;
+  }
+  if(s.channels){
+    html += `<div class="svc-block-title"><span class="dot"></span> Tiempos de atención por canal</div>
+    <div class="chan-table"><table><thead><tr><th>Medio</th><th>Tiempo de atención</th><th>Dato de contacto</th></tr></thead><tbody>
+    ${s.channels.map(c=>`<tr><td class="megas">${c.medio}</td><td class="disc">${c.tiempo}</td><td>${c.dato}</td></tr>`).join('')}
+    </tbody></table></div>`;
+  }
+  if(s.activation){
+    html += `<div class="svc-block-title"><span class="dot"></span> Activación</div>
+    <div class="bullet-grid"><div class="bullet-card"><span class="chk">✓</span><span>${s.activation}</span></div></div>`;
+  }
+  if(s.contact){
+    html += `<div class="svc-block-title"><span class="dot"></span> Medios de contacto</div>
+    <div class="contact-row">
+      <div class="contact-card"><div class="lbl">Chat</div><div class="val">${s.contact.chat}</div></div>
+      <div class="contact-card"><div class="lbl">Correo electrónico</div><div class="val">${s.contact.email}</div></div>
+      <div class="contact-card"><div class="lbl">Teléfono / WhatsApp</div><div class="val">${s.contact.phone}</div></div>
+    </div>`;
+  }
+  html += `<span class="included-badge">✔ Incluido en los planes</span>`;
+
+  document.getElementById('serviceContent').innerHTML = html;
+  showView('service', s.title);
+}
+
+/* ============================================================
+   NAVEGACIÓN GENERAL
+   ============================================================ */
+function showView(id, titleOverride){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  const el = document.getElementById('view-'+id);
+  if(el) el.classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+
+  const titles = {home:'Inicio', streaming:'Streaming incluido', totalamigo:'Descuento Totalamigo', service: titleOverride||''};
+  document.getElementById('currentTitle').textContent = titles[id] || '';
+
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+  const navBtn = document.querySelector(`.nav-item[data-target="${id==='service' ? '' : id}"]`);
+  if(navBtn) navBtn.classList.add('active');
+}
+
+/* hamburguesa */
+const burgerBtn = document.getElementById('burgerBtn');
+const navOverlay = document.getElementById('navOverlay');
+const navPanel = document.getElementById('navPanel');
+const navCloseBtn = document.getElementById('navCloseBtn');
+function openNav(){ burgerBtn.classList.add('open'); navOverlay.classList.add('open'); navPanel.classList.add('open'); document.body.style.overflow='hidden'; }
+function closeNav(){ burgerBtn.classList.remove('open'); navOverlay.classList.remove('open'); navPanel.classList.remove('open'); document.body.style.overflow=''; }
+burgerBtn.addEventListener('click', ()=> navPanel.classList.contains('open') ? closeNav() : openNav());
+navOverlay.addEventListener('click', closeNav);
+navCloseBtn.addEventListener('click', closeNav);
+
+/* toggles de familia (streaming) */
+document.getElementById('familyToggle').addEventListener('click', e=>{
+  const b = e.target.closest('button');
+  if(!b) return;
+  document.querySelectorAll('#familyToggle button').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  currentFamily = b.dataset.family;
+  renderCards();
+});
+
+/* init */
+buildNav();
+buildHome();
+renderCards();
+renderDiscTable();
+renderAccordion();
+</script>
+</body>
+</html>
