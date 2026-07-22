@@ -290,6 +290,10 @@
   }
   .lock-btn:hover{background:#0e2237;}
   .lock-btn:disabled{opacity:.6;cursor:default;}
+  .lock-filewarn{
+    background:#fff4e0;color:#8a5a17;border:1px solid #f0d190;border-radius:10px;
+    padding:11px 13px;font-size:12px;font-weight:600;text-align:left;margin-bottom:14px;line-height:1.5;
+  }
   .lock-error{
     background:var(--coral-soft);color:var(--coral-text);border-radius:10px;
     padding:10px 12px;font-size:12.5px;font-weight:600;margin-bottom:12px;display:none;
@@ -320,6 +324,7 @@
       <div class="lock-badge">🔒</div>
       <h2>Acceso para fuerza de ventas</h2>
       <p>Escribe tu número de empleado para entrar a la guía de ventas.</p>
+      <div class="lock-filewarn" id="lockFileWarn" style="display:none;"></div>
       <div class="lock-error" id="lockError"></div>
       <input type="text" inputmode="numeric" class="lock-input" id="lockInput" placeholder="Número de empleado" maxlength="20">
       <button class="lock-btn" id="lockBtn">Entrar</button>
@@ -977,6 +982,181 @@ buildHome();
 renderCards();
 renderDiscTable();
 renderAccordion();
+
+/* ============================================================
+   CANDADO DE ACCESO — valida número de empleado contra el
+   directorio publicado en Google Sheets (columnas: NUMERO
+   EMPLEADO, NOMBRE DEL EMPLEADO, DISTRITO, POSICION)
+   ============================================================ */
+
+// ⚠️ Esta hoja debe estar compartida como "Cualquier persona con
+// el enlace puede ver" para que este enlace funcione desde GitHub Pages.
+const SHEET_ID = '16x2bu-GiMWqAroBRz1airnhkNNI_Ip0R';
+// Varias formas de leer la misma hoja como CSV — se intentan en orden.
+// Si tu hoja tiene más de una pestaña, cambia "Hoja1" por el nombre real de la pestaña.
+const SHEET_CSV_URLS = [
+  `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=Hoja1`,
+  `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv`,
+  // Si ninguna de las dos funciona, publica la hoja como CSV
+  // (Archivo > Compartir > Publicar en la web > CSV) y pega aquí esa URL:
+  // 'https://docs.google.com/spreadsheets/d/e/TU-ID-PUBLICADO/pub?output=csv',
+];
+const SESSION_KEY = 'tp_neg_session_v1';
+
+let EMPLOYEES = null; // se llena al cargar el CSV
+
+function parseCSV(text){
+  // parser simple que soporta campos entre comillas con comas internas
+  const rows = [];
+  let row = [], field = '', inQuotes = false;
+  for(let i=0;i<text.length;i++){
+    const c = text[i], next = text[i+1];
+    if(inQuotes){
+      if(c === '"' && next === '"'){ field += '"'; i++; }
+      else if(c === '"'){ inQuotes = false; }
+      else field += c;
+    } else {
+      if(c === '"'){ inQuotes = true; }
+      else if(c === ','){ row.push(field); field=''; }
+      else if(c === '\n'){ row.push(field); rows.push(row); row=[]; field=''; }
+      else if(c === '\r'){ /* ignora */ }
+      else field += c;
+    }
+  }
+  if(field.length || row.length){ row.push(field); rows.push(row); }
+  return rows;
+}
+
+function normalizeId(v){
+  return (v||'').toString().trim().toUpperCase();
+}
+
+async function loadEmployees(){
+  let lastError = null;
+  for(const url of SHEET_CSV_URLS){
+    try{
+      const res = await fetch(url, {cache:'no-store'});
+      if(!res.ok) throw new Error('HTTP '+res.status);
+      const text = await res.text();
+      // si Google regresa una página de login/HTML en vez de CSV, lo detectamos aquí
+      if(text.trim().startsWith('<')) throw new Error('La hoja no está pública (llegó HTML, no CSV)');
+      const rows = parseCSV(text).filter(r => r.length && r.some(c=>c.trim()!==''));
+      if(!rows.length) throw new Error('El CSV llegó vacío');
+      const data = {};
+      for(let i=1;i<rows.length;i++){
+        const r = rows[i];
+        const id = normalizeId(r[0]);
+        if(!id) continue;
+        data[id] = {
+          numero: r[0] ? r[0].trim() : '',
+          nombre: r[1] ? r[1].trim() : '',
+          distrito: r[2] ? r[2].trim() : '',
+          posicion: r[3] ? r[3].trim() : ''
+        };
+      }
+      console.log('Directorio cargado OK desde:', url, '·', Object.keys(data).length, 'empleados');
+      return data;
+    } catch(err){
+      console.warn('Falló esta URL del directorio, probando la siguiente:', url, err.message);
+      lastError = err;
+    }
+  }
+  throw lastError || new Error('No se pudo leer el directorio de empleados');
+}
+
+function setLockError(msg){
+  const el = document.getElementById('lockError');
+  if(msg){ el.textContent = msg; el.classList.add('show'); }
+  else { el.textContent=''; el.classList.remove('show'); }
+}
+
+// Si el archivo se abrió con doble clic (file://), el navegador bloquea
+// la conexión a Google Sheets por seguridad. Avisamos claro en vez de
+// dejar el botón "sin hacer nada".
+if(location.protocol === 'file:'){
+  const warn = document.getElementById('lockFileWarn');
+  warn.style.display = 'block';
+  warn.innerHTML = '⚠️ Estás abriendo este archivo directamente desde tu computadora. El navegador bloquea la conexión al directorio de empleados cuando se abre así. Esto funcionará normal en cuanto subas el archivo a GitHub Pages (o lo abras con un servidor local).';
+}
+
+function showWelcome(emp){
+  document.getElementById('lockForm').style.display = 'none';
+  document.getElementById('welcomeName').textContent = '¡Bienvenido, ' + titleCase(emp.nombre) + '!';
+  document.getElementById('welcomePosicion').textContent = emp.posicion || 'Sin posición registrada';
+  document.getElementById('welcomeDistrito').textContent = '📍 ' + (emp.distrito || 'Sin distrito registrado');
+  document.getElementById('welcomeCard').classList.add('show');
+
+  document.getElementById('navUserInfo').innerHTML = `<b style="color:var(--navy)">${titleCase(emp.nombre)}</b><br>${emp.posicion} · ${emp.distrito}`;
+}
+
+function titleCase(s){
+  return (s||'').toLowerCase().replace(/(^|\s)\S/g, c => c.toUpperCase());
+}
+
+function unlockApp(){
+  document.getElementById('lockScreen').classList.add('hidden');
+  document.body.style.overflow = '';
+}
+
+async function attemptLogin(numeroRaw){
+  const numero = normalizeId(numeroRaw);
+  if(!numero){ setLockError('Escribe tu número de empleado.'); return; }
+
+  const btn = document.getElementById('lockBtn');
+  const loading = document.getElementById('lockLoading');
+  setLockError('');
+  btn.disabled = true;
+  loading.classList.add('show');
+
+  try{
+    if(!EMPLOYEES) EMPLOYEES = await loadEmployees();
+    const emp = EMPLOYEES[numero];
+    if(!emp){
+      setLockError('No encontramos ese número de empleado. Verifica e intenta de nuevo.');
+      btn.disabled = false; loading.classList.remove('show');
+      return;
+    }
+    localStorage.setItem(SESSION_KEY, JSON.stringify({numero, ts:Date.now()}));
+    showWelcome(emp);
+  } catch(err){
+    console.error('Error verificando número de empleado:', err);
+    setLockError('No se pudo conectar con el directorio de empleados. Revisa que la hoja de Google esté compartida como "Cualquier persona con el enlace" y vuelve a intentar.');
+  } finally {
+    btn.disabled = false; loading.classList.remove('show');
+  }
+}
+
+document.getElementById('lockBtn').addEventListener('click', ()=>{
+  attemptLogin(document.getElementById('lockInput').value);
+});
+document.getElementById('lockInput').addEventListener('keydown', e=>{
+  if(e.key === 'Enter') attemptLogin(e.target.value);
+});
+document.getElementById('enterBtn').addEventListener('click', unlockApp);
+
+document.getElementById('logoutBtn').addEventListener('click', ()=>{
+  localStorage.removeItem(SESSION_KEY);
+  location.reload();
+});
+
+// si ya había una sesión válida guardada, re-verifica en silencio y entra directo
+(async function autoLogin(){
+  const saved = localStorage.getItem(SESSION_KEY);
+  if(!saved) return;
+  try{
+    const {numero} = JSON.parse(saved);
+    if(!EMPLOYEES) EMPLOYEES = await loadEmployees();
+    const emp = EMPLOYEES[normalizeId(numero)];
+    if(emp){
+      document.getElementById('navUserInfo').innerHTML = `<b style="color:var(--navy)">${titleCase(emp.nombre)}</b><br>${emp.posicion} · ${emp.distrito}`;
+      unlockApp();
+    } else {
+      localStorage.removeItem(SESSION_KEY);
+    }
+  } catch(e){
+    // si falla la verificación silenciosa, simplemente se queda en el candado
+  }
+})();
 </script>
 </body>
 </html>
