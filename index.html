@@ -326,9 +326,9 @@
       <p>Escribe tu número de empleado para entrar a la guía de ventas.</p>
       <div class="lock-filewarn" id="lockFileWarn" style="display:none;"></div>
       <div class="lock-error" id="lockError"></div>
-      <input type="text" inputmode="numeric" class="lock-input" id="lockInput" placeholder="Número de empleado" maxlength="20">
-      <button class="lock-btn" id="lockBtn">Entrar</button>
-      <div class="lock-loading" id="lockLoading">Verificando…</div>
+      <input type="text" inputmode="numeric" class="lock-input" id="lockInput" placeholder="Número de empleado" maxlength="20" disabled>
+      <button class="lock-btn" id="lockBtn" disabled>Entrar</button>
+      <div class="lock-loading show" id="lockLoading">Cargando directorio de acceso…</div>
     </div>
 
     <!-- estado: bienvenida -->
@@ -987,81 +987,91 @@ renderAccordion();
    CANDADO DE ACCESO — valida número de empleado contra el
    directorio publicado en Google Sheets (columnas: NUMERO
    EMPLEADO, NOMBRE DEL EMPLEADO, DISTRITO, POSICION)
+
+   Se usa la API de Google Visualization vía JSONP (una etiqueta
+   <script> que apunta al Sheet) en vez de fetch(), porque fetch()
+   a docs.google.com se bloquea por CORS cuando la página vive en
+   otro dominio (como GitHub Pages). Un <script src="..."> no está
+   sujeto a esa restricción, así que este método sí funciona.
    ============================================================ */
 
-// ⚠️ Esta hoja debe estar compartida como "Cualquier persona con
-// el enlace puede ver" para que este enlace funcione desde GitHub Pages.
 const SHEET_ID = '16x2bu-GiMWqAroBRz1airnhkNNI_Ip0R';
-// Varias formas de leer la misma hoja como CSV — se intentan en orden.
-// Si tu hoja tiene más de una pestaña, cambia "Hoja1" por el nombre real de la pestaña.
-const SHEET_CSV_URLS = [
-  `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=Hoja1`,
-  `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv`,
-  // Si ninguna de las dos funciona, publica la hoja como CSV
-  // (Archivo > Compartir > Publicar en la web > CSV) y pega aquí esa URL:
-  // 'https://docs.google.com/spreadsheets/d/e/TU-ID-PUBLICADO/pub?output=csv',
-];
-const SESSION_KEY = 'tp_neg_session_v1';
 
-let EMPLOYEES = null; // se llena al cargar el CSV
+let EMPLOYEES = null;   // se llena cuando responde el Sheet: { "12345": {nombre, distrito, posicion} }
+let sheetLoadError = false;
 
-function parseCSV(text){
-  // parser simple que soporta campos entre comillas con comas internas
-  const rows = [];
-  let row = [], field = '', inQuotes = false;
-  for(let i=0;i<text.length;i++){
-    const c = text[i], next = text[i+1];
-    if(inQuotes){
-      if(c === '"' && next === '"'){ field += '"'; i++; }
-      else if(c === '"'){ inQuotes = false; }
-      else field += c;
-    } else {
-      if(c === '"'){ inQuotes = true; }
-      else if(c === ','){ row.push(field); field=''; }
-      else if(c === '\n'){ row.push(field); rows.push(row); row=[]; field=''; }
-      else if(c === '\r'){ /* ignora */ }
-      else field += c;
-    }
-  }
-  if(field.length || row.length){ row.push(field); rows.push(row); }
-  return rows;
+function titleCase(s){
+  return (s||'').toLowerCase().replace(/(^|\s)\S/g, c => c.toUpperCase());
 }
 
-function normalizeId(v){
-  return (v||'').toString().trim().toUpperCase();
-}
-
-async function loadEmployees(){
-  let lastError = null;
-  for(const url of SHEET_CSV_URLS){
+// Google llama automáticamente a google.visualization.Query.setResponse(json)
+// en cuanto el <script> termina de cargar; solo necesitamos capturar eso.
+window.google = window.google || {};
+window.google.visualization = window.google.visualization || {};
+window.google.visualization.Query = {
+  setResponse: function(response){
+    const input = document.getElementById('lockInput');
+    const btn = document.getElementById('lockBtn');
     try{
-      const res = await fetch(url, {cache:'no-store'});
-      if(!res.ok) throw new Error('HTTP '+res.status);
-      const text = await res.text();
-      // si Google regresa una página de login/HTML en vez de CSV, lo detectamos aquí
-      if(text.trim().startsWith('<')) throw new Error('La hoja no está pública (llegó HTML, no CSV)');
-      const rows = parseCSV(text).filter(r => r.length && r.some(c=>c.trim()!==''));
-      if(!rows.length) throw new Error('El CSV llegó vacío');
-      const data = {};
-      for(let i=1;i<rows.length;i++){
-        const r = rows[i];
-        const id = normalizeId(r[0]);
-        if(!id) continue;
-        data[id] = {
-          numero: r[0] ? r[0].trim() : '',
-          nombre: r[1] ? r[1].trim() : '',
-          distrito: r[2] ? r[2].trim() : '',
-          posicion: r[3] ? r[3].trim() : ''
-        };
+      if(response.status === 'error') throw new Error('El Sheet devolvió un error');
+      const rows = response.table.rows;
+      const map = {};
+      function cellVal(cell){
+        if(!cell) return '';
+        const val = (cell.v !== null && cell.v !== undefined && cell.v !== '') ? cell.v : cell.f;
+        return val !== null && val !== undefined ? String(val).trim() : '';
       }
-      console.log('Directorio cargado OK desde:', url, '·', Object.keys(data).length, 'empleados');
-      return data;
+      rows.forEach(function(row){
+        const c = row.c;
+        const numero = cellVal(c[0]);
+        const nombre = cellVal(c[1]);
+        const distrito = cellVal(c[2]);
+        const posicion = cellVal(c[3]);
+        const numUp = numero.toUpperCase();
+        if(!numero || numUp === 'VACANTE' || numUp === 'NUMERO EMPLEADO') return;
+        map[numero.toUpperCase()] = { numero, nombre, distrito, posicion };
+      });
+      EMPLOYEES = map;
+      sheetLoadError = false;
+      input.disabled = false;
+      btn.disabled = false;
     } catch(err){
-      console.warn('Falló esta URL del directorio, probando la siguiente:', url, err.message);
-      lastError = err;
+      console.error('Error leyendo el directorio de empleados:', err);
+      sheetLoadError = true;
+      setLockError('No se pudo cargar el directorio de acceso. Toca "Entrar" para reintentar.');
+      btn.disabled = false;
     }
   }
-  throw lastError || new Error('No se pudo leer el directorio de empleados');
+};
+
+function loadEmployees(){
+  const btn = document.getElementById('lockBtn');
+  const input = document.getElementById('lockInput');
+  btn.disabled = true;
+  input.disabled = true;
+  sheetLoadError = false;
+  setLockError('');
+  document.getElementById('lockLoading').classList.add('show');
+
+  const oldScript = document.getElementById('gvizScript');
+  if(oldScript) oldScript.remove();
+
+  const script = document.createElement('script');
+  script.id = 'gvizScript';
+  script.src = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID +
+    '/gviz/tq?tqx=out:json&tq=' + encodeURIComponent('select A,B,C,D') +
+    '&headers=1&t=' + Date.now();
+  script.onload = function(){
+    document.getElementById('lockLoading').classList.remove('show');
+  };
+  script.onerror = function(){
+    sheetLoadError = true;
+    document.getElementById('lockLoading').classList.remove('show');
+    setLockError('No se pudo conectar con el directorio de acceso. Revisa tu conexión e intenta de nuevo.');
+    btn.disabled = false;
+    input.disabled = false;
+  };
+  document.body.appendChild(script);
 }
 
 function setLockError(msg){
@@ -1070,27 +1080,13 @@ function setLockError(msg){
   else { el.textContent=''; el.classList.remove('show'); }
 }
 
-// Si el archivo se abrió con doble clic (file://), el navegador bloquea
-// la conexión a Google Sheets por seguridad. Avisamos claro en vez de
-// dejar el botón "sin hacer nada".
-if(location.protocol === 'file:'){
-  const warn = document.getElementById('lockFileWarn');
-  warn.style.display = 'block';
-  warn.innerHTML = '⚠️ Estás abriendo este archivo directamente desde tu computadora. El navegador bloquea la conexión al directorio de empleados cuando se abre así. Esto funcionará normal en cuanto subas el archivo a GitHub Pages (o lo abras con un servidor local).';
-}
-
 function showWelcome(emp){
   document.getElementById('lockForm').style.display = 'none';
   document.getElementById('welcomeName').textContent = '¡Bienvenido, ' + titleCase(emp.nombre) + '!';
   document.getElementById('welcomePosicion').textContent = emp.posicion || 'Sin posición registrada';
   document.getElementById('welcomeDistrito').textContent = '📍 ' + (emp.distrito || 'Sin distrito registrado');
   document.getElementById('welcomeCard').classList.add('show');
-
   document.getElementById('navUserInfo').innerHTML = `<b style="color:var(--navy)">${titleCase(emp.nombre)}</b><br>${emp.posicion} · ${emp.distrito}`;
-}
-
-function titleCase(s){
-  return (s||'').toLowerCase().replace(/(^|\s)\S/g, c => c.toUpperCase());
 }
 
 function unlockApp(){
@@ -1098,33 +1094,31 @@ function unlockApp(){
   document.body.style.overflow = '';
 }
 
-async function attemptLogin(numeroRaw){
+function normalizeId(v){
+  return (v||'').toString().trim().toUpperCase();
+}
+
+function attemptLogin(numeroRaw){
   const numero = normalizeId(numeroRaw);
+
+  if(EMPLOYEES === null){
+    if(sheetLoadError){ loadEmployees(); }
+    else { setLockError('Espera un momento, seguimos cargando el directorio…'); }
+    return;
+  }
   if(!numero){ setLockError('Escribe tu número de empleado.'); return; }
 
-  const btn = document.getElementById('lockBtn');
-  const loading = document.getElementById('lockLoading');
-  setLockError('');
-  btn.disabled = true;
-  btn.textContent = 'Verificando…';
-  loading.classList.add('show');
-
-  try{
-    if(!EMPLOYEES) EMPLOYEES = await loadEmployees();
-    const emp = EMPLOYEES[numero];
-    if(!emp){
-      setLockError('No encontramos ese número de empleado. Verifica e intenta de nuevo.');
-      return;
-    }
-    localStorage.setItem(SESSION_KEY, JSON.stringify({numero, ts:Date.now()}));
-    showWelcome(emp);
-  } catch(err){
-    console.error('Error verificando número de empleado:', err);
-    setLockError('No se pudo conectar con el directorio de empleados (' + (err && err.message ? err.message : 'error desconocido') + '). Revisa que la hoja esté compartida como "Cualquier persona con el enlace" e intenta de nuevo.');
-  } finally {
-    btn.disabled = false; btn.textContent = 'Entrar'; loading.classList.remove('show');
+  const emp = EMPLOYEES[numero];
+  if(!emp){
+    setLockError('No encontramos ese número de empleado. Verifica e intenta de nuevo.');
+    return;
   }
+  setLockError('');
+  localStorage.setItem(SESSION_KEY, JSON.stringify({numero, ts:Date.now()}));
+  showWelcome(emp);
 }
+
+const SESSION_KEY = 'tp_neg_session_v1';
 
 document.getElementById('lockBtn').addEventListener('click', ()=>{
   attemptLogin(document.getElementById('lockInput').value);
@@ -1139,8 +1133,7 @@ document.getElementById('logoutBtn').addEventListener('click', ()=>{
   location.reload();
 });
 
-// red de seguridad: si algo truena en cualquier parte de la página,
-// que se vea el motivo en el candado en vez de quedarse "sin hacer nada"
+// red de seguridad: cualquier error inesperado se muestra en pantalla
 window.addEventListener('error', e=>{
   const box = document.getElementById('lockFileWarn');
   if(box){
@@ -1148,32 +1141,29 @@ window.addEventListener('error', e=>{
     box.innerHTML = '⚠️ Ocurrió un error técnico: ' + (e.message||'desconocido') + '. Toma captura de esto y compártela para poder corregirlo.';
   }
 });
-window.addEventListener('unhandledrejection', e=>{
-  const box = document.getElementById('lockFileWarn');
-  if(box){
-    box.style.display = 'block';
-    box.innerHTML = '⚠️ Ocurrió un error de conexión: ' + (e.reason && e.reason.message ? e.reason.message : e.reason) + '. Toma captura de esto y compártela para poder corregirlo.';
-  }
-});
 
-// si ya había una sesión válida guardada, re-verifica en silencio y entra directo
-(async function autoLogin(){
+// arranca la carga del directorio en cuanto abre la página
+loadEmployees();
+
+// si ya había una sesión guardada en este dispositivo, entra directo
+// en cuanto el directorio termine de cargar (sin pedir el número otra vez)
+const _origSetResponse = window.google.visualization.Query.setResponse;
+window.google.visualization.Query.setResponse = function(response){
+  _origSetResponse(response);
   const saved = localStorage.getItem(SESSION_KEY);
-  if(!saved) return;
-  try{
-    const {numero} = JSON.parse(saved);
-    if(!EMPLOYEES) EMPLOYEES = await loadEmployees();
-    const emp = EMPLOYEES[normalizeId(numero)];
-    if(emp){
-      document.getElementById('navUserInfo').innerHTML = `<b style="color:var(--navy)">${titleCase(emp.nombre)}</b><br>${emp.posicion} · ${emp.distrito}`;
-      unlockApp();
-    } else {
-      localStorage.removeItem(SESSION_KEY);
-    }
-  } catch(e){
-    // si falla la verificación silenciosa, simplemente se queda en el candado
+  if(saved && EMPLOYEES){
+    try{
+      const {numero} = JSON.parse(saved);
+      const emp = EMPLOYEES[normalizeId(numero)];
+      if(emp){
+        document.getElementById('navUserInfo').innerHTML = `<b style="color:var(--navy)">${titleCase(emp.nombre)}</b><br>${emp.posicion} · ${emp.distrito}`;
+        unlockApp();
+      } else {
+        localStorage.removeItem(SESSION_KEY);
+      }
+    } catch(e){ /* se queda en el candado */ }
   }
-})();
+};
 </script>
 </body>
 </html>
