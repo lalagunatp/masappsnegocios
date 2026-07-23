@@ -1114,7 +1114,7 @@ function attemptLogin(numeroRaw){
     return;
   }
   setLockError('');
-  localStorage.setItem(SESSION_KEY, JSON.stringify({numero, ts:Date.now()}));
+  sessionStorage.setItem(SESSION_KEY, JSON.stringify({numero, ts:Date.now()}));
   showWelcome(emp);
 }
 
@@ -1129,7 +1129,7 @@ document.getElementById('lockInput').addEventListener('keydown', e=>{
 document.getElementById('enterBtn').addEventListener('click', unlockApp);
 
 document.getElementById('logoutBtn').addEventListener('click', ()=>{
-  localStorage.removeItem(SESSION_KEY);
+  sessionStorage.removeItem(SESSION_KEY);
   location.reload();
 });
 
@@ -1150,7 +1150,7 @@ loadEmployees();
 const _origSetResponse = window.google.visualization.Query.setResponse;
 window.google.visualization.Query.setResponse = function(response){
   _origSetResponse(response);
-  const saved = localStorage.getItem(SESSION_KEY);
+  const saved = sessionStorage.getItem(SESSION_KEY);
   if(saved && EMPLOYEES){
     try{
       const {numero} = JSON.parse(saved);
@@ -1159,7 +1159,7 @@ window.google.visualization.Query.setResponse = function(response){
         document.getElementById('navUserInfo').innerHTML = `<b style="color:var(--navy)">${titleCase(emp.nombre)}</b><br>${emp.posicion} · ${emp.distrito}`;
         unlockApp();
       } else {
-        localStorage.removeItem(SESSION_KEY);
+        sessionStorage.removeItem(SESSION_KEY);
       }
     } catch(e){ /* se queda en el candado */ }
   }
