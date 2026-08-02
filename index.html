@@ -1,0 +1,3077 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Totalplay Negocios | Guía de ventas</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#173049">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="TP NEGOCIOS">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fdf3de;
+    --card:#ffffff;
+    --navy:#173049;
+    --navy-soft:#4d6579;
+    --coral:#ef5a3c;
+    --coral-soft:#fbdfd6;
+    --coral-text:#c1432b;
+    --amber-bg:#fbe7bd;
+    --amber-text:#8a5a17;
+    --blue-bg:#e7eef4;
+    --blue-text:#2b4859;
+    --green-bg:#dcf3e3;
+    --green-text:#1f7a43;
+    --teal-bg:#d9f0ef;
+    --teal-text:#136a68;
+    --line:#eee2c8;
+    --header-h:64px;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--navy);
+    font-family:'Inter',sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    padding-top:var(--header-h);
+  }
+  img,svg{max-width:100%;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px 70px;}
+
+  /* ================= HEADER + HAMBURGUESA ================= */
+  .topbar{
+    position:fixed;top:0;left:0;right:0;height:var(--header-h);z-index:100;
+    background:var(--navy);color:#fff;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 16px;box-shadow:0 2px 10px rgba(0,0,0,.12);
+  }
+  .topbar .left{display:flex;align-items:center;gap:12px;min-width:0;}
+  .burger{
+    width:42px;height:42px;border-radius:11px;border:none;background:rgba(255,255,255,.1);
+    display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;
+    cursor:pointer;flex-shrink:0;
+  }
+  .burger span{display:block;width:20px;height:2.5px;background:#fff;border-radius:2px;transition:.25s;}
+  .burger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+  .burger.open span:nth-child(2){opacity:0;}
+  .burger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+  .topbar .brand{font-family:'Poppins',sans-serif;font-weight:700;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .topbar .brand small{display:block;font-weight:400;font-size:10.5px;color:#b9c8d4;}
+  .topbar .current{
+    font-family:'Poppins',sans-serif;font-weight:600;font-size:13.5px;color:#ffd9cd;
+    display:none;text-align:right;max-width:50%;
+  }
+  @media (min-width:640px){ .topbar .current{display:block;} }
+
+  /* overlay + panel */
+  .nav-overlay{
+    position:fixed;inset:0;background:rgba(10,20,30,.5);opacity:0;pointer-events:none;
+    transition:opacity .25s ease;z-index:101;
+  }
+  .nav-overlay.open{opacity:1;pointer-events:auto;}
+  .nav-panel{
+    position:fixed;top:0;left:0;bottom:0;width:min(320px,86vw);background:#fff;z-index:102;
+    transform:translateX(-105%);transition:transform .28s ease;
+    display:flex;flex-direction:column;box-shadow:4px 0 24px rgba(0,0,0,.15);
+  }
+  .nav-panel.open{transform:translateX(0);}
+  .nav-head{
+    padding:18px 18px 14px;background:var(--navy);color:#fff;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .nav-head .t{font-family:'Poppins',sans-serif;font-weight:700;font-size:15.5px;}
+  .nav-head .t small{display:block;font-weight:400;font-size:11px;color:#b9c8d4;margin-top:2px;}
+  .nav-close{width:34px;height:34px;border-radius:9px;border:none;background:rgba(255,255,255,.12);color:#fff;font-size:17px;cursor:pointer;}
+  .nav-scroll{overflow-y:auto;flex:1;padding:14px 12px 24px;}
+  .nav-group-label{
+    font-family:'Poppins',sans-serif;font-weight:700;font-size:11px;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--navy-soft);padding:14px 10px 8px;
+  }
+  .nav-item{
+    display:flex;align-items:center;gap:11px;width:100%;text-align:left;
+    background:none;border:none;border-radius:11px;padding:11px 10px;cursor:pointer;
+    font-family:'Inter',sans-serif;font-size:14px;font-weight:600;color:var(--navy);
+  }
+  .nav-item:hover{background:var(--bg);}
+  .nav-item.active{background:var(--coral-soft);color:var(--coral-text);}
+  .nav-item .ic{font-size:19px;width:24px;text-align:center;flex-shrink:0;}
+
+  /* ================= VIEWS ================= */
+  .view{display:none;}
+  .view.active{display:block;animation:fade .3s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+  /* ---------- HOME ---------- */
+  .home-hero{padding:34px 0 8px;}
+  .eyebrow{
+    font-family:'Poppins',sans-serif;font-weight:700;font-size:12.5px;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--coral);margin-bottom:8px;
+  }
+  h1{font-family:'Poppins',sans-serif;font-weight:800;font-size:clamp(24px,4.6vw,36px);line-height:1.15;margin:0 0 10px;color:var(--navy);}
+  .lead{color:var(--navy-soft);font-size:15px;max-width:620px;margin:0 0 26px;}
+  .home-group-title{font-family:'Poppins',sans-serif;font-weight:800;font-size:18px;margin:26px 0 14px;color:var(--navy);}
+  .home-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px;}
+  .home-card{
+    background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;cursor:pointer;
+    transition:.15s;box-shadow:0 3px 12px rgba(23,48,73,.05);
+  }
+  .home-card:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(23,48,73,.1);}
+  .home-card .ic{font-size:26px;margin-bottom:8px;display:block;}
+  .home-card .t{font-family:'Poppins',sans-serif;font-weight:700;font-size:14.5px;color:var(--navy);margin-bottom:3px;}
+  .home-card .s{font-size:12px;color:var(--navy-soft);line-height:1.35;}
+
+  /* ---------- shared meta / pills ---------- */
+  .meta-row{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:14px;}
+  .pill{background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:12.5px;color:var(--navy-soft);font-weight:500;}
+  .pill b{color:var(--navy);font-weight:700;}
+  .warn{background:var(--coral-soft);border:1px solid #f3b8a8;border-radius:14px;padding:13px 16px;font-size:13px;color:var(--coral-text);max-width:760px;margin-bottom:12px;}
+  .warn b{color:var(--coral);}
+  .dirigido{font-size:12px;color:var(--navy-soft);background:#fff;border:1px solid var(--line);border-radius:14px;padding:11px 16px;max-width:820px;}
+  .dirigido b{color:var(--navy);}
+  .back-link{
+    display:inline-flex;align-items:center;gap:6px;background:none;border:none;color:var(--navy-soft);
+    font-size:13px;font-weight:600;cursor:pointer;padding:8px 0;margin-bottom:6px;
+  }
+  .back-link:hover{color:var(--coral);}
+
+  .section-title{font-family:'Poppins',sans-serif;font-weight:800;font-size:clamp(20px,3.4vw,26px);margin:10px 0 16px;color:var(--navy);}
+
+  /* ---------- family toggle ---------- */
+  .fam-toggle{display:flex;gap:9px;margin-bottom:22px;flex-wrap:wrap;}
+  .fam-btn{
+    display:flex;align-items:center;gap:8px;font-family:'Poppins',sans-serif;font-weight:600;font-size:13.5px;
+    background:#fff;color:var(--navy);border:1.5px solid var(--line);border-radius:12px;padding:11px 18px;cursor:pointer;
+  }
+  .fam-btn.active{background:var(--navy);color:#fff;border-color:var(--navy);}
+
+  /* ---------- plan card grid (streaming) ---------- */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:19px;box-shadow:0 3px 14px rgba(23,48,73,.05);}
+  .card h3{font-family:'Poppins',sans-serif;font-weight:800;font-size:21px;margin:0;color:var(--navy);}
+  .card .plan-sub{font-size:11.5px;color:var(--navy-soft);margin:2px 0 13px;font-weight:500;}
+  .card .price{font-family:'Poppins',sans-serif;font-weight:800;font-size:24px;color:var(--coral);}
+  .card .price small{font-family:'Inter',sans-serif;font-weight:600;font-size:12.5px;color:var(--navy-soft);}
+  .divider{border:none;border-top:1.5px dashed var(--line);margin:13px 0 11px;}
+  .tag-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:7px;}
+  .tag{font-size:11px;font-weight:600;border-radius:8px;padding:5px 9px;white-space:nowrap;}
+  .tag.amber{background:var(--amber-bg);color:var(--amber-text);}
+  .tag.blue{background:var(--blue-bg);color:var(--blue-text);}
+  .tag.coral{background:var(--coral-soft);color:var(--coral-text);}
+  .tag.green{background:var(--green-bg);color:var(--green-text);}
+  .tag.teal{background:var(--teal-bg);color:var(--teal-text);}
+  .empty-state{font-size:12px;color:var(--navy-soft);font-style:italic;padding:6px 0 2px;}
+  .footnote{font-size:11.5px;color:var(--navy-soft);margin-top:20px;max-width:820px;}
+  .footnote b{color:var(--navy);}
+
+  /* ---------- accordion ---------- */
+  .rules-block{margin-top:40px;}
+  .rules-title{font-family:'Poppins',sans-serif;font-weight:800;font-size:20px;margin:0 0 6px;color:var(--navy);}
+  .rules-intro{background:#fff;border:1px solid var(--line);border-left:4px solid var(--coral);border-radius:10px;padding:12px 15px;font-size:13px;color:var(--navy-soft);margin-bottom:14px;max-width:820px;}
+  .rules-intro b{color:var(--navy);}
+  .acc-item{background:#fff;border:1px solid var(--line);border-radius:14px;margin-bottom:9px;overflow:hidden;}
+  .acc-head{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;cursor:pointer;gap:10px;}
+  .acc-head .tier{font-family:'Poppins',sans-serif;font-weight:700;font-size:14px;color:var(--navy);}
+  .acc-head .tier small{display:block;color:var(--navy-soft);font-weight:400;font-size:11.5px;margin-top:2px;}
+  .acc-head .chev{color:var(--coral);font-size:19px;transition:.25s;font-weight:700;flex-shrink:0;}
+  .acc-item.open .chev{transform:rotate(45deg);}
+  .acc-body{max-height:0;overflow:hidden;transition:max-height .3s ease;}
+  .acc-item.open .acc-body{max-height:1100px;}
+  .acc-body-inner{padding:0 16px 16px;font-size:13px;color:var(--navy-soft);}
+  .acc-body-inner ul{margin:0 0 12px;padding-left:18px;}
+  .acc-body-inner li{margin-bottom:6px;}
+  .model-box{background:#f6f9fb;border:1px solid var(--blue-bg);border-radius:10px;padding:11px 13px;margin-top:10px;}
+  .model-label{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--navy-soft);margin-bottom:8px;}
+  .codes{display:flex;flex-wrap:wrap;gap:7px;}
+  .code-chip{background:var(--navy);color:#fff;font-size:10.5px;font-weight:600;border-radius:7px;padding:6px 9px;font-family:'Inter',monospace;}
+  .flag{background:var(--coral-soft);border:1px dashed var(--coral);border-radius:10px;padding:10px 12px;font-size:12px;color:var(--coral-text);margin-top:10px;}
+
+  /* ---------- opcion 2 table ---------- */
+  .disc-note{margin:4px 0 20px;}
+  .disc-note .big{font-family:'Poppins',sans-serif;font-weight:800;font-size:clamp(24px,5.6vw,38px);color:var(--coral);line-height:1;}
+  .disc-note .sub{color:var(--navy-soft);font-size:13.5px;margin-top:4px;}
+  .table-card{background:#fff;border:1px solid var(--line);border-radius:18px;overflow-x:auto;margin-bottom:18px;box-shadow:0 3px 14px rgba(23,48,73,.05);-webkit-overflow-scrolling:touch;}
+  table{width:100%;border-collapse:collapse;min-width:600px;}
+  thead th{font-family:'Poppins',sans-serif;font-weight:700;font-size:12px;color:var(--navy);text-align:center;padding:13px 7px 9px;border-bottom:2px solid var(--coral);white-space:nowrap;}
+  thead th small{display:block;font-weight:500;color:var(--navy-soft);font-size:10px;}
+  tbody td{text-align:center;padding:11px 7px;font-size:13px;border-bottom:1px solid var(--line);color:var(--navy-soft);}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:hover td{background:#fbf7ec;}
+  td.megas{font-weight:800;color:var(--navy);}
+  td.price{font-weight:700;color:var(--navy-soft);}
+  td.disc{font-weight:700;color:var(--coral);}
+
+  /* ---------- DIGITAL SERVICE PAGE ---------- */
+  .svc-header{display:flex;align-items:center;gap:14px;margin-bottom:6px;flex-wrap:wrap;}
+  .svc-icon{font-size:34px;background:#fff;border:1px solid var(--line);border-radius:16px;width:60px;height:60px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .svc-title{font-family:'Poppins',sans-serif;font-weight:800;font-size:clamp(20px,3.6vw,28px);color:var(--navy);margin:0;}
+  .svc-tag{font-size:13px;color:var(--navy-soft);margin-top:2px;}
+  .svc-intro{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 18px;font-size:14px;color:var(--navy-soft);margin:16px 0 22px;max-width:820px;}
+  .svc-block-title{font-family:'Poppins',sans-serif;font-weight:700;font-size:15.5px;color:var(--navy);margin:0 0 12px;display:flex;align-items:center;gap:8px;}
+  .svc-block-title .dot{width:7px;height:7px;border-radius:50%;background:var(--coral);display:inline-block;}
+  .bullet-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin-bottom:28px;}
+  .bullet-card{background:#fff;border:1px solid var(--line);border-radius:13px;padding:13px 15px;font-size:13px;color:var(--navy-soft);display:flex;gap:10px;align-items:flex-start;}
+  .bullet-card .chk{color:var(--green-text);font-weight:800;flex-shrink:0;}
+  .q-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:28px;}
+  .q-card{background:var(--blue-bg);border-radius:14px;padding:16px;text-align:center;}
+  .q-card .num{font-family:'Poppins',sans-serif;font-weight:800;font-size:13px;color:var(--blue-text);opacity:.6;margin-bottom:6px;}
+  .q-card .q{font-size:13.5px;font-weight:600;color:var(--navy);}
+  .tips-box{background:var(--teal-bg);border-radius:16px;padding:18px 20px;margin-bottom:26px;}
+  .tips-box ul{margin:0;padding-left:18px;}
+  .tips-box li{font-size:13.5px;color:var(--teal-text);margin-bottom:8px;font-weight:500;}
+  .tips-box li:last-child{margin-bottom:0;}
+  .contact-row{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:20px;}
+  .contact-card{background:#fff;border:1px solid var(--line);border-radius:13px;padding:13px 16px;flex:1;min-width:170px;}
+  .contact-card .lbl{font-size:11px;color:var(--navy-soft);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px;}
+  .contact-card .val{font-size:13.5px;font-weight:700;color:var(--navy);word-break:break-word;}
+  .included-badge{display:inline-block;background:var(--green-bg);color:var(--green-text);font-size:12px;font-weight:700;border-radius:8px;padding:6px 12px;margin-top:6px;}
+  .chan-table{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:20px;overflow-x:auto;}
+  .chan-table table{min-width:420px;}
+
+  /* ---------- footer ---------- */
+  .footer{margin-top:40px;padding-top:22px;border-top:1px solid var(--line);font-size:12px;color:var(--navy-soft);}
+  .footer .web{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px 18px;max-width:680px;margin-bottom:12px;}
+  .footer .web b{color:var(--coral);}
+  .footer a{color:var(--navy);font-weight:700;text-decoration:none;}
+  .internal-note{font-size:11px;color:var(--navy-soft);opacity:.8;margin-top:6px;}
+  .signature{font-size:11px;color:var(--navy-soft);opacity:.7;margin-top:10px;letter-spacing:.02em;}
+  .signature a{color:var(--navy-soft);text-decoration:underline;font-weight:500;}
+
+  /* ================= MANTELETA + IMÁGENES ================= */
+  .mant-grid{display:grid;gap:20px;margin-bottom:8px;}
+  .mant-fig{margin:0;background:#fff;border:1px solid var(--line);border-radius:18px;
+            overflow:hidden;box-shadow:0 3px 14px rgba(23,48,73,.06);}
+  .mant-fig img{display:block;width:100%;height:auto;cursor:zoom-in;background:#fff;}
+  .mant-fig figcaption{display:flex;justify-content:space-between;align-items:center;gap:10px;
+            flex-wrap:wrap;padding:12px 16px;font-size:13px;font-weight:600;color:var(--navy);
+            border-top:1px solid var(--line);}
+  .mant-fig figcaption span{font-size:11.5px;font-weight:600;color:var(--coral-text);
+            background:var(--coral-soft);border-radius:999px;padding:5px 11px;white-space:nowrap;}
+
+  /* aviso de promoción vencida (solo Director Distrital) */
+  .aviso-vencida{background:#fff3cd;border:1.5px solid #e0a800;border-left:5px solid #e0a800;
+            border-radius:14px;padding:15px 18px;margin-bottom:20px;}
+  .aviso-vencida .t{font-family:'Poppins',sans-serif;font-weight:800;font-size:15px;
+            color:#7a5600;margin-bottom:6px;}
+  .aviso-vencida p{font-size:13px;color:#7a5600;margin:0 0 4px;line-height:1.5;}
+  .aviso-vencida code{background:rgba(0,0,0,.07);border-radius:5px;padding:2px 6px;
+            font-size:12px;font-family:monospace;}
+  .nav-item .caducada,.home-card .caducada{font-size:10px;font-weight:700;background:#ffe08a;
+            color:#7a5600;border-radius:6px;padding:2px 7px;margin-left:6px;white-space:nowrap;}
+
+  /* ================= VISOR DE IMAGEN AMPLIADA ================= */
+  .lightbox{position:fixed;inset:0;z-index:900;background:rgba(10,20,30,.94);
+            display:none;flex-direction:column;}
+  .lightbox.open{display:flex;}
+  .lb-bar{display:flex;align-items:center;justify-content:center;gap:8px;
+          padding:12px;flex-wrap:wrap;flex-shrink:0;}
+  .lb-bar button{background:rgba(255,255,255,.13);color:#fff;border:none;border-radius:11px;
+          min-width:46px;height:44px;padding:0 14px;font-size:17px;font-weight:700;cursor:pointer;}
+  .lb-bar button:hover{background:rgba(255,255,255,.25);}
+  .lb-bar .lb-label{color:#fff;font-size:13px;font-weight:700;min-width:62px;text-align:center;}
+  .lb-bar .lb-close{background:var(--coral);}
+  .lb-stage{flex:1;overflow:auto;display:flex;align-items:center;justify-content:center;
+          padding:8px;-webkit-overflow-scrolling:touch;}
+  .lb-stage img{display:block;transform-origin:center center;max-width:none;
+          transition:width .18s ease;background:#fff;border-radius:6px;}
+  .lb-hint{text-align:center;color:#b9c8d4;font-size:12px;padding:0 16px 14px;flex-shrink:0;}
+
+  /* ================= DATOS DEL USUARIO EN EL MENÚ ================= */
+  .nav-user{background:var(--bg);border:1px solid var(--line);border-radius:13px;
+            padding:13px 14px;margin-bottom:6px;}
+  .nav-user .qn{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
+  .nav-user .ini{width:38px;height:38px;border-radius:50%;background:var(--navy);color:#fff;
+            display:flex;align-items:center;justify-content:center;flex-shrink:0;
+            font-family:'Poppins',sans-serif;font-weight:800;font-size:14px;}
+  .nav-user .nom{font-family:'Poppins',sans-serif;font-weight:700;font-size:13.5px;
+            color:var(--navy);line-height:1.25;}
+  .nav-user .dato{display:flex;gap:7px;font-size:12px;color:var(--navy-soft);
+            margin-top:5px;align-items:flex-start;}
+  .nav-user .dato b{color:var(--navy);font-weight:600;}
+  .nav-user .et{font-size:10px;text-transform:uppercase;letter-spacing:.05em;
+            color:var(--navy-soft);opacity:.75;min-width:52px;flex-shrink:0;padding-top:1px;}
+
+  /* ================= PANEL DE ADMINISTRACIÓN ================= */
+  .adm-intro{background:#fff;border:1px solid var(--line);border-left:4px solid var(--navy);
+            border-radius:12px;padding:14px 16px;font-size:13.5px;color:var(--navy-soft);
+            margin-bottom:18px;}
+  .adm-intro b{color:var(--navy);}
+  .adm-card{background:#fff;border:1px solid var(--line);border-radius:16px;
+            padding:16px 18px;margin-bottom:12px;box-shadow:0 2px 10px rgba(23,48,73,.05);}
+  .adm-card.venc{border-color:#e0a800;background:#fffdf5;}
+  .adm-card.ocul{opacity:.72;background:#f7f7f7;}
+  .adm-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;
+            flex-wrap:wrap;margin-bottom:12px;}
+  .adm-nom{font-family:'Poppins',sans-serif;font-weight:700;font-size:15px;color:var(--navy);}
+  .adm-est{font-size:11.5px;font-weight:700;border-radius:999px;padding:5px 12px;white-space:nowrap;}
+  .adm-est.ok{background:var(--green-bg);color:var(--green-text);}
+  .adm-est.no{background:#ffe08a;color:#7a5600;}
+  .adm-est.off{background:#e3e3e3;color:#555;}
+  .adm-fila{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+  .adm-fila label{font-size:12.5px;font-weight:600;color:var(--navy-soft);}
+  .adm-fila input[type=date]{border:1.5px solid var(--line);border-radius:10px;
+            padding:9px 12px;font-size:14px;font-family:'Inter',sans-serif;color:var(--navy);
+            background:#fbf7ec;}
+  .adm-fila input[type=date]:focus{outline:none;border-color:var(--coral);background:#fff;}
+  .adm-btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+  .adm-btn{border:none;border-radius:10px;padding:10px 16px;font-size:13px;font-weight:700;
+            font-family:'Inter',sans-serif;cursor:pointer;}
+  .adm-btn.guardar{background:var(--navy);color:#fff;}
+  .adm-btn.ocultar{background:#ffe08a;color:#7a5600;}
+  .adm-btn.mostrar{background:var(--green-bg);color:var(--green-text);}
+  .adm-btn.borrar{background:var(--coral-soft);color:var(--coral-text);}
+  .adm-btn:disabled{opacity:.55;cursor:default;}
+  .adm-msg{font-size:12.5px;font-weight:600;margin-top:10px;padding:9px 12px;border-radius:9px;display:none;}
+  .adm-msg.show{display:block;}
+  .adm-msg.bien{background:var(--green-bg);color:var(--green-text);}
+  .adm-msg.mal{background:var(--coral-soft);color:var(--coral-text);}
+
+  /* confirmación de doble check */
+  .confirm-fondo{position:fixed;inset:0;background:rgba(10,20,30,.6);z-index:940;
+            display:none;align-items:center;justify-content:center;padding:22px;}
+  .confirm-fondo.open{display:flex;}
+  .confirm-caja{background:#fff;border-radius:20px;max-width:380px;width:100%;
+            padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.3);}
+  .confirm-caja .ic{font-size:34px;text-align:center;margin-bottom:10px;}
+  .confirm-caja h3{font-family:'Poppins',sans-serif;font-weight:800;font-size:17px;
+            color:var(--navy);margin:0 0 8px;text-align:center;}
+  .confirm-caja p{font-size:13.5px;color:var(--navy-soft);margin:0 0 14px;
+            text-align:center;line-height:1.5;}
+  .confirm-caja .paso{background:var(--coral-soft);border-radius:11px;padding:12px 14px;
+            font-size:12.5px;color:var(--coral-text);margin-bottom:14px;}
+  .confirm-caja .paso b{display:block;margin-bottom:7px;}
+  .confirm-caja input[type=text]{width:100%;border:1.5px solid var(--line);border-radius:10px;
+            padding:11px 13px;font-size:15px;text-align:center;font-weight:700;
+            font-family:'Inter',sans-serif;color:var(--navy);text-transform:uppercase;}
+  .confirm-caja input[type=text]:focus{outline:none;border-color:var(--coral);}
+  .confirm-chk{display:flex;gap:10px;align-items:flex-start;font-size:13px;
+            color:var(--navy);margin-bottom:16px;cursor:pointer;}
+  .confirm-chk input{width:20px;height:20px;flex-shrink:0;margin-top:1px;accent-color:var(--coral);}
+  .confirm-btns{display:flex;gap:9px;}
+  .confirm-btns button{flex:1;border:none;border-radius:11px;padding:13px;
+            font-size:14px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;}
+  .confirm-btns .cancelar{background:#e9e9e9;color:var(--navy);}
+  .confirm-btns .aceptar{background:var(--coral);color:#fff;}
+  .confirm-btns .aceptar:disabled{opacity:.45;cursor:default;}
+
+  /* ================= MI EQUIPO ================= */
+  .eq-migas{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:14px;font-size:12.5px;}
+  .eq-migas button{background:#fff;border:1px solid var(--line);border-radius:999px;
+            padding:7px 13px;font-size:12.5px;font-weight:600;color:var(--navy);
+            cursor:pointer;font-family:'Inter',sans-serif;}
+  .eq-migas button:hover{border-color:var(--coral);color:var(--coral-text);}
+  .eq-migas .sep{color:var(--navy-soft);opacity:.6;}
+  .eq-migas .actual{background:var(--navy);color:#fff;border-color:var(--navy);cursor:default;}
+
+  .eq-resumen{background:#fff;border:1px solid var(--line);border-radius:16px;
+            padding:16px 18px;margin-bottom:14px;box-shadow:0 2px 10px rgba(23,48,73,.05);}
+  .eq-resumen .tit{font-family:'Poppins',sans-serif;font-weight:800;font-size:16px;
+            color:var(--navy);margin-bottom:3px;}
+  .eq-resumen .sub{font-size:12.5px;color:var(--navy-soft);margin-bottom:12px;}
+  .eq-barra{height:12px;border-radius:999px;background:#eceff1;overflow:hidden;margin-bottom:8px;}
+  .eq-barra span{display:block;height:100%;border-radius:999px;
+            background:linear-gradient(90deg,#4caf7d,#7cc797);transition:width .35s ease;}
+  .eq-nums{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--navy-soft);}
+  .eq-nums b{color:var(--navy);font-weight:700;}
+  .eq-nums .si{color:var(--green-text);}
+  .eq-nums .no{color:var(--coral-text);}
+
+  .eq-filtro{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center;}
+  .eq-filtro button{background:#fff;border:1.5px solid var(--line);border-radius:11px;
+            padding:9px 15px;font-size:12.5px;font-weight:700;color:var(--navy-soft);
+            cursor:pointer;font-family:'Inter',sans-serif;}
+  .eq-filtro button.on{background:var(--navy);color:#fff;border-color:var(--navy);}
+
+  .eq-item{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);
+            border-radius:14px;padding:13px 15px;margin-bottom:9px;
+            box-shadow:0 2px 8px rgba(23,48,73,.04);}
+  .eq-item.grupo{cursor:pointer;}
+  .eq-item.grupo:hover{border-color:var(--coral);}
+  .eq-item .av{width:40px;height:40px;border-radius:50%;flex-shrink:0;display:flex;
+            align-items:center;justify-content:center;font-family:'Poppins',sans-serif;
+            font-weight:800;font-size:13px;color:#fff;background:var(--navy-soft);}
+  .eq-item.si .av{background:#4caf7d;}
+  .eq-item.no .av{background:#c9ced2;}
+  .eq-item .info{flex:1;min-width:0;}
+  .eq-item .nm{font-weight:700;font-size:13.5px;color:var(--navy);line-height:1.3;}
+  .eq-item .ps{font-size:11.5px;color:var(--navy-soft);margin-top:2px;}
+  .eq-item .ac{font-size:11.5px;margin-top:3px;font-weight:600;}
+  .eq-item .ac.si{color:var(--green-text);}
+  .eq-item .ac.no{color:var(--coral-text);}
+  .eq-item .flecha{color:var(--coral);font-size:20px;font-weight:700;flex-shrink:0;}
+  .eq-item .mini{font-size:11px;color:var(--navy-soft);text-align:right;flex-shrink:0;}
+  .eq-item .mini b{display:block;font-size:15px;color:var(--navy);font-family:'Poppins',sans-serif;}
+  .eq-falta{background:#fff3cd;color:#7a5600;border-radius:7px;padding:3px 8px;
+            font-size:10.5px;font-weight:700;margin-top:4px;display:inline-block;}
+  .eq-vacio{background:#fff;border:1px dashed var(--line);border-radius:14px;
+            padding:22px;text-align:center;color:var(--navy-soft);font-size:13.5px;}
+
+  /* ================= AVISO DE "DÓNDE BUSCAR QUÉ" ================= */
+  .brujula{background:#eaf4fb;border:1px solid #b8dcf0;border-left:5px solid #2f80b8;
+            border-radius:14px;padding:14px 17px;margin-bottom:18px;font-size:13.5px;color:#1d4d6b;}
+  .brujula b{color:#123a52;}
+  .brujula .ln{display:flex;gap:9px;margin-top:8px;align-items:flex-start;}
+  .brujula .ln span:first-child{flex-shrink:0;}
+
+  /* ================= CONSECUTIVO DE PROMOCIONES ================= */
+  .cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:13px;margin-bottom:8px;}
+  .cat-card{border:none;border-radius:18px;padding:18px 16px;cursor:pointer;text-align:left;
+            font-family:'Inter',sans-serif;color:#fff;transition:.15s;
+            box-shadow:0 4px 14px rgba(23,48,73,.13);}
+  .cat-card:hover{transform:translateY(-3px);box-shadow:0 9px 22px rgba(23,48,73,.2);}
+  .cat-card .ic{font-size:27px;display:block;margin-bottom:9px;}
+  .cat-card .t{font-family:'Poppins',sans-serif;font-weight:800;font-size:14.5px;line-height:1.25;}
+  .cat-card .n{font-size:11.5px;opacity:.92;margin-top:6px;font-weight:600;
+            background:rgba(255,255,255,.22);border-radius:999px;padding:4px 10px;display:inline-block;}
+
+  .promo-card{background:#fff;border:1px solid var(--line);border-radius:16px;
+            margin-bottom:11px;overflow:hidden;box-shadow:0 2px 9px rgba(23,48,73,.05);}
+  .promo-head{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;}
+  .promo-num{width:32px;height:32px;border-radius:50%;flex-shrink:0;display:flex;
+            align-items:center;justify-content:center;background:var(--coral);color:#fff;
+            font-family:'Poppins',sans-serif;font-weight:800;font-size:14px;}
+  .promo-tit{flex:1;min-width:0;}
+  .promo-tit .n{font-family:'Poppins',sans-serif;font-weight:700;font-size:14.5px;color:var(--navy);line-height:1.3;}
+  .promo-tit .g{font-size:11.5px;color:var(--navy-soft);margin-top:3px;}
+  .promo-card .chev{color:var(--coral);font-size:19px;font-weight:700;transition:.25s;flex-shrink:0;}
+  .promo-card.open .chev{transform:rotate(45deg);}
+  .promo-body{max-height:0;overflow:hidden;transition:max-height .32s ease;}
+  .promo-card.open .promo-body{max-height:1600px;}
+  .promo-inner{padding:0 16px 16px;}
+  .promo-hero{background:linear-gradient(135deg,#1d3b56,#2a5578);color:#fff;border-radius:13px;
+            padding:15px 17px;margin-bottom:13px;text-align:center;}
+  .promo-hero .big{font-family:'Poppins',sans-serif;font-weight:800;
+            font-size:clamp(21px,5.5vw,28px);color:var(--lime,#c6ff5c);line-height:1.1;}
+  .promo-hero .sm{font-size:12.5px;opacity:.92;margin-top:5px;}
+  .quien{display:inline-block;background:#ffeec2;color:#7a5600;border-radius:999px;
+            padding:6px 13px;font-size:11.5px;font-weight:700;margin-bottom:12px;}
+  .regla-t{font-family:'Poppins',sans-serif;font-weight:700;font-size:12.5px;color:var(--navy);
+            margin:12px 0 7px;display:flex;align-items:center;gap:7px;}
+  .promo-inner ul{margin:0 0 4px;padding-left:19px;}
+  .promo-inner li{font-size:13px;color:var(--navy-soft);margin-bottom:6px;line-height:1.5;}
+  .promo-inner li b{color:var(--navy);}
+  .nocon{background:#fdeceb;border-radius:11px;padding:11px 14px;margin-top:10px;}
+  .nocon .tt{font-size:11.5px;font-weight:800;color:var(--coral-text);
+            text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;}
+  .nocon li{color:var(--coral-text);font-size:12.5px;}
+  .promo-tabla{width:100%;border-collapse:collapse;margin:4px 0 8px;font-size:13px;}
+  .promo-tabla th{background:var(--navy);color:#fff;padding:9px 7px;font-size:11.5px;
+            font-family:'Poppins',sans-serif;font-weight:700;}
+  .promo-tabla th:first-child{border-radius:9px 0 0 0;text-align:left;padding-left:13px;}
+  .promo-tabla th:last-child{border-radius:0 9px 0 0;}
+  .promo-tabla td{padding:9px 7px;text-align:center;border-bottom:1px solid var(--line);color:var(--navy-soft);}
+  .promo-tabla td:first-child{text-align:left;padding-left:13px;font-weight:700;color:var(--navy);}
+  .promo-tabla .mto{color:var(--coral-text);font-weight:800;}
+
+  /* ================= COMISIONES ================= */
+  .paso-t{font-family:'Poppins',sans-serif;font-weight:800;font-size:14px;color:var(--navy);
+            margin:20px 0 11px;display:flex;align-items:center;gap:9px;}
+  .paso-t .bolita{width:25px;height:25px;border-radius:50%;background:var(--coral);color:#fff;
+            display:flex;align-items:center;justify-content:center;font-size:12.5px;flex-shrink:0;}
+  .op-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:10px;}
+  .op-btn{background:#fff;border:2px solid var(--line);border-radius:14px;padding:14px 12px;
+            cursor:pointer;text-align:center;font-family:'Inter',sans-serif;transition:.15s;}
+  .op-btn:hover{border-color:var(--coral);}
+  .op-btn.on{background:var(--navy);border-color:var(--navy);color:#fff;}
+  .op-btn .ic{font-size:23px;display:block;margin-bottom:6px;}
+  .op-btn .t{font-weight:700;font-size:13px;line-height:1.3;}
+  .op-btn .s{font-size:11px;opacity:.75;margin-top:4px;}
+
+  .com-res{background:linear-gradient(135deg,#12304a,#1f4c70);border-radius:19px;
+            padding:21px;color:#fff;margin-top:8px;}
+  .com-res .plan{font-family:'Poppins',sans-serif;font-weight:800;font-size:17px;margin-bottom:3px;}
+  .com-res .sub{font-size:12.5px;opacity:.86;margin-bottom:15px;}
+  .com-pack{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
+  .com-box{background:rgba(255,255,255,.13);border-radius:14px;padding:14px;text-align:center;}
+  .com-box .et{font-size:11px;opacity:.9;margin-bottom:5px;line-height:1.3;}
+  .com-box .vl{font-family:'Poppins',sans-serif;font-weight:800;font-size:24px;color:#c6ff5c;}
+  .com-box.destaca .vl{color:#ffd166;}
+  .com-precio{margin-top:13px;background:rgba(0,0,0,.2);border-radius:11px;padding:11px 14px;
+            font-size:12.5px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+  .com-precio b{color:#fff;}
+  .ad-grupo{font-family:'Poppins',sans-serif;font-weight:800;font-size:13px;color:var(--navy);
+            margin:18px 0 9px;padding-bottom:6px;border-bottom:2px solid var(--coral);}
+  .ad-item{display:flex;justify-content:space-between;align-items:center;gap:11px;
+            background:#fff;border:1px solid var(--line);border-radius:11px;
+            padding:11px 14px;margin-bottom:7px;}
+  .ad-item .nm{font-size:13px;color:var(--navy);font-weight:600;flex:1;min-width:0;}
+  .ad-item .pr{font-size:11.5px;color:var(--navy-soft);white-space:nowrap;}
+  .ad-item .cm{font-family:'Poppins',sans-serif;font-weight:800;font-size:15px;
+            color:var(--green-text);white-space:nowrap;}
+  .buscador{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:12px 15px;
+            font-size:14px;font-family:'Inter',sans-serif;color:var(--navy);
+            background:#fbf7ec;margin-bottom:14px;}
+  .buscador:focus{outline:none;border-color:var(--coral);background:#fff;}
+
+  /* ================= RESPONSIVE ================= */
+  @media (max-width:900px){
+    .wrap{padding:0 16px 60px;}
+  }
+  @media (max-width:640px){
+    .wrap{padding:0 14px 50px;}
+    .grid,.home-grid{grid-template-columns:repeat(auto-fill,minmax(145px,1fr));}
+    .card,.home-card{padding:15px;}
+    .bullet-grid{grid-template-columns:1fr;}
+  }
+  /* landscape phones: shrink header + vertical paddings so content isn't squeezed */
+  @media (orientation:landscape) and (max-height:480px){
+    :root{--header-h:52px;}
+    .home-hero{padding:18px 0 6px;}
+    h1{font-size:22px;margin-bottom:6px;}
+    .lead{margin-bottom:16px;}
+    .nav-head{padding:12px 14px 10px;}
+  }
+  @media (min-width:1000px){
+    .wrap{padding:0 32px 80px;}
+  }
+
+  /* ================= CANDADO DE ACCESO ================= */
+  #lockScreen{
+    position:fixed;inset:0;z-index:999;
+    background:radial-gradient(1100px 700px at 15% -10%, #1f3b55 0%, var(--navy) 60%) fixed, var(--navy);
+    display:flex;align-items:center;justify-content:center;
+    padding:24px;
+  }
+  #lockScreen.hidden{display:none;}
+  .lock-card{
+    background:#fff;border-radius:22px;max-width:380px;width:100%;
+    padding:32px 28px;box-shadow:0 20px 60px rgba(0,0,0,.35);text-align:center;
+  }
+  .lock-badge{
+    width:56px;height:56px;border-radius:16px;background:var(--coral-soft);
+    display:flex;align-items:center;justify-content:center;font-size:26px;
+    margin:0 auto 16px;
+  }
+  .lock-card h2{font-family:'Poppins',sans-serif;font-weight:800;font-size:20px;color:var(--navy);margin:0 0 6px;}
+  .lock-card p{font-size:13.5px;color:var(--navy-soft);margin:0 0 22px;}
+  .lock-input{
+    width:100%;padding:13px 15px;border-radius:12px;border:1.5px solid var(--line);
+    font-size:16px;font-family:'Inter',sans-serif;font-weight:600;color:var(--navy);
+    text-align:center;letter-spacing:.03em;margin-bottom:12px;background:#fbf7ec;
+  }
+  .lock-input:focus{outline:none;border-color:var(--coral);background:#fff;}
+  .lock-btn{
+    width:100%;padding:13px;border:none;border-radius:12px;background:var(--navy);color:#fff;
+    font-family:'Poppins',sans-serif;font-weight:700;font-size:14.5px;cursor:pointer;transition:.15s;
+  }
+  .lock-btn:hover{background:#0e2237;}
+  .lock-btn:disabled{opacity:.6;cursor:default;}
+  .lock-filewarn{
+    background:#fff4e0;color:#8a5a17;border:1px solid #f0d190;border-radius:10px;
+    padding:11px 13px;font-size:12px;font-weight:600;text-align:left;margin-bottom:14px;line-height:1.5;
+  }
+  .lock-error{
+    background:var(--coral-soft);color:var(--coral-text);border-radius:10px;
+    padding:10px 12px;font-size:12.5px;font-weight:600;margin-bottom:12px;display:none;
+  }
+  .lock-error.show{display:block;}
+  .lock-loading{font-size:12.5px;color:var(--navy-soft);margin-top:14px;display:none;}
+  .lock-loading.show{display:block;}
+
+  .welcome-card{display:none;}
+  .welcome-card.show{display:block;animation:fade .35s ease;}
+  .welcome-ico{
+    width:64px;height:64px;border-radius:50%;background:var(--green-bg);
+    display:flex;align-items:center;justify-content:center;font-size:30px;margin:0 auto 16px;
+  }
+  .welcome-name{font-family:'Poppins',sans-serif;font-weight:800;font-size:19px;color:var(--navy);margin-bottom:14px;line-height:1.3;}
+  .welcome-tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:22px;}
+  .welcome-tags .tag{font-size:12px;padding:7px 13px;}
+</style>
+</head>
+<body>
+
+<!-- ================= CANDADO DE ACCESO ================= -->
+<div id="lockScreen">
+  <div class="lock-card">
+
+    <!-- estado: formulario -->
+    <div id="lockForm">
+      <div class="lock-badge">🔒</div>
+      <h2>Acceso para fuerza de ventas</h2>
+      <p>Escribe tu número de empleado para entrar a la guía de ventas.</p>
+      <div class="lock-filewarn" id="lockFileWarn" style="display:none;"></div>
+      <div class="lock-error" id="lockError"></div>
+      <input type="text" inputmode="text" autocapitalize="characters" autocorrect="off" spellcheck="false" class="lock-input" id="lockInput" placeholder="Número de empleado" maxlength="20" disabled>
+      <button class="lock-btn" id="lockBtn" disabled>Entrar</button>
+      <div class="lock-loading show" id="lockLoading">Cargando directorio de acceso…</div>
+    </div>
+
+    <!-- estado: bienvenida -->
+    <div class="welcome-card" id="welcomeCard">
+      <div class="welcome-ico">👋</div>
+      <div class="welcome-name" id="welcomeName">¡Bienvenido!</div>
+      <div class="welcome-tags">
+        <span class="tag blue" id="welcomePosicion"></span>
+        <span class="tag teal" id="welcomeDistrito"></span>
+      </div>
+      <button class="lock-btn" id="enterBtn">Empezar</button>
+    </div>
+
+  </div>
+</div>
+
+<div class="topbar">
+  <div class="left">
+    <button class="burger" id="burgerBtn" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="brand">Totalplay Negocios<small>Guía de ventas</small></div>
+  </div>
+  <div class="current" id="currentTitle">Inicio</div>
+</div>
+
+<div class="nav-overlay" id="navOverlay"></div>
+<nav class="nav-panel" id="navPanel">
+  <div class="nav-head">
+    <div class="t">Menú<small>Elige lo que quieres ver</small></div>
+    <button class="nav-close" id="navCloseBtn" aria-label="Cerrar menú">✕</button>
+  </div>
+  <div class="nav-scroll" id="navScroll"></div>
+  <div style="padding:12px 12px 16px;border-top:1px solid var(--line);">
+    <div id="navUserInfo" style="font-size:11.5px;color:var(--navy-soft);margin-bottom:8px;"></div>
+    <button class="nav-item" id="logoutBtn" style="color:var(--coral-text);"><span class="ic">🚪</span>Cerrar sesión</button>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- ================= HOME ================= -->
+  <section class="view active" id="view-home">
+    <div class="home-hero">
+      <div class="eyebrow">Totalplay Negocios</div>
+      <h1>Todo lo que necesitas para vender, en un solo lugar</h1>
+      <p class="lead">Elige una promoción vigente o una solución digital para ver la información completa, fácil de explicar a tu cliente.</p>
+    </div>
+
+    <div class="home-group-title">🎁 Promociones vigentes</div>
+    <div class="home-grid" id="homePromoGrid"></div>
+
+    <div class="home-group-title">💻 Soluciones digitales</div>
+    <div class="home-grid" id="homeServiceGrid"></div>
+  </section>
+
+  <!-- ================= OPCION 1: STREAMING ================= -->
+  <section class="view" id="view-streaming">
+    <button class="back-link" onclick="showView('home')">← Volver al inicio</button>
+    <div class="eyebrow">Oferta Negocios · Totalplay</div>
+    <h1 style="font-size:clamp(22px,4vw,32px);">Llegaron los planes con plataformas de streaming incluido</h1>
+    <div class="meta-row">
+      <div class="pill">🗓️ Vigencia: <b>22 al 31 de julio 2026</b></div>
+      <div class="pill">📍 Alcance: <b>Nacional</b></div>
+      <div class="pill">📋 Informativo para: <b>Centro de Soluciones</b></div>
+    </div>
+    <div class="warn">⚠️ <b>Nota importante:</b> revisa con cuidado este comunicado. Si tienes alguna duda, acude con tu jefe inmediato antes de ofrecer el plan al cliente.</div>
+    <div class="dirigido"><b>Dirigido a:</b> todos los canales de venta (Telemarketing, Auto empresarios, Cambaceo, Desarrollo, Cadenas, Punto de Venta), Instalaciones (cuadrillas internas y externas), Cobranza, Mesa de Control y Aseguramiento de Ingresos.</div>
+
+    <div class="section-title">Totalplayer: TV + Internet o solo Internet</div>
+    <div class="fam-toggle" id="familyToggle">
+      <button class="fam-btn active" data-family="tv"><span>📺</span> TV + Internet</button>
+      <button class="fam-btn" data-family="internet"><span>🌐</span> Solo Internet</button>
+    </div>
+    <div class="grid" id="cardGrid"></div>
+    <div class="footnote">Las etiquetas <b style="color:#8a5a17">ámbar</b> son promocionales (tiempo limitado); el resto se mantienen incluidas de forma indefinida mientras el cliente conserve su plan y adicionales. Solo los planes de 5,000 y 10,000 Megas incluyen las apps <b>sin anuncios</b>; el resto las incluye <b>con anuncios</b>.</div>
+
+    <div class="rules-block">
+      <div class="rules-title">Cómo modelar esta promoción en sistema</div>
+      <div class="rules-intro">Los <b>códigos NEG-</b> que aparecen en cada Megaje <b>no son características del plan</b>: son el nombre de la promoción que debes seleccionar/capturar en el sistema al modelar la venta. Toca cada Megaje para ver sus reglas y el código exacto a modelar.</div>
+      <div id="accordion"></div>
+    </div>
+  </section>
+
+  <!-- ================= OPCION 2: TOTALAMIGO ================= -->
+  <section class="view" id="view-totalamigo">
+    <button class="back-link" onclick="showView('home')">← Volver al inicio</button>
+    <div class="section-title">Descuento Totalamigo</div>
+    <div class="disc-note">
+      <div class="big">Hasta $150 de descuento</div>
+      <div class="sub">Durante 5 meses · Nacional · verifica la tabla de descuento por Megaje</div>
+    </div>
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th>Megas</th>
+            <th>PP<br><small>Internet</small></th>
+            <th>Precio c/ desc.<br><small>Mes 1 a 5</small></th>
+            <th>Precio 6º mes<br><small>Internet</small></th>
+            <th>PP<br><small>TV + Internet</small></th>
+            <th>Precio c/ desc.<br><small>Mes 1 a 5</small></th>
+            <th>Precio 6º mes<br><small>TV + Internet</small></th>
+          </tr>
+        </thead>
+        <tbody id="discBody"></tbody>
+      </table>
+    </div>
+    <div class="rules-block">
+      <div class="rules-title">Cómo modelar esta promoción en sistema</div>
+      <div class="rules-intro">El código <b>NEG-TOTALAMIGO</b> es el que debes capturar en el sistema al modelar esta promoción. No conviven con él las promociones de Netflix, HBO, Universal+ o Disney+.</div>
+      <div class="acc-item open">
+        <div class="acc-body" style="max-height:600px;">
+          <div class="acc-body-inner">
+            <ul>
+              <li>Aplica solo para <b>clientes nuevos</b> de las familias Totalplay Internet y Totalplay TV + Internet.</li>
+              <li>Aplica para los planes <b>Elemental, Esencial, Dinámico, Emprendedor y Experto</b>.</li>
+              <li>Convive con la promoción de <b>portabilidad</b>.</li>
+              <li><b>No convive</b> con promociones de Netflix, HBO, Universal+ o Disney+.</li>
+              <li>El descuento aplica del mes 1 al mes 5, sobre la renta del plan.</li>
+              <li>Habilitado para <b>upsell</b>, siempre que no aplique sobre promociones del mismo adicional o se trate de un upgrade.</li>
+            </ul>
+            <div class="model-box">
+              <div class="model-label">Código a modelar en sistema</div>
+              <div class="codes"><span class="code-chip">NEG-TOTALAMIGO</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= MANTELETA ================= -->
+  <section class="view" id="view-manteleta">
+    <button class="back-link" onclick="showView('home')">← Volver al inicio</button>
+    <div id="manteletaAviso"></div>
+    <div class="section-title">Manteleta Negocios</div>
+    <div class="meta-row">
+      <div class="pill">🗓️ Vigencia: <b>22 de julio al 31 de agosto 2026</b></div>
+      <div class="pill">📍 Alcance: <b>Nacional</b></div>
+    </div>
+    <p class="lead">Hoja de consulta rápida con todos los planes, precios y apps incluidas.
+    <b>Toca cualquier imagen para verla en grande</b> y poder leer los precios con detalle.</p>
+    <div class="brujula">
+      <b>🧭 Para que no te confundas:</b> esta hoja te dice <b>qué trae y qué cuesta cada plan</b>.
+      <div class="ln"><span>🎯</span><span>Si buscas <b>qué promoción puedes modelar</b> esta semana
+      y su nombre en el sistema, ve a <b>Consecutivo de Promociones</b>.</span></div>
+      <div class="ln"><span>💰</span><span>Si buscas <b>cuánto ganas</b> por vender, ve a
+      <b>Comisiones</b>.</span></div>
+    </div>
+
+    <div class="mant-grid">
+      <figure class="mant-fig">
+        <img class="zoomable" src="img/manteleta-1-prev.jpg" data-full="img/manteleta-1.jpg"
+             alt="Manteleta Negocios — planes, precios y apps incluidas" loading="lazy">
+        <figcaption>Planes, precios y apps incluidas <span>👆 Toca para ampliar</span></figcaption>
+      </figure>
+      <figure class="mant-fig">
+        <img class="zoomable" src="img/manteleta-2-prev.jpg" data-full="img/manteleta-2.jpg"
+             alt="Manteleta Negocios — soluciones, canales y condiciones" loading="lazy">
+        <figcaption>Soluciones, canales y condiciones <span>👆 Toca para ampliar</span></figcaption>
+      </figure>
+    </div>
+
+    <div class="footnote">Precio Pronto Pago aplica pagando antes de la fecha de corte.
+    A partir del 6º mes aplica el descuento por lealtad. Consulta las condiciones completas en la segunda imagen.</div>
+  </section>
+
+  <!-- ================= MI EQUIPO ================= -->
+  <section class="view" id="view-equipo">
+    <button class="back-link" onclick="showView('home')">← Volver al inicio</button>
+    <div class="section-title">👥 Mi equipo</div>
+    <p class="lead">Aquí ves quién de tu equipo ya entró a la app y quién no.
+    Toca un grupo para ir bajando nivel por nivel.</p>
+    <div class="eq-migas" id="eqMigas"></div>
+    <div id="eqResumen"></div>
+    <div class="eq-filtro" id="eqFiltro"></div>
+    <div id="eqLista"></div>
+  </section>
+
+  <!-- ================= CONSECUTIVO DE PROMOCIONES ================= -->
+  <section class="view" id="view-consecutivo">
+    <button class="back-link" onclick="showView('home')">← Volver al inicio</button>
+    <div id="consecutivoAviso"></div>
+    <div class="section-title">🎯 Consecutivo de Promociones</div>
+    <div class="meta-row">
+      <div class="pill">📅 Semana <b>31-32 / 2026</b></div>
+      <div class="pill">🗓️ Vigencia: <b>1 al 3 de agosto 2026</b></div>
+      <div class="pill">📍 Alcance: <b>Nacional</b></div>
+    </div>
+    <div class="brujula">
+      <b>🧭 Para que no te confundas:</b> aquí están las promociones que <b>puedes modelar</b>
+      esta semana y cómo se llaman en el sistema.
+      <div class="ln"><span>📋</span><span>Si lo que buscas es <b>qué apps trae incluido cada plan</b>
+      y sus precios, eso está en la sección <b>Manteleta</b>.</span></div>
+      <div class="ln"><span>💰</span><span>Si buscas <b>cuánto te pagan</b> por vender, está en
+      <b>Comisiones</b>.</span></div>
+    </div>
+    <div class="warn">⚠️ <b>Muy importante:</b> NO modeles promociones que aparezcan en la app de
+    ventas si no vienen en este comunicado. Si tienes dudas, acude con tu jefe inmediato.</div>
+
+    <div id="consecutivoCats"></div>
+    <div id="consecutivoLista"></div>
+  </section>
+
+  <!-- ================= COMISIONES ================= -->
+  <section class="view" id="view-comisiones">
+    <button class="back-link" onclick="showView('home')">← Volver al inicio</button>
+    <div id="comisionesAviso"></div>
+    <div class="section-title">💰 Comisiones</div>
+    <div class="meta-row">
+      <div class="pill">👥 Canal: <b>Cambaceo y Punto de Venta</b></div>
+      <div class="pill">🏢 Oferta: <b>Negocios</b></div>
+    </div>
+    <div class="brujula">
+      <b>💡 Cómo funciona tu comisión:</b> las <b>primeras 3 ventas</b> del mes se pagan a una
+      tarifa, y <b>de la 4ª venta en adelante</b> se paga más. Entre más vendas, más ganas por venta.
+      <div class="ln"><span>🏷️</span><span>Los precios que ves son de <b>pronto pago con IVA</b>.</span></div>
+    </div>
+
+    <div class="paso-t"><span class="bolita">1</span> ¿Qué apps lleva el plan?</div>
+    <div class="op-grid" id="comOfertas"></div>
+
+    <div id="comPaso2" style="display:none;">
+      <div class="paso-t"><span class="bolita">2</span> ¿Qué tipo de plan es?</div>
+      <div class="op-grid" id="comTipos"></div>
+    </div>
+
+    <div id="comPaso3" style="display:none;">
+      <div class="paso-t"><span class="bolita">3</span> Elige los megas</div>
+      <div class="op-grid" id="comPlanes"></div>
+    </div>
+
+    <div id="comResultado"></div>
+
+    <div class="paso-t" style="margin-top:34px;"><span class="bolita">＋</span> Comisiones de adicionales</div>
+    <input type="text" class="buscador" id="adBuscar" placeholder="🔎 Busca un adicional… (ej. HBO, WiFi, Disney)">
+    <div id="adLista"></div>
+    <div class="footnote" style="margin-top:16px;">Los adicionales que traigan una promoción
+    (descuento sobre el precio o meses gratis, que no sea de por vida) se comisionan desde el mes 1.
+    Si el cliente cancela el adicional al terminar la promoción, se genera un cargo en contra al vendedor.</div>
+  </section>
+
+  <!-- ================= ADMINISTRACIÓN (solo 65068028) ================= -->
+  <section class="view" id="view-admin">
+    <button class="back-link" onclick="showView('home')">← Volver al inicio</button>
+    <div class="section-title">🔧 Administración</div>
+    <div class="adm-intro">Desde aquí controlas <b>hasta cuándo se ve cada sección</b>.
+    Los cambios que guardes aquí se aplican para <b>toda la fuerza de ventas</b>, no
+    solo en este celular. Para borrar algo se piden dos confirmaciones, para que
+    nada se elimine por error.</div>
+    <div id="admLista"></div>
+  </section>
+
+  <!-- ================= DIGITAL SERVICE (template, generado con JS) ================= -->
+  <section class="view" id="view-service">
+    <button class="back-link" onclick="showView('home')">← Volver al inicio</button>
+    <div id="serviceContent"></div>
+  </section>
+
+  <div class="footer">
+    <div class="web">🌐 <b>Soluciones de negocio + Página Web incluidas sin costo.</b><br>
+    Ya vienen incluidas en la solución contratada — no se modela ninguna promoción.<br>
+    Invita a tu cliente a activarla en <a href="http://www.asesorvirtual.com.mx" target="_blank">www.asesorvirtual.com.mx</a> o por WhatsApp <a href="#">55 53 50 87 01</a>.</div>
+    <div>Informativo para Centro de Soluciones · Alcance Nacional · Vigencia del 22 al 31 de julio de 2026</div>
+    <div class="internal-note">Este material es únicamente de uso interno y está prohibida su distribución.</div>
+    <div class="signature">Designed by Lone Wolf | <a href="mailto:lone.wolf.verified@gmail.com">lone.wolf.verified@gmail.com</a></div>
+  </div>
+
+</div>
+
+<!-- ================= CONFIRMACIÓN DE DOBLE CHECK ================= -->
+<div class="confirm-fondo" id="confirmFondo">
+  <div class="confirm-caja">
+    <div class="ic">⚠️</div>
+    <h3 id="cfTitulo">¿Seguro que quieres borrar?</h3>
+    <p id="cfTexto"></p>
+    <div class="paso">
+      <b>1º — Escribe BORRAR para confirmar:</b>
+      <input type="text" id="cfPalabra" placeholder="BORRAR" autocomplete="off">
+    </div>
+    <label class="confirm-chk">
+      <input type="checkbox" id="cfCheck">
+      <span><b>2º</b> — Entiendo que esta sección dejará de verse para toda la fuerza de ventas.</span>
+    </label>
+    <div class="confirm-btns">
+      <button class="cancelar" id="cfCancelar">Cancelar</button>
+      <button class="aceptar" id="cfAceptar" disabled>Sí, borrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= VISOR DE IMAGEN AMPLIADA ================= -->
+<div class="lightbox" id="lightbox">
+  <div class="lb-bar">
+    <button id="lbZoomOut" aria-label="Alejar">−</button>
+    <span class="lb-label" id="lbZoomLabel">100%</span>
+    <button id="lbZoomIn" aria-label="Acercar">+</button>
+    <button id="lbFit">Ajustar</button>
+    <button class="lb-close" id="lbClose" aria-label="Cerrar">✕ Cerrar</button>
+  </div>
+  <div class="lb-stage" id="lbStage"><img id="lbImg" alt=""></div>
+  <div class="lb-hint">Desliza para moverte por la imagen · Usa + y − para acercar o alejar</div>
+</div>
+
+<script>
+/* ============================================================
+   DATOS: PROMOCIONES (Opción 1 y 2) — igual que antes
+   ============================================================ */
+const PLAT_LABEL = {netflix:'Netflix', universal:'Universal+', appletv:'Apple TV', hbomax:'HBO Max', disney:'Disney+'};
+const PLATFORMS = ['netflix','universal','appletv','hbomax','disney'];
+
+const DATA = {
+  tv: [
+    {megas:'10,000', plan:'Élite',       pp:'$3,159', adminNeg:true,  row:[2,2,2,'plain',2]},
+    {megas:'5,000',  plan:'Ejecutivo',   pp:'$2,649', adminNeg:true,  row:[2,2,2,'plain',2]},
+    {megas:'1,000',  plan:'Experto',     pp:'$1,240', adminNeg:true,  row:[1,1,1,'plain',1]},
+    {megas:'500',    plan:'Emprendedor', pp:'$1,030', adminNeg:true,  row:[1,1,1,'plain',0]},
+    {megas:'350',    plan:'Dinámico',    pp:'$829',   adminNeg:false, row:[1,1,'plain',0,0]},
+    {megas:'250',    plan:'Esencial',    pp:'$720',   adminNeg:false, row:['5m','5m','5m',0,0]},
+    {megas:'150',    plan:'Elemental',   pp:'$619',   adminNeg:false, row:['5m','5m','5m',0,0]},
+    {megas:'100',    plan:'Plan base',   pp:'$510',   adminNeg:false, row:[0,0,0,0,0]},
+  ],
+  internet: [
+    {megas:'10,000', plan:'Élite',       pp:'$2,659', device:'VSB', adminNeg:true,  row:[2,2,2,'plain',2]},
+    {megas:'5,000',  plan:'Ejecutivo',   pp:'$2,149', device:'VSB', adminNeg:true,  row:[2,2,2,'plain',2]},
+    {megas:'1,000',  plan:'Experto',     pp:'$1,039', device:'VSB', adminNeg:true,  row:[1,1,1,'plain',1]},
+    {megas:'500',    plan:'Emprendedor', pp:'$890',   device:'VSB', adminNeg:true,  row:[1,1,1,'plain',0]},
+    {megas:'350',    plan:'Dinámico',    pp:'$690',   device:'TV',  adminNeg:false, row:[1,1,'plain',0,0]},
+    {megas:'250',    plan:'Esencial',    pp:'$580',   device:'TV',  adminNeg:false, row:['3m','3m','3m',0,0]},
+    {megas:'150',    plan:'Elemental',   pp:'$480',   device:'TV',  adminNeg:false, row:['3m','3m','3m',0,0]},
+    {megas:'100',    plan:'Plan base',   pp:'$410',   device:'TV',  adminNeg:false, row:[0,0,0,0,0]},
+  ]
+};
+
+const DISCOUNT = [
+  {megas:'1,000', ppNet:'$1,039', descNet:'$889', mes6Net:'$959', ppTv:'$1,240', descTv:'$1,090', mes6Tv:'$1,140'},
+  {megas:'500',   ppNet:'$890',   descNet:'$790', mes6Net:'$820', ppTv:'$1,030', descTv:'$960',   mes6Tv:'$970'},
+  {megas:'350',   ppNet:'$690',   descNet:'$620', mes6Net:'$660', ppTv:'$829',   descTv:'$759',   mes6Tv:'$789'},
+  {megas:'250',   ppNet:'$580',   descNet:'$520', mes6Net:'$560', ppTv:'$720',   descTv:'$660',   mes6Tv:'$690'},
+  {megas:'150',   ppNet:'$480',   descNet:'$420', mes6Net:'$460', ppTv:'$619',   descTv:'$559',   mes6Tv:'$589'},
+];
+
+const RULES = [
+  {
+    tier:'150 y 250 Megas', sub:'Elemental 150 · Esencial 250 — Netflix Ads + Apple TV + Universal+',
+    items:[
+      'Promoción de Netflix Ads por <b>3 meses</b> en la familia Totalplay Internet, y por <b>5 meses</b> en la familia Totalplay TV + Internet.',
+      'Aplica para clientes nuevos y existentes (por contención, retención y upsell).',
+      'No aplica para planes base, con Bundle Netflix Estándar o Netflix Premium.',
+      'El descuento aplica sobre la renta del plan desde el mes 1 hasta el mes 3 (Internet) o mes 5 (TV+Internet).',
+      'A partir del mes 6, el cliente paga la renta de su plan con descuento por lealtad.',
+      'Si el cliente no llama para cancelar al mes siguiente de terminar la promoción, pagará el costo total del plan más los precios vigentes de Netflix, Apple TV y Universal+.',
+      'No conviven con TOTALAMIGO, empleado ni promociones segmentadas.'
+    ],
+    codes:['NEG-NETFLIX ADS INCLUIDO X 3 MESES O 5 MESES','NEG-UNIVERSAL+ ESTÁNDAR CON ANUNCIOS INCLUIDO X 3 MESES O 5 MESES']
+  },
+  {
+    tier:'350 Megas', sub:'Dinámico — Netflix Ads + Apple TV + Universal+ (permanente)',
+    items:[
+      'Aplica el plan Dinámico 350 Megas con anuncios, en ambas familias (Totalplay Internet y TV + Internet).',
+      'No aplica para planes base, con Bundle Netflix Estándar o Netflix Premium.',
+      'Aplica para clientes nuevos y existentes (por contención, retención y upsell).',
+      'A partir del mes 6, el cliente paga la renta con descuento por lealtad.',
+      'El descuento es <b>permanente</b> mientras el cliente conserve su plan más los adicionales.',
+      'El cliente cuenta con Netflix Ads, Apple TV y Universal+ con anuncios incluidos por permanencia.',
+      'No convive con TOTALAMIGO, empleado ni promociones segmentadas.'
+    ],
+    codes:['NEG-NETFLIX ADS INCLUIDO','NEG-UNIVERSAL+ ESTÁNDAR CON ANUNCIOS INCLUIDO']
+  },
+  {
+    tier:'500 Megas', sub:'Emprendedor — incluye Administrador de Negocios permanente',
+    items:[
+      'Aplica en el plan Emprendedor 500 Megas: Netflix Ads + Apple TV + Universal+ con anuncios + Disney+ con anuncios, según la regla de negocio.',
+      'Incluye Administrador de Negocios de manera permanente.',
+      'No aplica para planes base, con Bundle Netflix Estándar o Netflix Premium.',
+      'El descuento es permanente mientras el cliente conserve su plan más los adicionales.',
+      'No convive con TOTALAMIGO, empleado ni promociones segmentadas.'
+    ],
+    codes:['NEG-NETFLIX ADS INCLUIDO','NEG-UNIVERSAL+ ESTÁNDAR CON ANUNCIOS INCLUIDO','NEG ADMINISTRADOR DE NEGOCIOS INCLUIDO','NEG-DISNEY ADS INCLUIDO'],
+    flag:'⚠️ La tabla de planes de este comunicado muestra HBO Max incluido y Disney+ como NA en el Megaje de 500 — lo contrario a lo que describe esta regla de negocio. Confirma con tu jefe inmediato cuál plataforma aplica antes de ofrecerlo.'
+  },
+  {
+    tier:'1,000 Megas', sub:'Experto — incluye Administrador de Negocios permanente',
+    items:[
+      'Aplica en el plan Experto 1,000 Megas: Netflix Ads + Apple TV + Universal+ con anuncios + Disney+ con anuncios + HBO Max con anuncios.',
+      'Incluye Administrador de Negocios de manera permanente.',
+      'No aplica para planes base, con Bundle Netflix Estándar o Netflix Premium.',
+      'El descuento es permanente mientras el cliente conserve su plan más los adicionales.',
+      'No convive con TOTALAMIGO, empleado ni promociones segmentadas.'
+    ],
+    codes:['NEG-NETFLIX ADS INCLUIDO','NEG-UNIVERSAL+ ESTÁNDAR CON ANUNCIOS INCLUIDO','NEG ADMINISTRADOR DE NEGOCIOS INCLUIDO','NEG-HBO MAX CON ANUNCIOS INCLUIDO','NEG-DISNEY ADS INCLUIDO']
+  },
+  {
+    tier:'5,000 y 10,000 Megas', sub:'Ejecutivo · Élite — streaming estándar sin anuncios',
+    items:[
+      'Aplica en los planes Ejecutivo 5,000 y Élite 10,000 Megas: Netflix Estándar + Apple TV + Universal+ estándar sin anuncios + Disney+ estándar sin anuncios + HBO Max estándar sin anuncios.',
+      'Incluye Administrador de Negocios de manera permanente.',
+      'No aplica para planes base, con Bundle Netflix Ads o Netflix Premium.',
+      'A partir del 6º mes, se suma el descuento por lealtad.',
+      'El descuento es permanente mientras el cliente conserve su plan más los adicionales.',
+      'No convive con TOTALAMIGO, empleado ni promociones segmentadas.'
+    ],
+    codes:['NEG ADMINISTRADOR DE NEGOCIOS INCLUIDO','NEG-NETFLIX ESTÁNDAR INCLUIDO','NEG-UNIVERSAL+ ESTÁNDAR CON ANUNCIOS INCLUIDO','NEG-HBO MAX ESTÁNDAR INCLUIDO','NEG-DISNEY ESTÁNDAR INCLUIDO']
+  }
+];
+
+/* ============================================================
+   DATOS: SOLUCIONES DIGITALES (Manual_Servicios_Digitales.pdf)
+   ============================================================ */
+const SERVICES = [
+  {
+    id:'aliado-digital', icon:'🧑‍💼', title:'Aliado Digital',
+    tag:'Asistencia técnica, legal y contable, 24/7',
+    intro:'Aliado Digital ayuda a los negocios a resolver dudas técnicas, legales y contables para operar de forma segura. Está disponible las 24 horas del día, los 7 días de la semana, por chat, teléfono o correo. Se activa con una llamada personalizada después de contratar el plan.',
+    bullets:[
+      'Ingenieros que apoyan en la activación y uso de las herramientas digitales, y resuelven fallas de cómputo.',
+      'Asesoría legal en temas de contratos, permisos, sociedades y trámites del negocio (no incluye trámites presenciales ni gestiones ante autoridades).',
+      'Asesoría contable y fiscal para cumplir con el SAT sin gastos extra.',
+      'Se activa fácil: llega un correo "Bienvenid@ a Totalplay Negocios" para crear la contraseña y entrar a la plataforma.'
+    ],
+    questions:[
+      '¿Ha tenido problemas técnicos o administrativos que afecten su operación?',
+      '¿Ha tenido problemas para instalar, configurar o actualizar su computadora o celular?',
+      '¿Ha tenido dudas legales o fiscales relacionadas con su negocio?'
+    ],
+    tips:[
+      'Relaciónalo con lo que busca el cliente: crecer, digitalizarse o estar en regla.',
+      'Resalta que el soporte es 24/7, sin depender de terceros ni pagar de más.',
+      'Explica que no solo resuelve fallas técnicas: también da asesoría legal y contable, reduciendo riesgos y costos.'
+    ],
+    contact:{chat:'asesoriavirtual.com.mx', email:'ayuda@asesorvirtual.com.mx', phone:'(55) 5350-8701'}
+  },
+  {
+    id:'internet-seguro', icon:'🛡️', title:'Internet Seguro',
+    tag:'Protección Bitdefender contra amenazas digitales',
+    intro:'Internet Seguro protege al negocio contra amenazas digitales, con navegación segura y localización de dispositivos. Usa la tecnología Bitdefender, de primer nivel en ciberseguridad.',
+    bullets:[
+      'Funciona en Windows, Mac OS, iOS y Android.',
+      'La cantidad de dispositivos protegidos depende del plan contratado.',
+      'Detiene amenazas de red antes de que ocurran, y bloquea sitios infectados.',
+      'Ubica dispositivos extraviados por geolocalización.',
+      'Permite controlar qué contenido usan los colaboradores, para mejorar su productividad.',
+      'Protege pagos en línea, banca digital y detecta correos falsos (fraudes).',
+      'Bloquea sitios y apps que distraen en el trabajo.'
+    ],
+    questions:[
+      '¿Cómo protege actualmente la información y los dispositivos de su negocio contra virus?',
+      '¿Ha sufrido intentos de fraude, virus o pérdida de datos en el último año?',
+      '¿Qué tan importante es para usted la seguridad en pagos y navegación en línea?'
+    ],
+    tips:[
+      'Pregunta si el cliente ha tenido robo de datos, virus o fraudes en línea.',
+      'Destaca que Bitdefender es una marca reconocida mundialmente contra amenazas digitales.',
+      'Explica que Internet Seguro protege tanto los dispositivos como la información crítica del negocio.'
+    ],
+    activation:'El cliente recibe un código de licencia y lo activa en <b>seguridad.asesorvirtual.com.mx</b>.'
+  },
+  {
+    id:'nube', icon:'☁️', title:'Almacenamiento en la nube',
+    tag:'HeyValue Cloud — guarda y comparte archivos seguros',
+    intro:'Permite guardar, sincronizar y acceder a archivos, fotos, videos y documentos desde cualquier dispositivo y lugar, con seguridad y privacidad. Ideal para negocios que necesitan acceso remoto y respaldo seguro.',
+    bullets:[
+      'Espacio disponible: desde 50 GB hasta 1 TB, según el plan contratado.',
+      'Acceso desde cualquier dispositivo y sistema operativo.',
+      'Sincronización automática en todos los dispositivos.',
+      'Copias de seguridad (respaldo) automáticas.',
+      'Los archivos están protegidos, guardados o viajando por internet.',
+      'Permite controlar el acceso y compartir archivos en equipo.'
+    ],
+    questions:[
+      '¿Cómo gestiona actualmente el respaldo y acceso a los archivos de su negocio?',
+      '¿Ha tenido dificultades para compartir documentos entre equipos o ubicaciones?',
+      '¿Qué tan importante es para usted la seguridad y disponibilidad de su información en todo momento?'
+    ],
+    tips:[
+      'Pregunta si el cliente ha tenido problemas para compartir archivos o pérdida de datos.',
+      'Destaca la seguridad y privacidad, ideal para negocios con información sensible.',
+      'Explica que permite trabajar en equipo sin importar la ubicación, evitando interrupciones.'
+    ],
+    activation:'Llega un correo con el asunto "Se ha creado su cuenta de HeyValue Cloud" para crear la contraseña y empezar a usar la nube.'
+  },
+  {
+    id:'notas-remision', icon:'🧾', title:'Notas de remisión y gestión de ventas',
+    tag:'Parte de la plataforma Factura Total (sin implicaciones fiscales)',
+    intro:'Permite emitir notas de remisión y llevar el control de ventas de forma ágil y organizada, sin generar facturas electrónicas. Ideal para mejorar la atención al cliente y optimizar procesos internos.',
+    bullets:[
+      'Ideal para ventas rápidas, cotizaciones o entregas parciales.',
+      'Registro de productos y servicios, y elaboración de recibos de nómina (no timbrados).',
+      'Se personaliza con los colores y el logo del negocio.',
+      'Muestra reportes de ventas por periodo y el top 10 de clientes frecuentes.',
+      'Funciona desde cualquier dispositivo, en la nube.',
+      'Sin costo adicional: incluido en planes desde 100 Megas, con 15 timbres al mes.'
+    ],
+    questions:[
+      '¿Cómo gestiona actualmente las ventas y pedidos de su negocio?',
+      '¿Tiene control sobre los ingresos de su negocio?',
+      '¿Qué tan importante es para usted contar con reportes claros de sus ingresos?'
+    ],
+    tips:[
+      'Explica que sirve para generar comprobantes de operaciones internas o ventas que no requieren factura.',
+      'Destaca que es ideal para controlar ventas sin invertir en sistemas complejos.',
+      'Pregunta si el cliente necesita mejorar la organización de sus ventas y reducir errores en pedidos.'
+    ],
+    activation:'Llega un correo para crear la contraseña y empezar a usar las notas de remisión.'
+  },
+  {
+    id:'factura-total', icon:'📄', title:'Factura Total',
+    tag:'Facturación electrónica (CFDI) ilimitada ante el SAT',
+    intro:'Permite emitir facturas electrónicas ilimitadas (CFDI), cumpliendo con los requisitos del SAT, de forma rápida y segura desde cualquier dispositivo. Sin costos adicionales por volumen de facturación.',
+    bullets:[
+      'Facturas, notas de crédito y recibos de pago según la normativa vigente del SAT.',
+      'Incluye complementos fiscales como pago, carta porte y otros requeridos por la autoridad.',
+      'Valida en tiempo real el RFC y el timbrado autorizado por el PAC.',
+      'Descarga de XML y PDF, historial de facturación y control de clientes.',
+      'Acceso desde la nube, en cualquier dispositivo, con respaldo automático.',
+      'Sin costo adicional: incluido en planes desde 250 Megas.'
+    ],
+    questions:[
+      '¿Cómo gestiona actualmente la emisión de facturas electrónicas y complementos fiscales?',
+      '¿Ha tenido inconvenientes con el timbrado o la validación ante el SAT?',
+      '¿Qué tan importante es para usted contar con facturación sin costos adicionales?'
+    ],
+    tips:[
+      'Explica que el servicio asegura que las facturas cumplen con las reglas más recientes del SAT.',
+      'Destaca la facturación ilimitada, ideal para negocios con alto volumen de operaciones.',
+      'Pregunta si el cliente ha tenido problemas con timbrado, complementos o control de facturas.'
+    ],
+    activation:'Llega un correo para crear la contraseña; si el cliente lo desea, un especialista lo apoya con un tour por la plataforma.'
+  },
+  {
+    id:'pagina-web', icon:'🌐', title:'Página web + tienda',
+    tag:'Presencia digital profesional para el negocio',
+    intro:'Le da al negocio una página web personalizada, una tienda en línea y correos corporativos con dominio propio, para aumentar su visibilidad y vender en línea con una imagen confiable.',
+    bullets:[
+      'Sitio web que se adapta a celular y computadora, creado por diseñadores expertos.',
+      'Se personaliza con logotipo, colores y contenido del negocio.',
+      'Tienda en línea con catálogo de productos, carrito de compras y pagos seguros.',
+      '5 cuentas de correo con dominio propio, con acceso desde cualquier dispositivo.',
+      'Hosting en servidores AWS en la nube, con cambios y asesorías ilimitadas.',
+      'Actualizaciones y soporte técnico y de diseño incluidos.'
+    ],
+    questions:[
+      '¿Cuenta actualmente con una página web profesional para su negocio?',
+      '¿Le gustaría vender sus productos o servicios en línea de manera segura?',
+      '¿Qué tan importante es para usted tener correos corporativos con dominio personalizado?'
+    ],
+    tips:[
+      'Pregunta si el cliente busca correos con dominio propio para dar más confianza.',
+      'Destaca la tienda en línea, ideal para vender más allá de su ubicación física.',
+      'Explica que ayuda a captar clientes en línea y mejora la imagen profesional del negocio.'
+    ],
+    activation:'El cliente llena un formulario con la información de su negocio; si es necesario, un experto en diseño web lo contacta para resolver dudas.'
+  },
+  {
+    id:'administrador-negocio', icon:'📊', title:'Administrador del negocio',
+    tag:'Plataforma HeyERP — controla todo el negocio en un lugar',
+    intro:'HeyERP es una plataforma para gestionar todas las áreas del negocio desde un solo lugar: ventas, compras, inventarios, clientes y finanzas, para tomar mejores decisiones.',
+    bullets:[
+      'Módulo de Ventas: registro y seguimiento de pedidos, control de clientes y cotizaciones.',
+      'Módulo de Compras: control de proveedores y órdenes de compra.',
+      'Módulo de CRM: seguimiento de clientes y oportunidades de negocio.',
+      'Módulo de Inventarios: gestión de productos y avisos cuando el stock está bajo.',
+      'Módulo de Finanzas: reportes básicos y control de cuentas por cobrar y pagar.',
+      'Todo disponible en la nube, desde cualquier dispositivo, con respaldo automático.'
+    ],
+    questions:[
+      '¿Cómo gestiona actualmente las ventas, inventarios y finanzas de su negocio?',
+      '¿Qué tan importante es para usted contar con reportes sobre el inventario de su negocio?',
+      '¿Ha tenido dificultades para integrar la información de diferentes áreas en un solo sistema?'
+    ],
+    tips:[
+      'Pregunta si el cliente tiene problemas para controlar inventarios, ventas o finanzas.',
+      'Destaca la eficiencia: ideal para reducir errores y mejorar la productividad.',
+      'Explica que HeyERP centraliza toda la operación del negocio en una sola plataforma.'
+    ],
+    contact:{chat:'asesoriavirtual.com.mx', email:'ayuda@asesorvirtual.com.mx', phone:'(55) 5350-8701'}
+  },
+  {
+    id:'activacion', icon:'⚡', title:'Proceso de activación del servicio',
+    tag:'3 formas sencillas de activar las soluciones',
+    intro:'Una vez instalado el servicio, el cliente puede activar las soluciones de Totalplay Negocios de forma sencilla, por tres opciones. El objetivo es que la activación sea rápida y segura.',
+    bullets:[
+      'Llamada de un Asesor de Activaciones: 24 horas después de la instalación, un asesor contacta al cliente al (55) 5350-8701 y lo guía paso a paso.',
+      'Correo de bienvenida: el cliente recibe un enlace para crear su contraseña y entrar a la plataforma Asesor Virtual.',
+      'Cualquier medio de contacto: el cliente puede comunicarse 24/7 por chat, teléfono o correo, y un asesor lo apoya.'
+    ],
+    tips:[
+      'Resalta que hay varios canales disponibles: chat, teléfono, WhatsApp y correo, para mayor comodidad.',
+      'Destaca el acompañamiento: siempre hay un asesor disponible para resolver dudas.',
+      'Enfatiza la facilidad y rapidez: el cliente elige la opción que más le acomode.'
+    ],
+    channels:[
+      {medio:'Chat', tiempo:'30 segundos', dato:'asesoriavirtual.com.mx'},
+      {medio:'Correo electrónico', tiempo:'40 minutos', dato:'ayuda@asesorvirtual.com.mx'},
+      {medio:'Teléfono / WhatsApp', tiempo:'60 segundos', dato:'(55) 5350-8701'}
+    ]
+  }
+];
+
+/* ============================================================
+   DATOS: CONSECUTIVO DE PROMOCIONES Y COMISIONES
+   ============================================================ */
+/* Consecutivo de Promociones — Semana 31-32 / 2026 · Vigencia 1 al 3 de agosto */
+const PROMO_CATS = [
+  { id:'renta',    ic:'🏷️', nom:'Descuento en Renta',          col:'linear-gradient(135deg,#e0508f,#b8306e)' },
+  { id:'solneg',   ic:'💼', nom:'Soluciones de Negocio',        col:'linear-gradient(135deg,#3f9d8f,#26766a)' },
+  { id:'posventa', ic:'🔁', nom:'Promociones de Posventa',      col:'linear-gradient(135deg,#5b7fc4,#3a5a9c)' },
+  { id:'internet', ic:'🌐', nom:'Promociones de Internet',      col:'linear-gradient(135deg,#e08a3c,#bf6a1e)' },
+  { id:'contenido',ic:'📺', nom:'Adicionales de Contenido y TV',col:'linear-gradient(135deg,#8a63c4,#6740a0)' }
+];
+
+const PROMOS = [
+/* ══════════ DESCUENTO EN RENTA ══════════ */
+{ cat:'renta', n:1, tit:'100% de descuento en activación',
+  gancho:'No paga nada por activar', hero:'100%', heroSub:'de descuento en la activación · todas las ciudades',
+  quien:'La modela: Mesa de Control, Telemarketing y Confirmaciones',
+  sis:['ACTIVACION $450 NEG','ACTIVACION $350 NEG'],
+  reglas:['Aplica para <b>todos</b> los planes Negocios, Internet y TV + Internet.',
+    'Aplica en todos los canales de venta.','Aplica en ventas para instalación exprés.',
+    '<b>Convive con todas las promociones.</b>',
+    'El beneficio vale siempre y cuando la venta se genere y la activación se modele <b>dentro de la vigencia</b>, sin importar cuándo se instale.'] },
+
+{ cat:'renta', n:2, tit:'Descuento por lealtad (a partir del 6º mes)',
+  gancho:'Se le descuenta para siempre desde el 6º pago', hero:'6º mes', heroSub:'descuento permanente mientras conserve su servicio',
+  quien:'Se modela sola en el sistema',
+  sis:['NEG- DESCUENTO POR LEALTAD'],
+  pitch:'Los primeros 5 meses sus pagos serán de [indicar pago] con las promociones que le estoy ofreciendo ahora. Además, reconociendo su lealtad, a partir de su 6º pago se le descontarán [indicar monto] por todo el tiempo que mantenga su servicio.',
+  tabla:{ cols:['Plan','Internet','Internet + TV'], filas:[
+    ['Élite','-$80','-$100'],['Ejecutivo','-$80','-$100'],['Experto','-$80','-$100'],
+    ['Emprendedor','-$40','-$60'],['Dinámico','-$30','-$40'],['Esencial','-$20','-$40'],
+    ['Elemental','-$20','-$30'],['Micro 100','-$20','-$30']] },
+  reglas:['Aplica para planes Micro 100, Elemental, Esencial, Dinámico, Emprendedor, Experto, Ejecutivo y Élite.',
+    'Aplica para planes con Bundle (Netflix Ads, Netflix Estándar, Netflix Premium, VSB, Amazon, Disney y HBO Max con anuncios).',
+    'El cliente lo ve reflejado hasta su <b>6º estado de cuenta</b>, siempre que esté al corriente y no haya sido enrutado.',
+    'No aplica sobre adicionales.','<b>El beneficio se conserva en casos de morosidad.</b>'],
+  nocon:['Promociones nacionales, segmentadas, por región o por proyectos especiales de descuento PERMANENTE.'] },
+
+{ cat:'renta', n:3, tit:'Descuento Totalamigo',
+  gancho:'Hasta $150 menos durante 5 meses', hero:'Hasta $150', heroSub:'de descuento por 5 meses',
+  quien:'La modela: Vendedor, Mesa de Control, Telemarketing y Confirmaciones',
+  sis:['NEG- TOTALAMIGO'],
+  tabla:{ cols:['Plan','Internet','Internet + TV'], filas:[
+    ['Experto','-$150','-$140'],['Emprendedor','-$70','-$65'],['Dinámico','-$70','-$65'],
+    ['Esencial','-$60','-$56'],['Elemental','-$60','-$56']] },
+  reglas:['Aplica para <b>clientes nuevos</b> de Totalplay Internet y Totalplay TV + Internet.',
+    'Aplica para los planes Elemental, Esencial, Dinámico, Emprendedor y Experto.',
+    'El descuento va del mes 1 al mes 5, sobre la renta del plan.',
+    'En el mes 6 regresa al precio del plan.',
+    '<b>Sí convive</b> con el Descuento por lealtad (antes descuento PERMANENTE).'],
+  nocon:['Pago anticipado 6 o 12 meses, promociones sobre el mismo adicional y proyectos especiales.',
+    'Netflix Ads incluido por 3 meses, 5 meses o PERMANENTE.',
+    'HBO Max con anuncios por 3 meses, 5 meses o PERMANENTE.'] },
+
+{ cat:'renta', n:4, tit:'Netflix con anuncios por 5 meses',
+  gancho:'5 meses de Netflix sin costo extra', hero:'5 meses', heroSub:'de Netflix con anuncios incluido',
+  quien:'La modela: Vendedor, Mesa de Control, Telemarketing y Confirmaciones',
+  sis:['NEG- NETFLIX POR 5 MESES'],
+  tabla:{ cols:['Plan','Nacional','Frontera'], filas:[
+    ['Esencial Netflix Ads','-$110','-$102'],['Elemental TV Netflix Ads','-$110','-$102']] },
+  reglas:['Aplica para clientes <b>nuevos y existentes</b> de Totalplay Internet y TV + Internet.',
+    'Aplica para Elemental 150 megas Netflix Ads y Esencial 250 megas Netflix Ads.',
+    'Aplica <b>solo para clientes nuevos</b> de 150 y 250 megas (Totalplay Internet + TV).',
+    'No aplica para planes con Bundle Netflix Estándar ni Netflix Premium, ni oferta Base.',
+    'El descuento va del mes 1 al mes 5, sobre la renta del plan.',
+    '⚠️ Si el cliente no llama para cancelar al terminar la promoción, <b>pagará el costo de Netflix ($110)</b>.'],
+  nocon:['Pago anticipado 6 o 12 meses, promociones sobre el mismo adicional y proyectos especiales.',
+    'Descuento Totalamigo de hasta $150 por 5 meses.'] },
+
+{ cat:'renta', n:5, tit:'Netflix con anuncios por 3 meses',
+  gancho:'3 meses de Netflix sin costo extra', hero:'3 meses', heroSub:'de Netflix con anuncios incluido',
+  quien:'La modela: Vendedor, Mesa de Control, Telemarketing y Confirmaciones',
+  sis:['NEG- NETFLIX POR 3 MESES'],
+  tabla:{ cols:['Plan','Nacional','Frontera'], filas:[['Elemental Netflix Ads','-$110','-$102']] },
+  reglas:['Aplica <b>solo</b> para clientes nuevos y existentes del plan Elemental Netflix Ads (Totalplay Internet).',
+    'No aplica para planes con Bundle Netflix Estándar ni Netflix Premium, ni oferta Base.',
+    'El descuento va del mes 1 al mes 3, sobre la renta del plan.',
+    '⚠️ Si el cliente no llama para cancelar al terminar la promoción, <b>pagará el costo de Netflix ($110)</b>.'],
+  nocon:['Pago anticipado 6 o 12 meses, promociones sobre el mismo adicional y proyectos especiales.',
+    'Descuento Totalamigo de hasta $150 por 5 meses.'] },
+
+{ cat:'renta', n:6, tit:'HBO Max incluido',
+  gancho:'HBO Max sin costo extra en planes grandes', hero:'HBO Max', heroSub:'Estándar o con anuncios, incluido',
+  quien:'La modela: Vendedor, Mesa de Control, Telemarketing y Confirmaciones',
+  sis:['NEG- HBO MAX ESTÁNDAR INCLUIDO','NEG – HBO MAX CON ANUNCIOS INCLUIDO'],
+  reglas:['Aplica para clientes nuevos y existentes de Totalplay Internet y TV + Internet.',
+    'Aplica <b>solo para clientes nuevos</b> de <b>1,000 a 10,000 megas</b>.',
+    'En el plan de 1,000 megas la licencia es <b>con anuncios</b>.',
+    'Para más información revisa el comunicado "NUEVA OFERTA V1".'],
+  nocon:['Pago anticipado 6 o 12 meses, promociones sobre el mismo adicional y proyectos especiales.'] },
+
+{ cat:'renta', n:7, tit:'Disney+ incluido',
+  gancho:'Disney+ sin costo extra en planes grandes', hero:'Disney+', heroSub:'incluido para clientes nuevos',
+  quien:'La modela: Vendedor, Centro de Soluciones, Mesa de Control, Telemarketing y Confirmaciones',
+  sis:['NEG- DISNEY ESTANDAR INCLUIDO'],
+  reglas:['Aplica para clientes nuevos y existentes de Totalplay Internet y TV + Internet.',
+    'Aplica <b>solo para clientes nuevos</b> de <b>1,000 a 10,000 megas</b>.',
+    'En el plan de 1,000 megas la licencia es <b>con anuncios</b>.',
+    'Para más información revisa el comunicado "NUEVA OFERTA V1".'],
+  nocon:['Pago anticipado 6 o 12 meses, promociones sobre el mismo adicional y proyectos especiales.'] },
+
+{ cat:'renta', n:8, tit:'Universal+ incluido',
+  gancho:'Universal+ sin costo extra en planes grandes', hero:'Universal+', heroSub:'incluido para clientes nuevos',
+  quien:'La modela: Vendedor, Centro de Soluciones, Mesa de Control, Telemarketing y Confirmaciones',
+  sis:['NEG- UNIVERSAL+ 1 MES INCLUIDO'],
+  reglas:['Aplica para clientes nuevos y existentes de Totalplay Internet y TV + Internet.',
+    'Aplica <b>solo para clientes nuevos</b> de <b>1,000 a 10,000 megas</b>.',
+    'En el plan de 1,000 megas la licencia es <b>con anuncios</b>.',
+    'Para más información revisa el comunicado "NUEVA OFERTA V1".'],
+  nocon:['Pago anticipado 6 o 12 meses, promociones sobre el mismo adicional y proyectos especiales.'],
+  ojo:'En el comunicado esta lámina trae también el código "NEG- DISNEY ESTANDAR INCLUIDO". Confírmalo con tu jefe antes de modelarlo.' },
+
+{ cat:'renta', n:9, tit:'Apple TV incluido',
+  gancho:'Apple TV por 5 o 3 meses, según el plan', hero:'Apple TV', heroSub:'5 meses · 3 meses · o incluido de por vida',
+  quien:'La modela: Vendedor, Centro de Soluciones, Mesa de Control, Telemarketing y Confirmaciones',
+  sis:['MÁS APPS - APPLE TV 3 MESES','MÁS APPS - APPLE TV 5 MESES','MÁS APPS - APPLE TV INCLUIDO'],
+  tabla:{ cols:['Plan','TV + Internet','Solo Internet'], filas:[
+    ['150 megas','5 meses','3 meses'],['250 megas','5 meses','3 meses'],
+    ['350 a 10,000 megas','Ya incluido','Ya incluido']] },
+  reglas:['Aplica para planes Elemental, Esencial, Dinámico, Emprendedor, Experto, Ejecutivo y Élite.',
+    'Aplica para planes con Bundle (Netflix Ads, Netflix Estándar, Netflix Premium, VSB, Amazon, Disney y HBO Max con anuncios).',
+    '<b>Ya viene cargada en automático.</b>',
+    'Al terminar la promoción el cliente paga el precio del adicional.',
+    'Pierde la promoción si cae en morosidad.',
+    'Revisa el comunicado NEG NUEVA OFERTA para más información.'] },
+
+{ cat:'renta', n:10, tit:'VIX Premium por 2 meses',
+  gancho:'2 meses de VIX Premium sin costo', hero:'2 meses', heroSub:'de VIX Premium sin costo',
+  quien:'La modela: Vendedor, Centro de Soluciones, Mesa de Control, Telemarketing y Confirmaciones',
+  sis:['NEG- VIX INCLUIDO POR 2 MESES'],
+  reglas:['Aplica a partir de <b>150 megas</b>.',
+    'Aplica para planes con Bundle (Netflix Ads, Netflix Estándar, Netflix Premium, VSB, Amazon, Disney y HBO Max con anuncios).',
+    'Revisa el comunicado <b>NEG LO MÁS ESPERADO</b>.',
+    'Al terminar la promoción el cliente paga el precio del adicional.',
+    'Pierde la promoción si cae en morosidad.'] },
+
+/* ══════════ SOLUCIONES DE NEGOCIO ══════════ */
+{ cat:'solneg', n:1, tit:'Página web gratis PERMANENTE',
+  gancho:'Su página web sin costo, para siempre', hero:'Incluida', heroSub:'permanente · Totalplay Internet y TV + Internet',
+  quien:'La modela: Vendedor, Centro de Soluciones, Mesa de Control, Telemarketing y Confirmaciones',
+  reglas:['Aplica para <b>todos</b> los planes Internet y TV + Internet v9.',
+    'Si el cliente cambia de plan dentro de la familia Negocios, <b>no pierde</b> su página web.',
+    '<b>Ya no hay que modelar ninguna promoción</b>: ya viene incluida en las soluciones.',
+    'Invita a tu cliente a activarla en <b>www.asesorvirtual.com.mx</b> o por WhatsApp <b>55 53 50 87 01</b>.'] },
+
+{ cat:'solneg', n:2, tit:'30% de descuento en Protección Virtual',
+  gancho:'30% menos los primeros 3 meses', hero:'30% x 3 meses', heroSub:'en el 1er adicional de Protección Virtual',
+  quien:'La modela: Vendedor, Centro de Soluciones, Mesa de Control, Telemarketing y Confirmaciones',
+  sis:['NEG- PAGINA WEB INCLUIDA'],
+  beneficio:'Cada adicional trae: 5 usuarios de asistencia técnica, legal y contable para el negocio, suite de seguridad para 5 dispositivos y 250 GB de almacenamiento en la nube.',
+  reglas:['El 30% por 3 meses aplica <b>únicamente</b> en la contratación del <b>1er adicional</b> de Protección Virtual.',
+    'A partir del mes 4 el cliente paga el precio regular del adicional.',
+    '<b>No aplica sobre la renta del plan.</b>',
+    'Aplica a planes con Bundle de contenido, apps o entretenimiento.',
+    'El cliente pierde las promociones si cae en morosidad o cancela.'],
+  nocon:['Promociones nacionales, segmentadas, por región o proyectos especiales del 1er adicional de Protección Virtual.'] },
+
+/* ══════════ POSVENTA ══════════ */
+{ cat:'posventa', n:1, tit:'Descuento de portabilidad',
+  gancho:'Se lleva $100 o $200 de descuento por portar su número', hero:'$100 / $200', heroSub:'de descuento por 1 mes',
+  quien:'La ofrecen: Vendedores, Mesa de Control y Telemarketing. La modela: SOLO Portabilidad',
+  pitch:'En cuanto te instalen el servicio puedes hacer tu portabilidad a través de la App Totalplay o la página de Mi Totalplay, y a partir de tu pago siguiente a que ya tengas tu número con nosotros, se descontarán [indicar $100 o $200] por 1 mes.',
+  tabla:{ cols:['Tipo de plan','Descuento'], filas:[
+    ['Totalplay Internet','$100'],['Totalplay TV + Internet','$200']] },
+  reglas:['El cliente debe <b>terminar</b> su portabilidad por la App Totalplay, www.mitotalplay.com.mx o el Centro de Soluciones <b>dentro de la vigencia</b>; si no, no se otorga el beneficio.',
+    'Lo verá reflejado en la factura siguiente a que concluya su portabilidad.',
+    'El descuento es <b>por cuenta, NO por línea portada</b>.',
+    'Aplica 1 mes. A partir del mes 2 paga su plan a precio regular.',
+    'Aplica para Upsell.',
+    'Aplica para planes Micro 100, Elemental, Esencial, Dinámico, Emprendedor, Experto, Ejecutivo y Élite.',
+    '⚠️ Soluciones, Mesa de Control, Telemarketing y Confirmaciones <b>solo la promueven y canalizan</b>; la única área autorizada para modelarla es <b>Portabilidad</b>.'],
+  nocon:['Promociones nacionales, segmentadas, por región o proyectos especiales de Portabilidad.'] },
+
+{ cat:'posventa', n:2, tit:'Recomienda y gana',
+  gancho:'50% de descuento por recomendar', hero:'50% x 2 meses', heroSub:'para el cliente que recomienda',
+  quien:'La modela: Centro de Soluciones al enrolarse',
+  reglas:['Aplica para <b>todos</b> los planes Totalplay TV + Internet y Totalplay Internet (desde Micro 100 hasta Experto).',
+    'El cliente que recomienda recibe el beneficio <b>una vez que quede instalado</b> el servicio del recomendado.',
+    'El 50% aplica sobre la factura y será efectivo en el estado de cuenta posterior a la instalación del recomendado.',
+    '<b>Limitado a un descuento por cuenta.</b>','Aplica para Upsell.',
+    '⚠️ Antes de que el recomendado contrate, el cliente que recomienda <b>debe registrarlo</b> en la App Totalplay o el Centro de Soluciones.',
+    'No aplican las promociones si la venta se da de alta por un medio distinto a la App de Clientes.'],
+  nocon:['Promociones nacionales, segmentadas, por región o proyectos especiales de recomendados.'] },
+
+{ cat:'posventa', n:3, tit:'WiFi Pro Extra 50% x 12 meses',
+  gancho:'Mitad de precio en su segundo WiFi Pro, un año', hero:'50% x 12 meses', heroSub:'en el WiFi Pro adicional',
+  quien:'La modela manualmente el vendedor',
+  sis:['NEG- 50% WIFI ADICIONAL POR 12 MESES'],
+  recuerda:'Todos los planes Negocios ya incluyen sin costo un dispositivo WiFi Pro. Esta promoción aplica si el cliente quiere un 2º dispositivo.',
+  reglas:['El 50% por 12 meses aplica <b>desde el primer mes</b>.',
+    'Al terminar la promoción el cliente paga el costo del adicional a precio vigente.',
+    'Aplica en la contratación del <b>primer adicional con costo</b>.',
+    'Aplica para Upsell.','El cliente pierde las promociones si cae en morosidad, cancela o se cambia a un plan no elegible.'],
+  nocon:['Promociones nacionales, segmentadas, por región o proyectos especiales sobre el primer adicional de WiFi Pro.'] },
+
+{ cat:'posventa', n:4, tit:'Netflix con anuncios por 5 meses (posventa)',
+  gancho:'5 meses de Netflix para clientes que ya tienes', hero:'5 meses', heroSub:'de Netflix con anuncios · también para Upsell',
+  quien:'La modela: Vendedor, Mesa de Control, Telemarketing y Confirmaciones',
+  sis:['NEG- NETFLIX POR 5 MESES'],
+  tabla:{ cols:['Plan','Nacional','Frontera'], filas:[
+    ['Experto Netflix Ads','-$110','-$102'],['Emprendedor Netflix Ads','-$110','-$102'],
+    ['Dinámico Netflix Ads','-$110','-$102'],['Esencial Netflix Ads','-$110','-$102'],
+    ['Elemental TV Netflix Ads','-$110','-$102']] },
+  reglas:['Aplica para clientes <b>nuevos y existentes</b> de Totalplay Internet y TV + Internet.',
+    'Aplica para Esencial, Dinámico, Emprendedor y Experto Netflix Ads.',
+    'Aplica <b>solo para clientes nuevos</b> del plan Elemental TV Netflix Ads (Internet + TV).',
+    'No aplica para Bundle Netflix Estándar ni Premium, ni oferta Base.',
+    'El descuento va del mes 1 al mes 5, sobre la renta del plan.',
+    '⚠️ Si el cliente no llama para cancelar al terminar, <b>pagará el costo de Netflix ($110)</b>.',
+    '<b>Aplica para Upsell.</b>'],
+  nocon:['Pago anticipado 6 o 12 meses, promociones sobre el mismo adicional y proyectos especiales.',
+    'Descuento Totalamigo de hasta $150 por 5 meses.'] },
+
+{ cat:'posventa', n:5, tit:'Netflix con anuncios por 3 meses (posventa)',
+  gancho:'3 meses de Netflix para clientes que ya tienes', hero:'3 meses', heroSub:'de Netflix con anuncios · también para Upsell',
+  quien:'La modela: Vendedor, Mesa de Control, Telemarketing y Confirmaciones',
+  sis:['NEG- NETFLIX POR 3 MESES'],
+  tabla:{ cols:['Plan','Nacional','Frontera'], filas:[['Elemental Netflix Ads','-$110','-$102']] },
+  reglas:['Aplica <b>solo</b> para clientes nuevos y existentes del plan Elemental Netflix Ads (Totalplay Internet).',
+    'No aplica para Bundle Netflix Estándar ni Premium, ni oferta Base.',
+    'El descuento va del mes 1 al mes 3. En el mes 4 regresa al precio del plan.',
+    'El cliente puede elegir el descuento especial <b>o</b> Netflix Ads x 3 meses.',
+    '⚠️ Si el cliente no llama para cancelar al terminar, <b>pagará el costo de Netflix ($110)</b>.',
+    '<b>Aplica para Upsell.</b>'],
+  nocon:['Pago anticipado 6 o 12 meses, promociones sobre el mismo adicional y proyectos especiales.',
+    'Descuento Totalamigo de hasta $150 por 5 meses.'] },
+
+{ cat:'posventa', n:6, tit:'HBO Max incluido (posventa)',
+  gancho:'HBO Max para clientes que ya tienes', hero:'HBO Max', heroSub:'Estándar, con anuncios, o 1 mes + 50% x 3',
+  quien:'La modela: Vendedor, Mesa de Control, Telemarketing y Confirmaciones',
+  sis:['NEG- HBO MAX ESTÁNDAR INCLUIDO','NEG – HBO MAX CON ANUNCIOS INCLUIDO','NEG- HBO MAX 1 MES INCLUIDO + 50% POR 3 MESES'],
+  reglas:['Aplica para clientes nuevos y existentes de Totalplay Internet y TV + Internet.',
+    'Aplica <b>solo para clientes nuevos</b> de 1,000 a 10,000 megas.',
+    'En el plan de 1,000 megas la licencia es con anuncios.',
+    'En la promoción <b>NEG- HBO MAX 1 MES INCLUIDO + 50% POR 3 MESES</b> la licencia es <b>PREMIUM</b>.',
+    'Para más información revisa el comunicado "NUEVA OFERTA V1".'],
+  nocon:['Pago anticipado 6 o 12 meses, promociones sobre el mismo adicional y proyectos especiales.'] },
+
+{ cat:'posventa', n:7, tit:'VIX Premium por 2 meses (posventa)',
+  gancho:'2 meses de VIX para clientes que ya tienes', hero:'2 meses', heroSub:'de VIX Premium sin costo · clientes existentes',
+  quien:'La modela: Vendedor, Centro de Soluciones, Mesa de Control, Telemarketing y Confirmaciones',
+  sis:['NEG- VIX INCLUIDO POR 2 MESES'],
+  reglas:['Aplica a partir de <b>150 megas</b>.',
+    'Aplica para planes con Bundle (Netflix Ads, Netflix Estándar, Netflix Premium, VSB, Amazon, Disney y HBO Max con anuncios).',
+    'Revisa el comunicado <b>NEG LO MÁS ESPERADO</b>.',
+    'Al terminar la promoción el cliente paga el precio del adicional.',
+    'Pierde la promoción si cae en morosidad.'] },
+
+{ cat:'posventa', n:8, tit:'Disney+ incluido (posventa)',
+  gancho:'Disney+ para clientes que ya tienes', hero:'Disney+', heroSub:'incluido para clientes nuevos',
+  quien:'La modela: Vendedor, Centro de Soluciones, Mesa de Control, Telemarketing y Confirmaciones',
+  sis:['NEG- DISNEY ESTANDAR INCLUIDO'],
+  reglas:['Aplica para clientes nuevos y existentes de Totalplay Internet y TV + Internet.',
+    'Aplica <b>solo para clientes nuevos</b> de 1,000 a 10,000 megas.',
+    'En el plan de 1,000 megas la licencia es con anuncios.',
+    'Para más información revisa el comunicado "NUEVA OFERTA V1".'],
+  nocon:['Pago anticipado 6 o 12 meses, promociones sobre el mismo adicional y proyectos especiales.'] },
+
+{ cat:'posventa', n:9, tit:'Universal+ incluido (posventa)',
+  gancho:'Universal+ para clientes que ya tienes', hero:'Universal+', heroSub:'incluido para clientes nuevos',
+  quien:'La modela: Vendedor, Centro de Soluciones, Mesa de Control, Telemarketing y Confirmaciones',
+  sis:['NEG- UNIVERSAL+ 1 MES INCLUIDO'],
+  reglas:['Aplica para clientes nuevos y existentes de Totalplay Internet y TV + Internet.',
+    'Aplica <b>solo para clientes nuevos</b> de 1,000 a 10,000 megas.',
+    'En el plan de 1,000 megas la licencia es con anuncios.',
+    'Para más información revisa el comunicado "NUEVA OFERTA V1".'],
+  nocon:['Pago anticipado 6 o 12 meses, promociones sobre el mismo adicional y proyectos especiales.'],
+  ojo:'En el comunicado esta lámina trae también el código "NEG- DISNEY ESTANDAR INCLUIDO". Confírmalo con tu jefe antes de modelarlo.' },
+
+{ cat:'posventa', n:10, tit:'Apple TV incluido (posventa)',
+  gancho:'Apple TV por 5 o 3 meses, según el plan', hero:'Apple TV', heroSub:'5 meses · 3 meses · o incluido de por vida',
+  quien:'La modela: Vendedor, Centro de Soluciones, Mesa de Control, Telemarketing y Confirmaciones',
+  sis:['MÁS APPS - APPLE TV 3 MESES','MÁS APPS - APPLE TV 5 MESES','MÁS APPS - APPLE TV INCLUIDO'],
+  tabla:{ cols:['Plan','TV + Internet','Solo Internet'], filas:[
+    ['150 megas','5 meses','3 meses'],['250 megas','5 meses','3 meses'],
+    ['350 a 10,000 megas','Ya incluido','Ya incluido']] },
+  reglas:['Aplica para planes Elemental, Esencial, Dinámico, Emprendedor, Experto, Ejecutivo y Élite.',
+    'Aplica para planes con Bundle (Netflix Ads, Netflix Estándar, Netflix Premium, VSB, Amazon, Disney y HBO Max con anuncios).',
+    '<b>Ya viene cargada en automático.</b>',
+    'Al terminar la promoción el cliente paga el precio del adicional.',
+    'Pierde la promoción si cae en morosidad.',
+    'Revisa el comunicado NEG NUEVA OFERTA para más información.'] },
+
+/* ══════════ INTERNET ══════════ */
+{ cat:'internet', n:1, tit:'1ª TV adicional por $99',
+  gancho:'Su primera TV extra a $99 para siempre', hero:'$99 al mes', heroSub:'PERMANENTE · solo la 1ª TV adicional',
+  quien:'La modela manualmente el vendedor',
+  sis:['NEG- TV ADICIONAL PRECIO ESPECIAL'],
+  recuerda:'La primera TV adicional cuesta $99 al mes. La segunda TV adicional se cobra a precio regular. Esta promoción es PERMANENTE.',
+  reglas:['Aplica para <b>clientes nuevos</b>.','Aplica para planes Micro 100 a Élite.',
+    'El precio con descuento es <b>PERMANENTE</b> de manera mensual.',
+    'Aplica <b>solo en la primera TV adicional</b>; la segunda se cobra normal.'],
+  nocon:['Otras promociones sobre TV adicional.'] },
+
+{ cat:'internet', n:2, tit:'WiFi Pro 1 mes sin costo',
+  gancho:'Su primer mes de WiFi Pro extra, gratis', hero:'1 mes', heroSub:'sin costo en el WiFi Pro adicional',
+  quien:'La modela manualmente el vendedor',
+  sis:['NEG- WIFI PRO EXTRA 1ER MES SIN COSTO'],
+  reglas:['El mes sin costo aplica <b>desde el primer mes</b>.',
+    'Al terminar la promoción el cliente paga el costo del adicional a precio vigente.',
+    'Los planes Negocios ya incluyen sin costo un WiFi Pro Extra, por lo que esta promoción aplica en la contratación del <b>primer adicional con costo</b>.',
+    'Aplica para <b>clientes nuevos</b>.',
+    'El cliente pierde las promociones si cae en morosidad, cancela o se cambia a un plan no elegible.'],
+  nocon:['Promociones nacionales, segmentadas, por región o proyectos especiales sobre el primer adicional de WiFi Pro.'] },
+
+/* ══════════ CONTENIDO Y TV ══════════ */
+{ cat:'contenido', n:1, tit:'HOTGO 50% x 3 meses',
+  gancho:'Mitad de precio en HOTGO los primeros 3 meses', hero:'50% x 3 meses', heroSub:'en el adicional HOTGO',
+  quien:'La modela: Vendedor, Centro de Soluciones, Mesa de Control, Telemarketing y Confirmaciones',
+  sis:['NEG- HOTGO'],
+  reglas:['Aplica para <b>todos</b> los planes Micro 100, Elemental, Esencial, Dinámico, Emprendedor, Experto, Ejecutivo y Élite.',
+    'El descuento va los primeros 3 meses. A partir del mes 4 paga precio regular del adicional.',
+    'Aplica a planes con Bundle de contenido, apps o entretenimiento.',
+    'Aplica para clientes <b>nuevos y existentes</b>.',
+    'El cliente pierde las promociones si cae en morosidad o cancela.'],
+  nocon:['Promociones nacionales, segmentadas, por región o proyectos especiales del Administrador de Restaurantes.'] },
+
+{ cat:'contenido', n:2, tit:'Stingray Qello 50% x 2 meses',
+  gancho:'Mitad de precio en Stingray Qello 2 meses', hero:'50% x 2 meses', heroSub:'en el adicional Stingray Qello',
+  quien:'La modela: Vendedor, Centro de Soluciones, Mesa de Control, Telemarketing y Confirmaciones',
+  sis:['NEG- STINGRAY QELLO 50% POR 2 MESES'],
+  reglas:['Aplica para <b>todos</b> los planes Internet y TV + Internet v9.',
+    'La promoción es por 2 meses.','Aplica para todas las familias de Totalplay Negocios.',
+    'Aplica para <b>clientes nuevos</b>.',
+    'Al terminar la promoción el cliente paga el precio del adicional.',
+    'Pierde la promoción si cae en morosidad.'] }
+];
+
+/* Canales de apoyo (del mismo comunicado) */
+const CANALES_APOYO = [
+  { ic:'💬', nom:'Chat', tiempo:'30 segundos', dato:'asesorvirtual.com.mx' },
+  { ic:'📞', nom:'Teléfono y WhatsApp', tiempo:'60 segundos', dato:'55 53 50 87 01' },
+  { ic:'✉️', nom:'Correo', tiempo:'40 minutos', dato:'ayuda@asesorvirtual.com.mx' }
+];
+
+const COM_OFERTAS = {"base": {"n": "Oferta base", "p": [["MICRO 100 TV", 100, 1, 510, 175, 417, null, null, null], ["ELEMENTAL TV", 150, 1, 620, 237, 545, 750, 287, 660], ["ESENCIAL TV", 250, 1, 730, 457, 914, 860, 538, 1077], ["DINAMICO TV", 350, 1, 850, 660, 1408, 980, 761, 1623], ["EMPRENDEDOR TV", 500, 1, 1030, 865, 1813, 1160, 974, 2042], ["EXPERTO TV", 1000, 1, 1680, 1150, 3150, 1810, 1239, 3394], ["EJECUTIVO TV", 5000, 1, 2649, 1650, 4650, null, null, null], ["ELITE TV", 10000, 1, 3159, 2050, 5650, null, null, null], ["MICRO 100", 100, 0, 410, 100, 200, null, null, null], ["ELEMENTAL", 150, 0, 480, 134, 327, null, null, null], ["ESENCIAL", 250, 0, 590, 250, 533, null, null, null], ["DINAMICO", 350, 0, 710, 400, 886, null, null, null], ["EMPRENDEDOR", 500, 0, 860, 550, 1408, null, null, null], ["EXPERTO", 1000, 0, 1510, 950, 2350, null, null, null], ["EJECUTIVO", 5000, 0, 2149, 1150, 3050, null, null, null], ["ELITE", 10000, 0, 2659, 1550, 3850, null, null, null]]}, "amazon": {"n": "Amazon", "p": [["MICRO 100 TV", 100, 1, 600, 206, 491, null, null, null], ["ELEMENTAL TV", 150, 1, 710, 272, 625, 840, 322, 739], ["ESENCIAL TV", 250, 1, 820, 513, 1027, 950, 595, 1189], ["DINAMICO TV", 350, 1, 940, 730, 1557, 1070, 831, 1772], ["EMPRENDEDOR TV", 500, 1, 1120, 941, 1971, 1250, 1050, 2200], ["EXPERTO TV", 1000, 1, 1770, 1212, 3319, 1900, 1301, 3562], ["EJECUTIVO TV", 5000, 1, 2739, 1706, 4808, null, null, null], ["ELITE TV", 10000, 1, 3249, 2108, 5811, null, null, null], ["MICRO 100", 100, 0, 500, 122, 244, null, null, null], ["ELEMENTAL", 150, 0, 570, 160, 389, null, null, null], ["ESENCIAL", 250, 0, 680, 288, 614, null, null, null], ["DINAMICO", 350, 0, 800, 451, 998, null, null, null], ["EMPRENDEDOR", 500, 0, 950, 608, 1555, null, null, null], ["EXPERTO", 1000, 0, 1600, 1007, 2490, null, null, null], ["EJECUTIVO", 5000, 0, 2239, 1198, 3178, null, null, null], ["ELITE", 10000, 0, 2749, 1602, 3980, null, null, null]]}, "nfads": {"n": "Netflix con anuncios", "p": [["MICRO 100 TV", 100, 1, 620, 150, 263, null, null, null], ["ELEMENTAL TV", 150, 1, 730, 275, 592, 860, 315, 679], ["ESENCIAL TV", 250, 1, 840, 487, 944, 970, 562, 1090], ["DINAMICO TV", 350, 1, 960, 689, 1438, 1090, 782, 1633], ["EMPRENDEDOR TV", 500, 1, 1140, 895, 1843, 1270, 997, 2053], ["EXPERTO TV", 1000, 1, 1680, 1107, 2985, 1920, 1265, 3411], ["EJECUTIVO TV", 5000, 1, 2649, 1613, 4493, null, null, null], ["ELITE TV", 10000, 1, 3159, 2010, 5489, null, null, null], ["MICRO 100", 100, 0, 520, 90, 150, null, null, null], ["ELEMENTAL", 150, 0, 590, 178, 360, null, null, null], ["ESENCIAL", 250, 0, 700, 280, 560, null, null, null], ["DINAMICO", 350, 0, 820, 430, 914, null, null, null], ["EMPRENDEDOR", 500, 0, 970, 580, 1438, null, null, null], ["EXPERTO", 1000, 0, 1510, 913, 2218, null, null, null], ["EJECUTIVO", 5000, 0, 2149, 1123, 2930, null, null, null], ["ELITE", 10000, 0, 2659, 1517, 3726, null, null, null]]}, "nfstd": {"n": "Netflix Estándar", "p": [["MICRO 100 TV", 100, 1, 739, 190, 304, null, null, null], ["ELEMENTAL TV", 150, 1, 849, 320, 631, 979, 361, 711], ["ESENCIAL TV", 250, 1, 959, 526, 983, 1089, 597, 1116], ["DINAMICO TV", 350, 1, 1079, 729, 1478, 1209, 817, 1656], ["EMPRENDEDOR TV", 500, 1, 1259, 934, 1883, 1389, 1030, 2077], ["EXPERTO TV", 1000, 1, 1909, 1220, 3220, 2039, 1303, 3439], ["EJECUTIVO TV", 5000, 1, 2878, 1894, 5197, null, null, null], ["ELITE TV", 10000, 1, 3388, 2421, 6532, null, null, null], ["MICRO 100", 100, 0, 639, 130, 190, null, null, null], ["ELEMENTAL", 150, 0, 709, 224, 391, null, null, null], ["ESENCIAL", 250, 0, 819, 320, 597, null, null, null], ["DINAMICO", 350, 0, 939, 470, 952, null, null, null], ["EMPRENDEDOR", 500, 0, 1089, 620, 1478, null, null, null], ["EXPERTO", 1000, 0, 1739, 1020, 2420, null, null, null], ["EJECUTIVO", 5000, 0, 2378, 1369, 3502, null, null, null], ["ELITE", 10000, 0, 2888, 1890, 4573, null, null, null]]}, "nfprem": {"n": "Netflix Premium", "p": [["MICRO 100 TV", 100, 1, 809, 210, 324, null, null, null], ["ELEMENTAL TV", 150, 1, 919, 340, 650, 1049, 380, 726], ["ESENCIAL TV", 250, 1, 1029, 546, 1003, 1159, 615, 1130], ["DINAMICO TV", 350, 1, 1149, 748, 1498, 1279, 833, 1667], ["EMPRENDEDOR TV", 500, 1, 1329, 954, 1903, 1459, 1047, 2089], ["EXPERTO TV", 1000, 1, 1979, 1240, 3240, 2109, 1321, 3453], ["EJECUTIVO TV", 5000, 1, 2948, 1912, 5208, null, null, null], ["ELITE TV", 10000, 1, 3458, 2438, 6538, null, null, null], ["MICRO 100", 100, 0, 709, 150, 210, null, null, null], ["ELEMENTAL", 150, 0, 779, 240, 408, null, null, null], ["ESENCIAL", 250, 0, 889, 340, 616, null, null, null], ["DINAMICO", 350, 0, 1009, 490, 971, null, null, null], ["EMPRENDEDOR", 500, 0, 1159, 640, 1498, null, null, null], ["EXPERTO", 1000, 0, 1809, 1040, 2440, null, null, null], ["EJECUTIVO", 5000, 0, 2448, 1387, 3513, null, null, null], ["ELITE", 10000, 0, 2958, 1907, 4581, null, null, null]]}, "hbo": {"n": "HBO Max con anuncios", "p": [["MICRO 100 TV", 100, 1, 659, 211, 476, null, null, null], ["ELEMENTAL TV", 150, 1, 769, 247, 555, 899, 288, 649], ["ESENCIAL TV", 250, 1, 879, 450, 860, 1009, 517, 987], ["DINAMICO TV", 350, 1, 999, 660, 1381, 1129, 746, 1561], ["EMPRENDEDOR TV", 500, 1, 1179, 811, 1684, 1309, 901, 1870], ["EXPERTO TV", 1000, 1, 1829, 1063, 3006, 1959, 1139, 3219], ["EJECUTIVO TV", 5000, 1, 2798, 1627, 4692, null, null, null], ["ELITE TV", 10000, 1, 3308, 1934, 5611, null, null, null], ["MICRO 100", 100, 0, 559, 129, 266, null, null, null], ["ELEMENTAL", 150, 0, 629, 145, 300, null, null, null], ["ESENCIAL", 250, 0, 739, 247, 452, null, null, null], ["DINAMICO", 350, 0, 859, 404, 715, null, null, null], ["EMPRENDEDOR", 500, 0, 1009, 557, 1381, null, null, null], ["EXPERTO", 1000, 0, 1659, 861, 2193, null, null, null], ["EJECUTIVO", 5000, 0, 2298, 1113, 3038, null, null, null], ["ELITE", 10000, 0, 2808, 1421, 3754, null, null, null]]}, "disney": {"n": "Disney+ con anuncios", "p": [["MICRO 100 TV", 100, 1, 659, 205, 450, null, null, null], ["ELEMENTAL TV", 150, 1, 769, 271, 588, 899, 317, 688], ["ESENCIAL TV", 250, 1, 869, 491, 949, 1009, 570, 1102], ["DINAMICO TV", 350, 1, 989, 693, 1441, 1129, 791, 1645], ["EMPRENDEDOR TV", 500, 1, 1169, 900, 1847, 1309, 1008, 2068], ["EXPERTO TV", 1000, 1, 1819, 1185, 3183, 1959, 1276, 3428], ["EJECUTIVO TV", 5000, 1, 2788, 1683, 4682, null, null, null], ["ELITE TV", 10000, 1, 3298, 2084, 5682, null, null, null], ["MICRO 100", 100, 0, 559, 136, 241, null, null, null], ["ELEMENTAL", 150, 0, 629, 176, 382, null, null, null], ["ESENCIAL", 250, 0, 739, 288, 573, null, null, null], ["DINAMICO", 350, 0, 859, 434, 927, null, null, null], ["EMPRENDEDOR", 500, 0, 1009, 583, 1441, null, null, null], ["EXPERTO", 1000, 0, 1659, 986, 2384, null, null, null], ["EJECUTIVO", 5000, 0, 2298, 1185, 3083, null, null, null], ["ELITE", 10000, 0, 2808, 1586, 3883, null, null, null]]}};
+const COM_ADICIONALES = [["1er TV Adicional", 129, 111, "Contenido y equipo"], ["2da en adelante TV Adicional", 129, 111, "Contenido y equipo"], ["VSB", 280, 241, "Contenido y equipo"], ["Wifi Extender", 89, 77, "Contenido y equipo"], ["Disney+ Standard con Anuncios", 139, 120, "Contenido y equipo"], ["Disney Estándar", 249, 215, "Contenido y equipo"], ["Disney Premium", 319, 275, "Contenido y equipo"], ["Apple TV", 139, 120, "Contenido y equipo"], ["Fox Premium", 149, 128, "Contenido y equipo"], ["HBO Max", 239, 206, "Contenido y equipo"], ["HBO Max con anuncios", 149, 128, "Contenido y equipo"], ["HotGo / Full Pack", 169, 146, "Contenido y equipo"], ["Paramount +", 149, 128, "Contenido y equipo"], ["Qello", 95, 82, "Contenido y equipo"], ["Stingray Karaoke", 95, 82, "Contenido y equipo"], ["Universal +", 179, 154, "Contenido y equipo"], ["PICARDIA NACIONAL", 70, 60, "Contenido y equipo"], ["NBA", 210, 181, "Contenido y equipo"], ["VIX", 149, 128, "Contenido y equipo"], ["Entretenimiento Intermedio 3P", 199, 172, "Paquetes de apps"], ["Entretenimiento Avanzado 3P", 499, 430, "Paquetes de apps"], ["Addon 2 Apps Básicas", 199, 172, "Paquetes de apps"], ["Addon 2 Apps Standard", 399, 344, "Paquetes de apps"], ["Addon 3 Apps Standard", 599, 516, "Paquetes de apps"], ["Addon 5 Apps Standard", 799, 689, "Paquetes de apps"], ["2 LINEAS TELEFONICAS ADICIONALES", 350, 302, "Soluciones de negocio"], ["Stingray Classica", 105, 91, "Soluciones de negocio"], ["Amazon", 99, 85, "Soluciones de negocio"], ["Protección virtual", 250, 216, "Soluciones de negocio"], ["Administrador del negocio", 250, 216, "Soluciones de negocio"], ["Microsoft 365", 250, 216, "Soluciones de negocio"], ["Google Workspace", 250, 216, "Soluciones de negocio"], ["Pagina Web_Tienda en linea", 200, 172, "Soluciones de negocio"], ["Ecommerce", 600, 517, "Soluciones de negocio"], ["Administrador del restaurante", 250, 216, "Soluciones de negocio"], ["Creador Digital", 160, 138, "Soluciones de negocio"], ["TV Avanzada", 229, 197, "TV y velocidad"], ["TV Premium", 449, 387, "TV y velocidad"], ["TV Extranejros / TV USA", 140, 121, "TV y velocidad"], ["Golden Premier", 45, 39, "TV y velocidad"], ["Simetría Elemental (80 Megas)", 250, 216, "TV y velocidad"], ["Simetría Esencial (200 Megas)", 250, 216, "TV y velocidad"], ["Simetría Dinámico (300 Megas)", 500, 431, "TV y velocidad"], ["Simetría Emprendedor  (500 Megas)", 500, 431, "TV y velocidad"], ["Simetría Profesional (800 Megas)", 500, 431, "TV y velocidad"], ["Simetría Experto (1000 Megas)", 500, 431, "TV y velocidad"]];
+
+
+/* ============================================================
+   CONSECUTIVO DE PROMOCIONES
+   ============================================================ */
+let catAbierta = null;
+
+function pintarConsecutivo(){
+  const cajaCats = document.getElementById('consecutivoCats');
+  if(!cajaCats) return;
+
+  let html = '<div class="cat-grid">';
+  PROMO_CATS.forEach(function(c){
+    const cuantas = PROMOS.filter(p => p.cat === c.id).length;
+    html += `<button class="cat-card" data-cat="${c.id}" style="background:${c.col}">
+      <span class="ic">${c.ic}</span>
+      <div class="t">${c.nom}</div>
+      <div class="n">${cuantas} ${cuantas===1?'promoción':'promociones'}</div>
+    </button>`;
+  });
+  html += '</div>';
+  cajaCats.innerHTML = html;
+
+  cajaCats.querySelectorAll('.cat-card').forEach(function(b){
+    b.addEventListener('click', function(){
+      catAbierta = (catAbierta === b.dataset.cat) ? null : b.dataset.cat;
+      pintarPromos();
+      if(catAbierta){
+        setTimeout(function(){
+          const l = document.getElementById('consecutivoLista');
+          if(l) window.scrollTo({top: l.offsetTop - 70, behavior:'smooth'});
+        }, 60);
+      }
+    });
+  });
+  pintarPromos();
+}
+
+function pintarPromos(){
+  const caja = document.getElementById('consecutivoLista');
+  if(!caja) return;
+
+  if(!catAbierta){
+    caja.innerHTML = `<div class="eq-vacio" style="margin-top:16px;">
+      👆 Toca un tipo de promoción para ver el detalle de cada una.</div>
+      ${bloqueCanales()}`;
+    return;
+  }
+
+  const cat = PROMO_CATS.find(c => c.id === catAbierta);
+  const lista = PROMOS.filter(p => p.cat === catAbierta);
+
+  let html = `<div class="paso-t" style="margin-top:22px;">
+    <span class="bolita">${cat.ic}</span> ${cat.nom}</div>`;
+
+  lista.forEach(function(p, i){
+    html += `<div class="promo-card" data-i="${i}">
+      <div class="promo-head">
+        <div class="promo-num">${p.n}</div>
+        <div class="promo-tit"><div class="n">${p.tit}</div><div class="g">${p.gancho}</div></div>
+        <div class="chev">+</div>
+      </div>
+      <div class="promo-body"><div class="promo-inner">
+        <div class="promo-hero">
+          <div class="big">${p.hero}</div>
+          <div class="sm">${p.heroSub}</div>
+        </div>
+        <div class="quien">👤 ${p.quien}</div>
+        ${p.recuerda ? `<div class="brujula" style="margin-bottom:12px;"><b>💡 Recuerda:</b> ${p.recuerda}</div>` : ''}
+        ${p.beneficio ? `<div class="brujula" style="margin-bottom:12px;"><b>🎁 ¿Qué se lleva?</b> ${p.beneficio}</div>` : ''}
+        ${p.pitch ? `<div class="regla-t">🗣️ Ofrécelo así</div>
+          <div style="background:#fff6e5;border-radius:11px;padding:12px 14px;font-size:13px;
+               color:#7a5600;font-style:italic;line-height:1.55;">"${p.pitch}"</div>` : ''}
+        ${p.tabla ? tablaPromo(p.tabla) : ''}
+        <div class="regla-t">📋 Reglas de negocio</div>
+        <ul>${p.reglas.map(r => `<li>${r}</li>`).join('')}</ul>
+        ${p.nocon ? `<div class="nocon"><div class="tt">🚫 No convive con</div>
+          <ul>${p.nocon.map(r => `<li>${r}</li>`).join('')}</ul></div>` : ''}
+        ${p.sis ? `<div class="model-box"><div class="model-label">Nombre de la promoción en el sistema</div>
+          <div class="codes">${p.sis.map(s => `<span class="code-chip">${s}</span>`).join('')}</div></div>` : ''}
+        ${p.ojo ? `<div class="flag">⚠️ ${p.ojo}</div>` : ''}
+      </div></div>
+    </div>`;
+  });
+
+  caja.innerHTML = html + bloqueCanales();
+
+  caja.querySelectorAll('.promo-head').forEach(function(h){
+    h.addEventListener('click', function(){ h.parentElement.classList.toggle('open'); });
+  });
+}
+
+function tablaPromo(t){
+  let h = '<table class="promo-tabla"><thead><tr>';
+  t.cols.forEach(c => h += `<th>${c}</th>`);
+  h += '</tr></thead><tbody>';
+  t.filas.forEach(function(f){
+    h += '<tr>';
+    f.forEach(function(v, i){
+      const esMonto = i > 0 && /^-?\$/.test(String(v));
+      h += `<td class="${esMonto ? 'mto' : ''}">${v}</td>`;
+    });
+    h += '</tr>';
+  });
+  return h + '</tbody></table>';
+}
+
+function bloqueCanales(){
+  let h = `<div class="paso-t" style="margin-top:30px;"><span class="bolita">📞</span>
+    ¿Dudas de las soluciones? Aquí te apoyan</div>`;
+  CANALES_APOYO.forEach(function(c){
+    h += `<div class="ad-item"><div class="nm">${c.ic} ${c.nom}<div class="pr" style="margin-top:3px;">${c.dato}</div></div>
+      <div class="cm" style="font-size:13px;">${c.tiempo}</div></div>`;
+  });
+  return h;
+}
+
+/* ============================================================
+   COMISIONES — selector de 3 pasos
+   ============================================================ */
+const COM_TIPOS = [
+  { id:'tv',  ic:'📺', t:'Con TV',  s:'Totalplay TV + Internet' },
+  { id:'sin', ic:'🌐', t:'Sin TV',  s:'Solo Internet' },
+  { id:'vsb', ic:'🔊', t:'Con VSB', s:'Bundle con bocina' }
+];
+let comOferta = null, comTipo = null, comPlan = null;
+
+function pintarComisiones(){
+  const caja = document.getElementById('comOfertas');
+  if(!caja) return;
+  const ICS = { base:'📦', amazon:'📦', nfads:'🎬', nfstd:'🎬', nfprem:'🎬', hbo:'🎭', disney:'🏰' };
+  let html = '';
+  Object.keys(COM_OFERTAS).forEach(function(k){
+    html += `<button class="op-btn ${comOferta===k?'on':''}" data-of="${k}">
+      <span class="ic">${ICS[k]||'📦'}</span><div class="t">${COM_OFERTAS[k].n}</div></button>`;
+  });
+  caja.innerHTML = html;
+  caja.querySelectorAll('.op-btn').forEach(function(b){
+    b.addEventListener('click', function(){
+      comOferta = b.dataset.of; comTipo = null; comPlan = null;
+      pintarComisiones();
+    });
+  });
+
+  // paso 2
+  const p2 = document.getElementById('comPaso2');
+  p2.style.display = comOferta ? 'block' : 'none';
+  if(comOferta){
+    const planes = COM_OFERTAS[comOferta].p;
+    const hayVsb = planes.some(p => p[6]);
+    let h2 = '';
+    COM_TIPOS.forEach(function(t){
+      if(t.id === 'vsb' && !hayVsb) return;
+      h2 += `<button class="op-btn ${comTipo===t.id?'on':''}" data-tp="${t.id}">
+        <span class="ic">${t.ic}</span><div class="t">${t.t}</div><div class="s">${t.s}</div></button>`;
+    });
+    document.getElementById('comTipos').innerHTML = h2;
+    document.getElementById('comTipos').querySelectorAll('.op-btn').forEach(function(b){
+      b.addEventListener('click', function(){
+        comTipo = b.dataset.tp; comPlan = null; pintarComisiones();
+      });
+    });
+  }
+
+  // paso 3
+  const p3 = document.getElementById('comPaso3');
+  p3.style.display = (comOferta && comTipo) ? 'block' : 'none';
+  if(comOferta && comTipo){
+    const filtrados = filtrarPlanes();
+    let h3 = '';
+    filtrados.forEach(function(p, i){
+      const megas = p[1] >= 1000 ? (p[1]/1000) + ',000' : p[1];
+      h3 += `<button class="op-btn ${comPlan===i?'on':''}" data-pl="${i}">
+        <div class="t">${megas}</div><div class="s">${nombreCorto(p[0])}</div></button>`;
+    });
+    document.getElementById('comPlanes').innerHTML = h3;
+    document.getElementById('comPlanes').querySelectorAll('.op-btn').forEach(function(b){
+      b.addEventListener('click', function(){
+        comPlan = parseInt(b.dataset.pl, 10); pintarComisiones();
+      });
+    });
+  }
+
+  pintarResultadoComision();
+}
+
+function nombreCorto(n){
+  return String(n).replace(/ (TV|VSB)$/,'').replace('MICRO 100','Micro 100')
+    .replace(/^([A-ZÁÉÍÓÚ])([A-ZÁÉÍÓÚ]+)/, function(m,a,b){ return a + b.toLowerCase(); });
+}
+function filtrarPlanes(){
+  const planes = COM_OFERTAS[comOferta].p;
+  if(comTipo === 'tv')  return planes.filter(p => p[2] === 1);
+  if(comTipo === 'sin') return planes.filter(p => p[2] === 0);
+  return planes.filter(p => p[6]);   // vsb
+}
+
+function pintarResultadoComision(){
+  const caja = document.getElementById('comResultado');
+  if(!caja) return;
+  if(comPlan === null || !comOferta || !comTipo){ caja.innerHTML = ''; return; }
+
+  const p = filtrarPlanes()[comPlan];
+  if(!p){ caja.innerHTML = ''; return; }
+
+  const esVsb = (comTipo === 'vsb');
+  const precio = esVsb ? p[6] : p[3];
+  const c3 = esVsb ? p[7] : p[4];
+  const c4 = esVsb ? p[8] : p[5];
+  const megas = p[1] >= 1000 ? (p[1]/1000) + ',000' : p[1];
+  const tipoNom = COM_TIPOS.find(t => t.id === comTipo).t;
+  const dif = (c4 && c3) ? c4 - c3 : 0;
+
+  caja.innerHTML = `<div class="com-res">
+    <div class="plan">${nombreCorto(p[0])} · ${megas} megas</div>
+    <div class="sub">${COM_OFERTAS[comOferta].n} · ${tipoNom}</div>
+    <div class="com-pack">
+      <div class="com-box">
+        <div class="et">Tus primeras<br>3 ventas del mes</div>
+        <div class="vl">$${(c3||0).toLocaleString('es-MX')}</div>
+      </div>
+      <div class="com-box destaca">
+        <div class="et">De la 4ª venta<br>en adelante</div>
+        <div class="vl">$${(c4||0).toLocaleString('es-MX')}</div>
+      </div>
+    </div>
+    ${dif > 0 ? `<div style="text-align:center;margin-top:12px;font-size:12.5px;color:#c6ff5c;font-weight:700;">
+      🚀 Cada venta a partir de la 4ª te da $${dif.toLocaleString('es-MX')} más</div>` : ''}
+    <div class="com-precio"><span>Precio del plan (pronto pago con IVA)</span><b>$${(precio||0).toLocaleString('es-MX')}</b></div>
+  </div>`;
+}
+
+/* -------- adicionales con buscador -------- */
+function pintarAdicionales(){
+  const caja = document.getElementById('adLista');
+  if(!caja) return;
+  const q = (document.getElementById('adBuscar').value || '').trim().toLowerCase();
+  const grupos = {};
+  COM_ADICIONALES.forEach(function(a){
+    if(q && a[0].toLowerCase().indexOf(q) === -1) return;
+    (grupos[a[3]] = grupos[a[3]] || []).push(a);
+  });
+  const claves = Object.keys(grupos);
+  if(!claves.length){
+    caja.innerHTML = '<div class="eq-vacio">No encontramos ese adicional. Prueba con otra palabra.</div>';
+    return;
+  }
+  let html = '';
+  claves.forEach(function(g){
+    html += `<div class="ad-grupo">${g}</div>`;
+    grupos[g].forEach(function(a){
+      html += `<div class="ad-item">
+        <div class="nm">${a[0]}<div class="pr">Precio: $${a[1].toLocaleString('es-MX')}</div></div>
+        <div class="cm">$${(a[2]||0).toLocaleString('es-MX')}</div>
+      </div>`;
+    });
+  });
+  caja.innerHTML = html;
+}
+
+/* ============================================================
+   CONEXIÓN CON EL BUZÓN (Google Apps Script)
+   ------------------------------------------------------------
+   Sirve para dos cosas:
+   1. Anotar quién entra a la app (bitácora)
+   2. Guardar y leer las vigencias que cambia el administrador,
+      para que apliquen a toda la fuerza de ventas y no solo
+      en el celular de quien las cambió.
+
+   Se usa JSONP (etiqueta <script>) igual que con la plantilla,
+   porque fetch() se bloquea por CORS desde GitHub Pages.
+   ============================================================ */
+const BUZON_URL = 'https://script.google.com/macros/s/AKfycbydH32jULaNcyBJkYCdq62bpWs5jT3EfIY0CdQ42DOr_a3F5P3004g4LMIbj7Fnz1yRhg/exec';
+const CONFIG_CACHE_KEY = 'tp_neg_config_v1';
+let ultimoErrorBuzon = null;
+
+function llamarBuzon(params, alTerminar, alFallar){
+  const nombreFn = 'cbBuzon_' + Date.now() + '_' + Math.floor(Math.random()*10000);
+  const s = document.createElement('script');
+  let listo = false;
+
+  const limpiar = function(){
+    try{ delete window[nombreFn]; }catch(e){ window[nombreFn] = undefined; }
+    if(s.parentNode) s.parentNode.removeChild(s);
+  };
+
+  window[nombreFn] = function(resp){
+    listo = true; limpiar();
+    if(alTerminar) alTerminar(resp);
+  };
+
+  const partes = [];
+  Object.keys(params).forEach(function(k){
+    partes.push(encodeURIComponent(k) + '=' + encodeURIComponent(params[k]));
+  });
+  partes.push('callback=' + nombreFn);
+
+  s.src = BUZON_URL + '?' + partes.join('&');
+  s.onerror = function(){
+    if(listo) return;
+    listo = true; limpiar();
+    ultimoErrorBuzon = 'El buzón no contestó';
+    if(alFallar) alFallar('sin respuesta');
+  };
+  document.body.appendChild(s);
+
+  setTimeout(function(){
+    if(listo) return;
+    listo = true; limpiar();
+    ultimoErrorBuzon = 'El buzón tardó demasiado';
+    if(alFallar) alFallar('tiempo agotado');
+  }, 12000);
+}
+
+/* -------- anotar el acceso (si falla, no estorba a nadie) -------- */
+let yaAnotado = false;
+function anotarAcceso(emp){
+  if(!emp || yaAnotado) return;   // una sola vez por sesión
+  yaAnotado = true;
+  llamarBuzon({
+    fn:'registrar',
+    num: emp.numero || '',
+    nombre: emp.nombre || '',
+    puesto: emp.posicion || '',
+    distrito: emp.distrito || ''
+  }, function(r){
+    if(r && r.ok) console.log('[Bitácora] acceso anotado.');
+    else console.warn('[Bitácora] no se pudo anotar:', r && r.error);
+  }, function(motivo){
+    console.warn('[Bitácora] no se pudo anotar el acceso (' + motivo + ').');
+  });
+}
+
+/* -------- configuración de vigencias (la que manda) -------- */
+let CONFIG_REMOTA = {};
+try{
+  const _guardada = localStorage.getItem(CONFIG_CACHE_KEY);
+  if(_guardada) CONFIG_REMOTA = JSON.parse(_guardada) || {};
+}catch(e){ CONFIG_REMOTA = {}; }
+
+function traerConfig(alTerminar){
+  llamarBuzon({fn:'config'}, function(r){
+    if(r && r.ok && r.config){
+      CONFIG_REMOTA = r.config;
+      try{ localStorage.setItem(CONFIG_CACHE_KEY, JSON.stringify(r.config)); }catch(e){}
+      if(alTerminar) alTerminar(true);
+    } else if(alTerminar) alTerminar(false);
+  }, function(){ if(alTerminar) alTerminar(false); });
+}
+
+/* ============================================================
+   VIGENCIA DE SECCIONES
+   ------------------------------------------------------------
+   Aquí se controla hasta cuándo se ve cada sección con promoción.
+   'fin' = último día que la promoción sigue vigente (AAAA-MM-DD).
+
+   Estas fechas son las de arranque. Si el administrador cambia
+   una vigencia desde el panel 🔧 Administración, ese cambio manda
+   sobre lo que diga esta lista y aplica para todos.
+
+   Al día siguiente de esa fecha la sección SE OCULTA para todos,
+   MENOS para quien tenga el puesto DIRECTOR DISTRITAL, que la
+   sigue viendo con un aviso para decidir si la borra o le
+   actualiza la vigencia.
+   ============================================================ */
+const SECCIONES = [
+  { id:'consecutivo',nombre:'Consecutivo de Promociones', fin:'2026-08-03' },
+  { id:'comisiones', nombre:'Comisiones',            fin:null },
+  { id:'manteleta',  nombre:'Manteleta Negocios',    fin:'2026-08-31' },
+  { id:'streaming',  nombre:'Streaming incluido',    fin:'2026-07-31' },
+  { id:'totalamigo', nombre:'Descuento Totalamigo',  fin:'2026-07-31' }
+];
+
+const PUESTO_ADMIN = 'DIRECTOR DISTRITAL';
+const NUMEROS_ADMIN = ['65068028'];   // quién puede entrar al panel 🔧 Administración
+let EMPLEADO_ACTUAL = null;
+
+/* ¿es el administrador del sitio? (por número de empleado) */
+function esAdminUsuario(){
+  if(!EMPLEADO_ACTUAL) return false;
+  return NUMEROS_ADMIN.indexOf(normalizeId(EMPLEADO_ACTUAL.numero)) !== -1;
+}
+
+function hoyISO(){
+  const d = new Date(), p = n => String(n).padStart(2,'0');
+  return d.getFullYear() + '-' + p(d.getMonth()+1) + '-' + p(d.getDate());
+}
+function buscarSeccion(id){
+  const base = SECCIONES.find(s => s.id === id);
+  if(!base) return null;
+  // lo que haya guardado el administrador manda sobre la fecha de arranque
+  const cambio = CONFIG_REMOTA[id];
+  if(cambio){
+    return { id: base.id, nombre: base.nombre,
+             fin: (cambio.fin !== undefined && cambio.fin !== null) ? cambio.fin : base.fin,
+             oculta: !!cambio.oculta };
+  }
+  return { id: base.id, nombre: base.nombre, fin: base.fin, oculta: false };
+}
+function seccionVencida(id){
+  const s = buscarSeccion(id);
+  if(!s) return false;
+  if(s.oculta) return true;          // el admin la quitó a mano
+  if(!s.fin) return false;           // sin vencimiento
+  return hoyISO() > s.fin;           // al día siguiente del fin, ya está vencida
+}
+function seccionBorrada(id){
+  const s = buscarSeccion(id);
+  return !!(s && s.oculta);
+}
+function esAdmin(){
+  return !!(EMPLEADO_ACTUAL &&
+    String(EMPLEADO_ACTUAL.posicion || '').trim().toUpperCase() === PUESTO_ADMIN);
+}
+/* ¿se le puede mostrar esta sección a quien está dentro? */
+function seccionVisible(id){
+  if(!seccionVencida(id)) return true;
+  return esAdmin();
+}
+function fechaBonita(iso){
+  if(!iso) return '';
+  const [a,m,d] = iso.split('-');
+  const meses = ['enero','febrero','marzo','abril','mayo','junio','julio',
+                 'agosto','septiembre','octubre','noviembre','diciembre'];
+  return d + ' de ' + meses[parseInt(m,10)-1] + ' de ' + a;
+}
+/* aviso amarillo que solo ve el Director Distrital */
+function avisoVencida(id){
+  const s = buscarSeccion(id);
+  if(!s || !seccionVencida(id)) return '';
+  if(s.oculta){
+    return `<div class="aviso-vencida">
+      <div class="t">🚫 Esta sección está quitada — solo tú puedes verla</div>
+      <p>Quitaste <b>${s.nombre}</b> desde el panel de administración, así que el resto
+      de la fuerza de ventas ya no la ve.</p>
+      <p>Si la quieres devolver, entra a <b>🔧 Administración</b> y toca <b>Volver a mostrar</b>.</p>
+    </div>`;
+  }
+  return `<div class="aviso-vencida">
+    <div class="t">⚠️ Esta promoción ya terminó — solo tú puedes verla</div>
+    <p>La vigencia de <b>${s.nombre}</b> terminó el <b>${fechaBonita(s.fin)}</b>,
+    por lo que ya está oculta para el resto de la fuerza de ventas.</p>
+    <p>Entra a <b>🔧 Administración</b> para ponerle una fecha nueva, o para quitarla
+    del todo si ya no se va a renovar.</p>
+  </div>`;
+}
+
+/* ============================================================
+   NAV: construir menú hamburguesa + home
+   ============================================================ */
+const NAV_STRUCTURE = [
+  {group:'Inicio', items:[{id:'home', icon:'🏠', label:'Inicio'}]},
+  {group:'Promociones vigentes', items:[
+    {id:'consecutivo', icon:'🎯', label:'Consecutivo de Promociones'},
+    {id:'manteleta', icon:'📋', label:'Manteleta'},
+    {id:'comisiones', icon:'💰', label:'Comisiones'},
+    {id:'streaming', icon:'📺', label:'Streaming incluido'},
+    {id:'totalamigo', icon:'🎁', label:'Descuento Totalamigo'}
+  ]},
+  {group:'Soluciones digitales', items: SERVICES.map(s=>({id:'svc:'+s.id, icon:s.icon, label:s.title}))}
+];
+
+function buildNav(){
+  let html = '';
+
+  // ficha con los datos de quien entró
+  if(EMPLEADO_ACTUAL){
+    const e = EMPLEADO_ACTUAL;
+    const nom = titleCase(e.nombre || '');
+    const iniciales = nom.split(/\s+/).filter(Boolean).slice(0,2)
+                         .map(p=>p[0]).join('').toUpperCase() || '👤';
+    html += `<div class="nav-user">
+      <div class="qn"><div class="ini">${iniciales}</div><div class="nom">${nom}</div></div>
+      <div class="dato"><span class="et">Puesto</span><b>${e.posicion || '—'}</b></div>
+      <div class="dato"><span class="et">Distrito</span><b>${e.distrito || '—'}</b></div>
+      <div class="dato"><span class="et">Núm.</span><b>${e.numero || '—'}</b></div>
+    </div>`;
+  }
+
+  NAV_STRUCTURE.forEach(g=>{
+    // se omiten las opciones que ya vencieron (salvo para Director Distrital)
+    const visibles = g.items.filter(it => it.id.startsWith('svc:') || seccionVisible(it.id));
+    if(!visibles.length) return;
+    html += `<div class="nav-group-label">${g.group}</div>`;
+    visibles.forEach(it=>{
+      let marca = '';
+      if(!it.id.startsWith('svc:') && seccionVencida(it.id)){
+        marca = seccionBorrada(it.id)
+          ? '<span class="caducada">Quitada</span>'
+          : '<span class="caducada">Terminó</span>';
+      }
+      html += `<button class="nav-item" data-target="${it.id}"><span class="ic">${it.icon}</span>${it.label}${marca}</button>`;
+    });
+  });
+
+  // el panel de administración solo lo ve el administrador
+  if(esAdminUsuario()){
+    html += `<div class="nav-group-label">Solo para ti</div>
+      <button class="nav-item" data-target="admin"><span class="ic">🔧</span>Administración</button>`;
+  } else if(tieneEquipo()){
+    html += `<div class="nav-group-label">Solo para ti</div>`;
+  }
+
+  // "Mi equipo" lo ve quien tenga gente a su cargo
+  if(tieneEquipo()){
+    html += `<button class="nav-item" data-target="equipo"><span class="ic">👥</span>Mi equipo</button>`;
+  }
+
+  document.getElementById('navScroll').innerHTML = html;
+
+  document.querySelectorAll('.nav-item').forEach(btn=>{
+    if(btn.id === 'logoutBtn') return;
+    btn.addEventListener('click', ()=>{
+      const t = btn.dataset.target;
+      if(!t) return;
+      if(t.startsWith('svc:')) openService(t.slice(4));
+      else showView(t);
+      closeNav();
+    });
+  });
+}
+
+function buildHome(){
+  const promos = [
+    {id:'consecutivo', icon:'🎯', titulo:'Consecutivo de Promociones', desc:'Las 26 promociones que puedes modelar esta semana y cómo se llaman en el sistema.'},
+    {id:'manteleta',   icon:'📋', titulo:'Manteleta',                  desc:'Qué apps y precio trae cada plan, en una sola hoja para enseñarle al cliente.'},
+    {id:'comisiones',  icon:'💰', titulo:'Comisiones',                 desc:'Cuánto ganas por cada plan que vendes, y por cada adicional.'},
+    {id:'streaming',   icon:'📺', titulo:'Streaming incluido',         desc:'Planes con Netflix, HBO Max, Disney+ y más — vigencia del 22 al 31 de julio.'},
+    {id:'totalamigo',  icon:'🎁', titulo:'Descuento Totalamigo',       desc:'Hasta $150 de descuento durante 5 meses para clientes nuevos.'}
+  ];
+  let promoHtml = '';
+  promos.filter(p => seccionVisible(p.id)).forEach(p=>{
+    const marca = seccionVencida(p.id) ? '<span class="caducada">Terminó</span>' : '';
+    promoHtml += `<div class="home-card" data-target="${p.id}"><span class="ic">${p.icon}</span><div class="t">${p.titulo}${marca}</div><div class="s">${p.desc}</div></div>`;
+  });
+  document.getElementById('homePromoGrid').innerHTML = promoHtml ||
+    '<div class="empty-state">No hay promociones vigentes en este momento.</div>';
+
+  let svcHtml = '';
+  SERVICES.forEach(s=>{
+    svcHtml += `<div class="home-card" data-target="svc:${s.id}"><span class="ic">${s.icon}</span><div class="t">${s.title}</div><div class="s">${s.tag}</div></div>`;
+  });
+  document.getElementById('homeServiceGrid').innerHTML = svcHtml;
+
+  document.querySelectorAll('.home-card').forEach(card=>{
+    card.addEventListener('click', ()=>{
+      const t = card.dataset.target;
+      if(t.startsWith('svc:')) openService(t.slice(4));
+      else showView(t);
+    });
+  });
+}
+
+/* ============================================================
+   RENDER: tarjetas de planes (streaming)
+   ============================================================ */
+function tagFor(platform, code){
+  const label = PLAT_LABEL[platform];
+  if(code===0) return '';
+  if(code===2 || code===1 || code==='plain') return `<span class="tag blue">${label}</span>`;
+  if(code==='3m') return `<span class="tag amber">${label} · 3 meses</span>`;
+  if(code==='5m') return `<span class="tag amber">${label} · 5 meses</span>`;
+  return '';
+}
+let currentFamily = 'tv';
+function renderCards(){
+  const rows = DATA[currentFamily];
+  let html = '';
+  rows.forEach(r=>{
+    const anyAds = r.row.some(v=>v===1||v==='3m'||v==='5m');
+    const anyNoAds = r.row.some(v=>v===2);
+    const anyIncluded = r.row.some(v=>v!==0);
+    let tags = '';
+    r.row.forEach((v,i)=>{ tags += tagFor(PLATFORMS[i], v); });
+    let statusTag = '';
+    if(anyNoAds) statusTag += '<span class="tag green">Sin anuncios</span>';
+    if(anyAds) statusTag += '<span class="tag coral">Con anuncios</span>';
+    let deviceTag = '';
+    if(r.device === 'VSB') deviceTag = '<span class="tag teal">Módem VSB incluido</span>';
+    if(r.device === 'TV') deviceTag = '<span class="tag teal">Decodificador TV incluido</span>';
+    let adminTag = r.adminNeg ? '<span class="tag teal">Administrador de Negocios</span>' : '';
+    html += `<div class="card">
+      <h3>${r.megas}</h3>
+      <div class="plan-sub">${r.plan} · Simétricos</div>
+      <div class="price">${r.pp}<small>/mes</small></div>
+      <hr class="divider">
+      ${anyIncluded ? `<div class="tag-row">${tags}</div><div class="tag-row">${statusTag}${adminTag}${deviceTag}</div>` : `<div class="empty-state">Sin streaming incluido</div>${deviceTag ? `<div class="tag-row" style="margin-top:8px;">${deviceTag}</div>` : ''}`}
+    </div>`;
+  });
+  document.getElementById('cardGrid').innerHTML = html;
+}
+function renderDiscTable(){
+  let body = '';
+  DISCOUNT.forEach(r=>{
+    body += `<tr><td class="megas">${r.megas}</td><td class="price">${r.ppNet}</td><td class="disc">${r.descNet}</td><td>${r.mes6Net}</td><td class="price">${r.ppTv}</td><td class="disc">${r.descTv}</td><td>${r.mes6Tv}</td></tr>`;
+  });
+  document.getElementById('discBody').innerHTML = body;
+}
+function renderAccordion(){
+  let html = '';
+  RULES.forEach((r,i)=>{
+    html += `<div class="acc-item ${i===0?'open':''}">
+      <div class="acc-head" onclick="toggleAcc(this)">
+        <div class="tier">${r.tier}<small>${r.sub}</small></div>
+        <div class="chev">+</div>
+      </div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <ul>${r.items.map(it=>`<li>${it}</li>`).join('')}</ul>
+        <div class="model-box"><div class="model-label">Código a modelar en sistema</div>
+        <div class="codes">${r.codes.map(c=>`<span class="code-chip">${c}</span>`).join('')}</div></div>
+        ${r.flag ? `<div class="flag">${r.flag}</div>` : ''}
+      </div></div>
+    </div>`;
+  });
+  document.getElementById('accordion').innerHTML = html;
+}
+function toggleAcc(el){ el.parentElement.classList.toggle('open'); }
+
+/* ============================================================
+   RENDER: página de servicio digital
+   ============================================================ */
+function openService(id){
+  const s = SERVICES.find(x=>x.id===id);
+  if(!s) return;
+  let html = `
+    <div class="svc-header">
+      <div class="svc-icon">${s.icon}</div>
+      <div><h1 class="svc-title">${s.title}</h1><div class="svc-tag">${s.tag}</div></div>
+    </div>
+    <div class="svc-intro">${s.intro}</div>
+    <div class="svc-block-title"><span class="dot"></span> Datos y puntos importantes</div>
+    <div class="bullet-grid">${s.bullets.map(b=>`<div class="bullet-card"><span class="chk">✓</span><span>${b}</span></div>`).join('')}</div>
+  `;
+  if(s.questions){
+    html += `<div class="svc-block-title"><span class="dot"></span> 3 preguntas clave para detectar la necesidad</div>
+    <div class="q-grid">${s.questions.map((q,i)=>`<div class="q-card"><div class="num">0${i+1}</div><div class="q">${q}</div></div>`).join('')}</div>`;
+  }
+  if(s.tips){
+    html += `<div class="svc-block-title"><span class="dot"></span> ¿Cómo ofrecer este servicio?</div>
+    <div class="tips-box"><ul>${s.tips.map(t=>`<li>💡 ${t}</li>`).join('')}</ul></div>`;
+  }
+  if(s.channels){
+    html += `<div class="svc-block-title"><span class="dot"></span> Tiempos de atención por canal</div>
+    <div class="chan-table"><table><thead><tr><th>Medio</th><th>Tiempo de atención</th><th>Dato de contacto</th></tr></thead><tbody>
+    ${s.channels.map(c=>`<tr><td class="megas">${c.medio}</td><td class="disc">${c.tiempo}</td><td>${c.dato}</td></tr>`).join('')}
+    </tbody></table></div>`;
+  }
+  if(s.activation){
+    html += `<div class="svc-block-title"><span class="dot"></span> Activación</div>
+    <div class="bullet-grid"><div class="bullet-card"><span class="chk">✓</span><span>${s.activation}</span></div></div>`;
+  }
+  if(s.contact){
+    html += `<div class="svc-block-title"><span class="dot"></span> Medios de contacto</div>
+    <div class="contact-row">
+      <div class="contact-card"><div class="lbl">Chat</div><div class="val">${s.contact.chat}</div></div>
+      <div class="contact-card"><div class="lbl">Correo electrónico</div><div class="val">${s.contact.email}</div></div>
+      <div class="contact-card"><div class="lbl">Teléfono / WhatsApp</div><div class="val">${s.contact.phone}</div></div>
+    </div>`;
+  }
+  html += `<span class="included-badge">✔ Incluido en los planes</span>`;
+
+  document.getElementById('serviceContent').innerHTML = html;
+  showView('service', s.title);
+}
+
+/* ============================================================
+   NAVEGACIÓN GENERAL
+   ============================================================ */
+function showView(id, titleOverride){
+  // el panel de administración solo para el administrador
+  if(id === 'admin' && !esAdminUsuario()){ showView('home'); return; }
+  if(id === 'equipo' && !tieneEquipo()){ showView('home'); return; }
+
+  // candado de vigencia: si ya terminó y no es Director Distrital, no entra
+  if(id !== 'home' && id !== 'service' && id !== 'admin' && id !== 'equipo' && !seccionVisible(id)){
+    showView('home');
+    return;
+  }
+
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  const el = document.getElementById('view-'+id);
+  if(el) el.classList.add('active');
+
+  if(id === 'admin'){ pintarAdmin(); }
+  if(id === 'consecutivo'){ catAbierta = null; pintarConsecutivo(); }
+  if(id === 'comisiones'){ pintarComisiones(); pintarAdicionales(); }
+  if(id === 'equipo'){
+    eqRuta = [];
+    if(bitacoraLista) pintarEquipo();
+    else {
+      document.getElementById('eqLista').innerHTML =
+        '<div class="eq-vacio">Cargando el registro de accesos…</div>';
+      traerBitacora(pintarEquipo);
+    }
+  }
+
+  // aviso amarillo para el Director Distrital cuando la promo ya terminó
+  const cajaAviso = document.getElementById(id + 'Aviso');
+  if(cajaAviso) cajaAviso.innerHTML = avisoVencida(id);
+
+  window.scrollTo({top:0, behavior:'smooth'});
+
+  const titles = {home:'Inicio', streaming:'Streaming incluido',
+                  totalamigo:'Descuento Totalamigo', manteleta:'Manteleta',
+                  consecutivo:'Consecutivo de Promociones', comisiones:'Comisiones',
+                  admin:'Administración', equipo:'Mi equipo',
+                  service: titleOverride||''};
+  document.getElementById('currentTitle').textContent = titles[id] || '';
+
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+  const navBtn = document.querySelector(`.nav-item[data-target="${id==='service' ? '' : id}"]`);
+  if(navBtn) navBtn.classList.add('active');
+}
+
+/* hamburguesa */
+const burgerBtn = document.getElementById('burgerBtn');
+const navOverlay = document.getElementById('navOverlay');
+const navPanel = document.getElementById('navPanel');
+const navCloseBtn = document.getElementById('navCloseBtn');
+function openNav(){ burgerBtn.classList.add('open'); navOverlay.classList.add('open'); navPanel.classList.add('open'); document.body.style.overflow='hidden'; }
+function closeNav(){ burgerBtn.classList.remove('open'); navOverlay.classList.remove('open'); navPanel.classList.remove('open'); document.body.style.overflow=''; }
+burgerBtn.addEventListener('click', ()=> navPanel.classList.contains('open') ? closeNav() : openNav());
+navOverlay.addEventListener('click', closeNav);
+navCloseBtn.addEventListener('click', closeNav);
+
+/* toggles de familia (streaming) */
+document.getElementById('familyToggle').addEventListener('click', e=>{
+  const b = e.target.closest('button');
+  if(!b) return;
+  document.querySelectorAll('#familyToggle button').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  currentFamily = b.dataset.family;
+  renderCards();
+});
+
+/* init */
+buildNav();
+buildHome();
+renderCards();
+renderDiscTable();
+renderAccordion();
+
+const _adBuscar = document.getElementById('adBuscar');
+if(_adBuscar) _adBuscar.addEventListener('input', pintarAdicionales);
+
+/* ============================================================
+   CANDADO DE ACCESO — valida número de empleado contra la
+   Hoja de Google "GOOGLE PLANTILLA ACCESO"
+   (columnas: NUMERO EMPLEADO, NOMBRE DEL EMPLEADO, DISTRITO, POSICION)
+
+   IMPORTANTE — por qué esto funciona con datos móviles y no solo
+   con WiFi: la hoja se lee con una etiqueta <script> apuntando al
+   endpoint gviz de Google (JSONP), no con fetch(). fetch() se
+   bloquea por CORS desde otro dominio (GitHub Pages); <script> no.
+
+   IMPORTANTE 2 — la hoja DEBE ser una Hoja de Google nativa.
+   Si se apunta a un .xlsx subido a Drive, el endpoint gviz falla
+   de forma intermitente (ese era el problema anterior).
+
+   Además el directorio se guarda en localStorage, así que si Google
+   no responde en algún momento, la persona sigue pudiendo entrar
+   con la última copia descargada en su propio dispositivo.
+   ============================================================ */
+
+const SHEET_ID = '1cfOzkjDzA1Z-lG1v8SOfjjivx5ymSJTshRMI5vN6xtQ'; // GOOGLE PLANTILLA ACCESO (hoja nativa)
+const SESSION_KEY = 'tp_neg_session_v1';
+const DIRECTORY_CACHE_KEY = 'tp_neg_directory_cache_v2';
+const HIDDEN_KEY = 'tp_neg_hidden_at';
+const LOCK_TIMEOUT_MS = 2 * 60 * 1000; // 2 min fuera de la página = pedir número otra vez
+
+let EMPLOYEES = null;   // { "CLAVE": {numero, nombre, distrito, posicion, jefeNum, jefeNom} }
+let PLANTILLA = [];     // lista completa, para armar los equipos
+let loadAttempts = 0;
+const MAX_AUTO_RETRIES = 3;
+let gvizTimeoutTimer = null;
+
+function titleCase(s){
+  return (s||'').toLowerCase().replace(/(^|\s)\S/g, c => c.toUpperCase());
+}
+
+/* Normaliza la clave de empleado.
+   Soporta claves con letras (ej. SLK1234, CRC-88, ECO 55) y también
+   los números que Google entrega con decimales (65033109.00 -> 65033109).
+   Se quitan espacios y guiones para que dé igual cómo lo escriban. */
+function normalizeId(v){
+  let s = (v === null || v === undefined) ? '' : String(v).trim().toUpperCase();
+  if(!s) return '';
+  s = s.replace(/\s+/g, '').replace(/-/g, '');
+  // 65033109.00 / 65033109.0 -> 65033109
+  if(/^\d+\.\d*0*$/.test(s)) s = s.split('.')[0];
+  // quita ceros a la izquierda solo si queda algo (0012345 -> 12345)
+  if(/^\d+$/.test(s)) s = s.replace(/^0+(?=\d)/, '');
+  return s;
+}
+
+/* Guarda al empleado bajo varias formas de su clave, para que entre
+   aunque lo escriba con ceros al inicio, con guion o con espacios. */
+function indexEmployee(map, emp){
+  const variantes = new Set();
+  const bruto = String(emp.numero || '').trim().toUpperCase();
+  variantes.add(normalizeId(bruto));
+  variantes.add(bruto.replace(/\s+/g, '').replace(/-/g, ''));
+  if(/^\d+\.\d+$/.test(bruto)) variantes.add(bruto.split('.')[0]);
+  variantes.forEach(k => { if(k) map[k] = emp; });
+}
+
+/* -------- caché local del directorio (localStorage) -------- */
+function loadDirectoryCache(){
+  try{
+    const raw = localStorage.getItem(DIRECTORY_CACHE_KEY);
+    if(!raw) return null;
+    const parsed = JSON.parse(raw);
+    if(!parsed || !parsed.data || !Object.keys(parsed.data).length) return null;
+    if(parsed.lista && parsed.lista.length) PLANTILLA = parsed.lista;
+    return parsed.data;
+  } catch(e){ return null; }
+}
+function saveDirectoryCache(map, lista){
+  try{
+    localStorage.setItem(DIRECTORY_CACHE_KEY,
+      JSON.stringify({data: map, lista: lista || PLANTILLA || [], ts: Date.now()}));
+  } catch(e){ /* almacenamiento lleno: no es crítico */ }
+}
+
+function enableLockForm(){
+  document.getElementById('lockInput').disabled = false;
+  document.getElementById('lockBtn').disabled = false;
+  document.getElementById('lockLoading').classList.remove('show');
+}
+
+/* -------- lectura de la hoja vía JSONP (funciona con datos y WiFi) -------- */
+window.google = window.google || {};
+window.google.visualization = window.google.visualization || {};
+window.google.visualization.Query = {
+  setResponse: function(response){
+    if(gvizTimeoutTimer){ clearTimeout(gvizTimeoutTimer); gvizTimeoutTimer = null; }
+    try{
+      if(!response || response.status === 'error' || !response.table){
+        throw new Error('respuesta inválida de la hoja');
+      }
+      const rows = response.table.rows || [];
+      const map = {};
+      const lista = [];
+      function cellVal(cell){
+        if(!cell) return '';
+        // 'f' es el texto tal como se ve en la hoja; 'v' el valor crudo.
+        // Para la clave preferimos 'f' porque respeta letras y formato.
+        const val = (cell.f !== null && cell.f !== undefined && cell.f !== '') ? cell.f : cell.v;
+        return (val === null || val === undefined) ? '' : String(val).trim();
+      }
+      rows.forEach(function(row){
+        const c = row.c || [];
+        const numero   = cellVal(c[0]);
+        const nombre   = cellVal(c[1]);
+        const distrito = cellVal(c[2]);
+        const posicion = cellVal(c[3]);
+        const jefeNum  = cellVal(c[4]);   // columna E — número del jefe
+        const jefeNom  = cellVal(c[5]);   // columna F — nombre del jefe
+        const numUp = numero.toUpperCase();
+        if(!numero || numUp === 'VACANTE' || numUp.indexOf('NUMERO EMPLEADO') === 0) return;
+        const emp = { numero, nombre, distrito, posicion, jefeNum, jefeNom };
+        indexEmployee(map, emp);
+        lista.push(emp);
+      });
+      if(!Object.keys(map).length) throw new Error('la hoja llegó vacía');
+
+      EMPLOYEES = map;
+      PLANTILLA = lista;
+      saveDirectoryCache(map, lista);
+      loadAttempts = 0;
+      enableLockForm();
+      setLockError('');
+      console.log('Directorio cargado: ' + Object.keys(map).length + ' claves de acceso.');
+    } catch(err){
+      console.warn('No se pudo leer el directorio:', err.message);
+      handleLoadFailure();
+    }
+  }
+};
+
+function handleLoadFailure(){
+  if(gvizTimeoutTimer){ clearTimeout(gvizTimeoutTimer); gvizTimeoutTimer = null; }
+
+  // reintento automático (redes móviles a veces tardan o cortan)
+  if(loadAttempts < MAX_AUTO_RETRIES){
+    loadAttempts++;
+    setTimeout(loadEmployees, 1200 * loadAttempts);
+    return;
+  }
+
+  // si ya hay copia guardada en este dispositivo, se sigue con esa
+  if(EMPLOYEES){
+    console.warn('Se usará la copia guardada del directorio.');
+    enableLockForm();
+    return;
+  }
+
+  enableLockForm();
+  setLockError('No se pudo cargar el directorio. Revisa tu conexión y toca "Entrar" para reintentar.');
+}
+
+function loadEmployees(){
+  if(!EMPLOYEES){
+    document.getElementById('lockInput').disabled = true;
+    document.getElementById('lockBtn').disabled = true;
+  }
+  document.getElementById('lockLoading').classList.add('show');
+
+  const oldScript = document.getElementById('gvizScript');
+  if(oldScript) oldScript.remove();
+
+  const script = document.createElement('script');
+  script.id = 'gvizScript';
+  // sin 'tq': se piden todas las columnas tal cual, es lo más tolerante
+  script.src = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID +
+    '/gviz/tq?tqx=out:json&headers=1&t=' + Date.now();
+  script.onerror = handleLoadFailure;
+  document.body.appendChild(script);
+
+  // si el script carga pero nunca llama a setResponse (pasa con algunos
+  // proxys de datos móviles), no nos quedamos esperando para siempre
+  if(gvizTimeoutTimer) clearTimeout(gvizTimeoutTimer);
+  gvizTimeoutTimer = setTimeout(function(){
+    console.warn('La hoja no respondió a tiempo.');
+    handleLoadFailure();
+  }, 10000);
+}
+
+function setLockError(msg){
+  const el = document.getElementById('lockError');
+  if(msg){ el.textContent = msg; el.classList.add('show'); }
+  else { el.textContent=''; el.classList.remove('show'); }
+}
+
+function showWelcome(emp){
+  EMPLEADO_ACTUAL = emp;
+  anotarAcceso(emp);                          // se anota quién entró
+  traerConfig(function(){ buildNav(); buildHome(); });  // vigencias al día
+  buildNav(); buildHome();   // el menú se arma según el puesto y las vigencias
+  document.getElementById('lockForm').style.display = 'none';
+  document.getElementById('welcomeName').textContent = '¡Bienvenido, ' + titleCase(emp.nombre) + '!';
+  document.getElementById('welcomePosicion').textContent = emp.posicion || 'Sin posición registrada';
+  document.getElementById('welcomeDistrito').textContent = '📍 ' + (emp.distrito || 'Sin distrito registrado');
+  document.getElementById('welcomeCard').classList.add('show');
+  document.getElementById('navUserInfo').innerHTML = `<b style="color:var(--navy)">${titleCase(emp.nombre)}</b><br>${emp.posicion} · ${emp.distrito}`;
+}
+
+function unlockApp(){
+  document.getElementById('lockScreen').classList.add('hidden');
+  document.body.style.overflow = '';
+}
+
+function reLock(reason){
+  sessionStorage.removeItem(SESSION_KEY);
+  sessionStorage.removeItem(HIDDEN_KEY);
+  document.getElementById('welcomeCard').classList.remove('show');
+  document.getElementById('lockForm').style.display = '';
+  document.getElementById('lockInput').value = '';
+  document.getElementById('lockScreen').classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+  setLockError(reason || '');
+}
+
+function attemptLogin(numeroRaw){
+  const numero = normalizeId(numeroRaw);
+
+  if(!EMPLOYEES){
+    loadAttempts = 0;
+    setLockError('Cargando directorio, espera un momento…');
+    loadEmployees();
+    return;
+  }
+  if(!numero){ setLockError('Escribe tu número de empleado.'); return; }
+
+  const emp = EMPLOYEES[numero];
+  if(!emp){
+    setLockError('No encontramos ese número de empleado. Verifica e intenta de nuevo.');
+    return;
+  }
+  setLockError('');
+  sessionStorage.setItem(SESSION_KEY, JSON.stringify({numero, ts:Date.now()}));
+  showWelcome(emp);
+}
+
+document.getElementById('lockBtn').addEventListener('click', function(){
+  attemptLogin(document.getElementById('lockInput').value);
+});
+document.getElementById('lockInput').addEventListener('keydown', function(e){
+  if(e.key === 'Enter') attemptLogin(e.target.value);
+});
+document.getElementById('enterBtn').addEventListener('click', unlockApp);
+document.getElementById('logoutBtn').addEventListener('click', function(){ reLock(null); });
+
+// red de seguridad: si truena algo, intentamos destrabar con la copia guardada
+window.addEventListener('error', function(e){
+  if(!EMPLOYEES){
+    const cached = loadDirectoryCache();
+    if(cached){ EMPLOYEES = cached; enableLockForm(); }
+  }
+});
+
+/* -------- bloqueo automático tras 2 min fuera de la página -------- */
+document.addEventListener('visibilitychange', function(){
+  if(document.hidden){
+    sessionStorage.setItem(HIDDEN_KEY, Date.now().toString());
+  } else {
+    const hiddenAt = sessionStorage.getItem(HIDDEN_KEY);
+    sessionStorage.removeItem(HIDDEN_KEY);
+    if(hiddenAt){
+      const elapsed = Date.now() - parseInt(hiddenAt, 10);
+      const estabaDentro = document.getElementById('lockScreen').classList.contains('hidden');
+      if(elapsed >= LOCK_TIMEOUT_MS && estabaDentro){
+        reLock('Tu sesión expiró porque estuviste fuera de la página. Ingresa tu número de empleado de nuevo.');
+      }
+    }
+  }
+});
+
+/* -------- arranque -------- */
+// 1) copia guardada en este dispositivo: permite entrar de inmediato
+const cachedDirectory = loadDirectoryCache();
+if(cachedDirectory){
+  EMPLOYEES = cachedDirectory;
+  enableLockForm();
+  document.getElementById('lockLoading').textContent = 'Actualizando directorio…';
+}
+// 2) siempre se refresca desde la hoja (y si falla, se queda la copia)
+loadEmployees();
+
+// 3) si ya había sesión vigente en esta pestaña, entra directo
+setTimeout(function tryAutoLogin(){
+  const saved = sessionStorage.getItem(SESSION_KEY);
+  if(!saved || !EMPLOYEES) return;
+  try{
+    const {numero} = JSON.parse(saved);
+    const emp = EMPLOYEES[normalizeId(numero)];
+    if(emp){
+      EMPLEADO_ACTUAL = emp;
+      anotarAcceso(emp);
+      traerConfig(function(){ buildNav(); buildHome(); });
+      buildNav(); buildHome();
+      document.getElementById('navUserInfo').innerHTML = `<b style="color:var(--navy)">${titleCase(emp.nombre)}</b><br>${emp.posicion} · ${emp.distrito}`;
+      unlockApp();
+    } else {
+      sessionStorage.removeItem(SESSION_KEY);
+    }
+  } catch(e){ /* se queda en el candado */ }
+}, 300);
+
+/* ============================================================
+   MI EQUIPO
+   ------------------------------------------------------------
+   Arma el organigrama con las columnas E (número del jefe) y
+   F (nombre del jefe) de la plantilla. Cada jefe ve solo a su
+   gente, bajando un nivel a la vez con migas de pan.
+   ============================================================ */
+let BITACORA = {};           // { "numero": {ultimo, veces} }
+let bitacoraLista = false;
+let eqRuta = [];             // camino de jefes por el que vamos bajando
+let eqSoloFaltan = false;
+
+/* quién le reporta a quién */
+function armarEquipos(){
+  const porNumero = {};
+  PLANTILLA.forEach(function(p){ porNumero[normalizeId(p.numero)] = p; });
+
+  // índice por nombre, para el respaldo cuando el número del jefe no existe
+  const porNombre = {};
+  PLANTILLA.forEach(function(p){
+    const k = String(p.nombre||'').trim().toUpperCase();
+    if(k && !porNombre[k]) porNombre[k] = p;
+  });
+
+  const hijos = {};
+  PLANTILLA.forEach(function(p){
+    let jefe = normalizeId(p.jefeNum);
+    // si el número del jefe no está en la plantilla, se busca por nombre
+    if((!jefe || !porNumero[jefe]) && p.jefeNom){
+      const porNom = porNombre[String(p.jefeNom).trim().toUpperCase()];
+      jefe = porNom ? normalizeId(porNom.numero) : '';
+    }
+    // nadie puede ser su propio jefe
+    if(jefe === normalizeId(p.numero)) jefe = '';
+    p._jefe = (jefe && porNumero[jefe]) ? jefe : '';
+    p._sinLinea = !p._jefe;
+    if(p._jefe){
+      (hijos[p._jefe] = hijos[p._jefe] || []).push(p);
+    }
+  });
+
+  // quien no trae línea de reporte cuelga del Director de su distrito
+  const directores = {};
+  PLANTILLA.forEach(function(p){
+    if(String(p.posicion||'').trim().toUpperCase() === PUESTO_ADMIN){
+      directores[String(p.distrito||'').trim().toUpperCase()] = normalizeId(p.numero);
+    }
+  });
+  PLANTILLA.forEach(function(p){
+    if(!p._sinLinea) return;
+    const dir = directores[String(p.distrito||'').trim().toUpperCase()];
+    if(dir && dir !== normalizeId(p.numero)){
+      p._jefe = dir;
+      (hijos[dir] = hijos[dir] || []).push(p);
+    }
+  });
+
+  return { hijos: hijos, porNumero: porNumero };
+}
+
+/* cuenta a toda la gente que cuelga de alguien, en todos los niveles */
+function contarRama(hijos, num, vistos){
+  vistos = vistos || {};
+  if(vistos[num]) return { total:0, entraron:0 };
+  vistos[num] = true;
+  let total = 0, entraron = 0;
+  (hijos[num] || []).forEach(function(p){
+    const k = normalizeId(p.numero);
+    total++;
+    if(BITACORA[k]) entraron++;
+    const sub = contarRama(hijos, k, vistos);
+    total += sub.total; entraron += sub.entraron;
+  });
+  return { total: total, entraron: entraron };
+}
+
+/* ¿esta persona tiene gente a su cargo? */
+function tieneEquipo(){
+  if(!EMPLEADO_ACTUAL || !PLANTILLA.length) return false;
+  const eq = armarEquipos();
+  return !!(eq.hijos[normalizeId(EMPLEADO_ACTUAL.numero)] || []).length;
+}
+
+function pintarEquipo(){
+  const cajaMigas   = document.getElementById('eqMigas');
+  const cajaResumen = document.getElementById('eqResumen');
+  const cajaFiltro  = document.getElementById('eqFiltro');
+  const cajaLista   = document.getElementById('eqLista');
+  if(!cajaLista) return;
+
+  if(!EMPLEADO_ACTUAL){ cajaLista.innerHTML = ''; return; }
+  if(!PLANTILLA.length){
+    cajaLista.innerHTML = '<div class="eq-vacio">Todavía se está cargando la plantilla. Espera un momento y vuelve a entrar.</div>';
+    return;
+  }
+
+  const eq = armarEquipos();
+  const yo = normalizeId(EMPLEADO_ACTUAL.numero);
+  if(!eqRuta.length) eqRuta = [yo];
+  const actual = eqRuta[eqRuta.length - 1];
+  const persona = eq.porNumero[actual] || EMPLEADO_ACTUAL;
+
+  // migas de pan
+  let migas = '';
+  eqRuta.forEach(function(n, i){
+    const p = eq.porNumero[n];
+    const nom = i === 0 ? 'Mi equipo' : titleCase((p && p.nombre) || '').split(' ').slice(0,2).join(' ');
+    if(i > 0) migas += '<span class="sep">›</span>';
+    migas += (i === eqRuta.length - 1)
+      ? `<button class="actual">${nom}</button>`
+      : `<button data-nivel="${i}">${nom}</button>`;
+  });
+  cajaMigas.innerHTML = migas;
+  cajaMigas.querySelectorAll('button[data-nivel]').forEach(function(b){
+    b.addEventListener('click', function(){
+      eqRuta = eqRuta.slice(0, parseInt(b.dataset.nivel,10) + 1);
+      pintarEquipo();
+    });
+  });
+
+  // resumen del grupo que estamos viendo
+  const rama = contarRama(eq.hijos, actual);
+  const pct = rama.total ? Math.round(rama.entraron * 100 / rama.total) : 0;
+  cajaResumen.innerHTML = `<div class="eq-resumen">
+      <div class="tit">${eqRuta.length === 1 ? 'Todo mi equipo' : titleCase(persona.nombre || '')}</div>
+      <div class="sub">${eqRuta.length === 1 ? (EMPLEADO_ACTUAL.posicion || '') : (persona.posicion || '')}</div>
+      <div class="eq-barra"><span style="width:${pct}%"></span></div>
+      <div class="eq-nums">
+        <span><b>${pct}%</b> ya entró</span>
+        <span class="si">✅ <b>${rama.entraron}</b> entraron</span>
+        <span class="no">⭕ <b>${rama.total - rama.entraron}</b> faltan</span>
+        <span>👥 <b>${rama.total}</b> en total</span>
+      </div>
+    </div>`;
+
+  // filtro
+  cajaFiltro.innerHTML =
+    `<button class="${eqSoloFaltan?'':'on'}" data-f="todos">Todos</button>
+     <button class="${eqSoloFaltan?'on':''}" data-f="faltan">Solo los que faltan</button>
+     <button data-f="refrescar">🔄 Actualizar</button>`;
+  cajaFiltro.querySelectorAll('button').forEach(function(b){
+    b.addEventListener('click', function(){
+      if(b.dataset.f === 'refrescar'){ traerBitacora(pintarEquipo); return; }
+      eqSoloFaltan = (b.dataset.f === 'faltan');
+      pintarEquipo();
+    });
+  });
+
+  // lista del nivel actual
+  let gente = (eq.hijos[actual] || []).slice();
+  gente.sort(function(a,b){
+    const ra = contarRama(eq.hijos, normalizeId(a.numero)).total;
+    const rb = contarRama(eq.hijos, normalizeId(b.numero)).total;
+    if(rb !== ra) return rb - ra;   // primero los que traen equipo
+    return String(a.nombre).localeCompare(String(b.nombre));
+  });
+
+  if(eqSoloFaltan){
+    gente = gente.filter(function(p){
+      const k = normalizeId(p.numero);
+      if(!BITACORA[k]) return true;                       // no ha entrado
+      return contarRama(eq.hijos, k).entraron < contarRama(eq.hijos, k).total; // o le faltan abajo
+    });
+  }
+
+  if(!gente.length){
+    cajaLista.innerHTML = eqSoloFaltan
+      ? '<div class="eq-vacio">🎉 Aquí ya entraron todos.</div>'
+      : '<div class="eq-vacio">Esta persona no tiene gente a su cargo.</div>';
+    return;
+  }
+
+  let html = '';
+  gente.forEach(function(p){
+    const k = normalizeId(p.numero);
+    const sub = contarRama(eq.hijos, k);
+    const entro = !!BITACORA[k];
+    const nom = titleCase(p.nombre || '');
+    const ini = nom.split(/\s+/).filter(Boolean).slice(0,2).map(x=>x[0]).join('').toUpperCase() || '?';
+    const esGrupo = sub.total > 0;
+
+    html += `<div class="eq-item ${esGrupo?'grupo':''} ${entro?'si':'no'}" ${esGrupo?`data-baja="${k}"`:''}>
+      <div class="av">${ini}</div>
+      <div class="info">
+        <div class="nm">${nom}</div>
+        <div class="ps">${p.posicion || '—'}</div>
+        <div class="ac ${entro?'si':'no'}">${entro
+          ? '✅ Entró ' + fechaHoraBonita(BITACORA[k].ultimo) + ' · ' + BITACORA[k].veces + ' ' + (BITACORA[k].veces===1?'vez':'veces')
+          : '⭕ Todavía no entra'}</div>
+        ${p._sinLinea ? '<div class="eq-falta">⚠️ Le falta su línea de reporte</div>' : ''}
+      </div>
+      ${esGrupo
+        ? `<div class="mini"><b>${sub.entraron}/${sub.total}</b>de su equipo</div><div class="flecha">›</div>`
+        : ''}
+    </div>`;
+  });
+  cajaLista.innerHTML = html;
+
+  cajaLista.querySelectorAll('.eq-item.grupo').forEach(function(el){
+    el.addEventListener('click', function(){
+      eqRuta.push(el.dataset.baja);
+      pintarEquipo();
+      window.scrollTo({top:0, behavior:'smooth'});
+    });
+  });
+}
+
+/* trae el registro de accesos y lo deja listo para Mi equipo */
+function traerBitacora(alTerminar){
+  llamarBuzon({fn:'bitacora'}, function(r){
+    if(r && r.ok && r.datos){
+      const m = {};
+      r.datos.forEach(function(d){ m[normalizeId(d.num)] = d; });
+      BITACORA = m;
+      bitacoraLista = true;
+    }
+    if(alTerminar) alTerminar();
+  }, function(){ if(alTerminar) alTerminar(); });
+}
+
+/* ============================================================
+   PANEL DE ADMINISTRACIÓN
+   Solo lo ve quien esté en NUMEROS_ADMIN. Permite cambiar la
+   vigencia de cada sección y quitarla del sitio (con doble
+   confirmación). Los cambios se guardan en el buzón, así que
+   aplican para toda la fuerza de ventas.
+   ============================================================ */
+function pintarAdmin(){
+  if(!esAdminUsuario()){ document.getElementById('admLista').innerHTML = ''; return; }
+
+  let html = '';
+  SECCIONES.forEach(function(base){
+    const s = buscarSeccion(base.id);
+    const vencida = seccionVencida(base.id);
+    const quitada = seccionBorrada(base.id);
+
+    let clase = '', estado = '<span class="adm-est ok">✅ Se está viendo</span>';
+    if(quitada){
+      clase = 'ocul';
+      estado = '<span class="adm-est off">🚫 Quitada del sitio</span>';
+    } else if(vencida){
+      clase = 'venc';
+      estado = '<span class="adm-est no">⚠️ Ya terminó</span>';
+    }
+
+    html += `<div class="adm-card ${clase}" data-sec="${base.id}">
+      <div class="adm-top">
+        <div>
+          <div class="adm-nom">${base.nombre}</div>
+          <div style="font-size:12px;color:var(--navy-soft);margin-top:3px;">
+            ${s.fin ? 'Vigente hasta el ' + fechaBonita(s.fin) : 'Sin fecha de término'}
+          </div>
+        </div>
+        ${estado}
+      </div>
+      <div class="adm-fila">
+        <label for="fin-${base.id}">Cambiar vigencia:</label>
+        <input type="date" id="fin-${base.id}" value="${s.fin || ''}">
+      </div>
+      <div class="adm-btns">
+        <button class="adm-btn guardar" data-accion="guardar" data-sec="${base.id}">💾 Guardar fecha</button>
+        ${quitada
+          ? `<button class="adm-btn mostrar" data-accion="mostrar" data-sec="${base.id}">↩️ Volver a mostrar</button>`
+          : `<button class="adm-btn ocultar" data-accion="ocultar" data-sec="${base.id}">🙈 Ocultar por ahora</button>`}
+        <button class="adm-btn borrar" data-accion="borrar" data-sec="${base.id}">🗑️ Quitar del sitio</button>
+      </div>
+      <div class="adm-msg" id="msg-${base.id}"></div>
+    </div>`;
+  });
+  document.getElementById('admLista').innerHTML = html;
+
+  document.querySelectorAll('#admLista .adm-btn').forEach(function(b){
+    b.addEventListener('click', function(){
+      const sec = b.dataset.sec, accion = b.dataset.accion;
+      if(accion === 'guardar'){
+        const fecha = document.getElementById('fin-' + sec).value;
+        aplicarCambio(sec, fecha, false, 'Vigencia actualizada.');
+      } else if(accion === 'ocultar'){
+        pedirConfirmacion(sec, 'ocultar');
+      } else if(accion === 'mostrar'){
+        const s = buscarSeccion(sec);
+        aplicarCambio(sec, s.fin, false, 'La sección volvió a mostrarse.');
+      } else if(accion === 'borrar'){
+        pedirConfirmacion(sec, 'borrar');
+      }
+    });
+  });
+}
+
+function mensajeAdmin(sec, texto, bien){
+  const m = document.getElementById('msg-' + sec);
+  if(!m) return;
+  m.textContent = texto;
+  m.className = 'adm-msg show ' + (bien ? 'bien' : 'mal');
+}
+
+function aplicarCambio(sec, fecha, oculta, textoExito){
+  mensajeAdmin(sec, 'Guardando…', true);
+  llamarBuzon({
+    fn:'guardar',
+    num: (EMPLEADO_ACTUAL && EMPLEADO_ACTUAL.numero) || '',
+    seccion: sec,
+    fin: fecha || '',
+    oculta: oculta ? 'SI' : 'NO'
+  }, function(r){
+    if(r && r.ok){
+      CONFIG_REMOTA[sec] = { fin: fecha || null, oculta: !!oculta };
+      try{ localStorage.setItem(CONFIG_CACHE_KEY, JSON.stringify(CONFIG_REMOTA)); }catch(e){}
+      mensajeAdmin(sec, '✅ ' + textoExito + ' Ya aplica para toda la fuerza de ventas.', true);
+      setTimeout(function(){ pintarAdmin(); buildNav(); buildHome(); }, 900);
+    } else {
+      mensajeAdmin(sec, '❌ No se pudo guardar: ' + ((r && r.error) || 'sin respuesta del buzón'), false);
+    }
+  }, function(motivo){
+    mensajeAdmin(sec, '❌ No se pudo guardar (' + motivo + '). Revisa tu conexión e intenta de nuevo.', false);
+  });
+}
+
+/* -------- doble confirmación -------- */
+let confirmPendiente = null;
+function pedirConfirmacion(sec, tipo){
+  const s = buscarSeccion(sec);
+  confirmPendiente = { sec: sec, tipo: tipo };
+
+  const esBorrar = (tipo === 'borrar');
+  document.getElementById('cfTitulo').textContent = esBorrar
+    ? '¿Quitar esta sección del sitio?'
+    : '¿Ocultar esta sección por ahora?';
+  document.getElementById('cfTexto').innerHTML = esBorrar
+    ? `Vas a quitar <b>${s.nombre}</b>. Dejará de verse para toda la fuerza de ventas.
+       Tú la seguirás viendo y podrás devolverla cuando quieras desde este mismo panel.`
+    : `<b>${s.nombre}</b> dejará de verse para la fuerza de ventas hasta que tú la vuelvas a mostrar.`;
+
+  document.getElementById('cfPalabra').value = '';
+  document.getElementById('cfCheck').checked = false;
+  document.getElementById('cfAceptar').disabled = true;
+  document.getElementById('cfAceptar').textContent = esBorrar ? 'Sí, quitar' : 'Sí, ocultar';
+  document.getElementById('confirmFondo').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function cerrarConfirmacion(){
+  document.getElementById('confirmFondo').classList.remove('open');
+  document.body.style.overflow = '';
+  confirmPendiente = null;
+}
+function revisarConfirmacion(){
+  const palabra = document.getElementById('cfPalabra').value.trim().toUpperCase();
+  const marcado = document.getElementById('cfCheck').checked;
+  document.getElementById('cfAceptar').disabled = !(palabra === 'BORRAR' && marcado);
+}
+document.getElementById('cfPalabra').addEventListener('input', revisarConfirmacion);
+document.getElementById('cfCheck').addEventListener('change', revisarConfirmacion);
+document.getElementById('cfCancelar').addEventListener('click', cerrarConfirmacion);
+document.getElementById('confirmFondo').addEventListener('click', function(e){
+  if(e.target === this) cerrarConfirmacion();
+});
+document.getElementById('cfAceptar').addEventListener('click', function(){
+  if(!confirmPendiente) return;
+  const sec = confirmPendiente.sec;
+  const s = buscarSeccion(sec);
+  cerrarConfirmacion();
+  aplicarCambio(sec, s.fin, true, 'La sección se quitó del sitio.');
+});
+
+/* -------- registro de accesos (quién ha entrado) -------- */
+function fechaHoraBonita(iso){
+  if(!iso) return '—';
+  const d = new Date(iso);
+  if(isNaN(d.getTime())) return String(iso).slice(0,10);
+  const p = n => String(n).padStart(2,'0');
+  const meses = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  return d.getDate() + ' ' + meses[d.getMonth()] + ' ' + d.getFullYear() +
+         ', ' + p(d.getHours()) + ':' + p(d.getMinutes());
+}
+
+/* ============================================================
+   VISOR DE IMAGEN AMPLIADA
+   Cualquier imagen con la clase "zoomable" se puede tocar para
+   verla en grande. Si tiene data-full, se abre la versión de
+   máxima calidad. Funciona para las imágenes de hoy y para
+   cualquier imagen que se agregue después.
+   ============================================================ */
+(function(){
+  const caja    = document.getElementById('lightbox');
+  const escena  = document.getElementById('lbStage');
+  const imagen  = document.getElementById('lbImg');
+  const etiqueta= document.getElementById('lbZoomLabel');
+  if(!caja) return;
+
+  let anchoBase = 0;   // ancho que ocupa la imagen "ajustada" a la pantalla
+  let factor    = 1;   // 1 = ajustada; 2 = al doble, etc.
+
+  function aplicar(){
+    if(!anchoBase) return;
+    imagen.style.width = Math.round(anchoBase * factor) + 'px';
+    etiqueta.textContent = Math.round(factor * 100) + '%';
+  }
+  function ajustar(){
+    const dispW = escena.clientWidth  - 16;
+    const dispH = escena.clientHeight - 16;
+    const rel = (imagen.naturalHeight || 1) / (imagen.naturalWidth || 1);
+    anchoBase = Math.min(dispW, dispH / rel);
+    factor = 1;
+    aplicar();
+    escena.scrollTop = 0;
+    escena.scrollLeft = 0;
+  }
+  function abrir(src, alt){
+    imagen.alt = alt || '';
+    caja.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    imagen.style.width = 'auto';
+    if(imagen.getAttribute('src') === src && imagen.complete){ ajustar(); }
+    else {
+      imagen.onload = ajustar;
+      imagen.src = src;
+    }
+  }
+  function cerrar(){
+    caja.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function zoom(paso){
+    factor = Math.min(6, Math.max(1, factor + paso));
+    const antesX = escena.scrollLeft + escena.clientWidth/2;
+    const antesY = escena.scrollTop  + escena.clientHeight/2;
+    const previo = parseFloat(imagen.style.width) || anchoBase;
+    aplicar();
+    const razon = (anchoBase*factor) / previo;
+    escena.scrollLeft = antesX*razon - escena.clientWidth/2;
+    escena.scrollTop  = antesY*razon - escena.clientHeight/2;
+  }
+
+  // abrir al tocar cualquier imagen con clase zoomable (presentes y futuras)
+  document.addEventListener('click', function(e){
+    const img = e.target.closest('img.zoomable');
+    if(!img) return;
+    abrir(img.dataset.full || img.currentSrc || img.src, img.alt);
+  });
+
+  document.getElementById('lbClose').addEventListener('click', cerrar);
+  document.getElementById('lbZoomIn').addEventListener('click', ()=>zoom(0.5));
+  document.getElementById('lbZoomOut').addEventListener('click', ()=>zoom(-0.5));
+  document.getElementById('lbFit').addEventListener('click', ajustar);
+  caja.addEventListener('click', e=>{ if(e.target === caja || e.target === escena) cerrar(); });
+  document.addEventListener('keydown', e=>{
+    if(!caja.classList.contains('open')) return;
+    if(e.key === 'Escape') cerrar();
+    if(e.key === '+' || e.key === '=') zoom(0.5);
+    if(e.key === '-') zoom(-0.5);
+  });
+  // doble toque: acercar / ajustar
+  imagen.addEventListener('dblclick', ()=>{ factor >= 2 ? ajustar() : zoom(1); });
+  window.addEventListener('resize', ()=>{ if(caja.classList.contains('open')) ajustar(); });
+})();
+
+/* ============================================================
+   Registro del Service Worker
+   Guarda una copia del sitio en el celular para que ABRA SIEMPRE,
+   aunque la conexión de datos falle o titubee.
+   ============================================================ */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('sw.js')
+      .then(function(reg){
+        console.log('App lista para abrir sin depender de la conexión.');
+        // si hay una versión nueva publicada, se aplica al reabrir
+        reg.addEventListener('updatefound', function(){
+          const nuevo = reg.installing;
+          if(!nuevo) return;
+          nuevo.addEventListener('statechange', function(){
+            if(nuevo.state === 'installed' && navigator.serviceWorker.controller){
+              console.log('Hay una versión nueva; se aplicará al reabrir la app.');
+            }
+          });
+        });
+      })
+      .catch(function(err){
+        console.warn('No se pudo preparar el modo sin conexión:', err);
+      });
+  });
+}
+</script>
+</body>
+</html>
