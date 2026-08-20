@@ -1,6 +1,7 @@
 /* ============================================================
    Service Worker — Totalplay Negocios | Guía de ventas
-   VERSIÓN 13 — sección Goleador (Speakers)
+   VERSIÓN 14 — candado número + PIN (backend compartido) y
+   bitácora de accesos migrada a BASE LA LAGUNA 2026
 
    Qué hace: guarda una copia del sitio en el celular para que la
    app ABRA SIEMPRE, aunque la conexión de datos falle o titubee.
@@ -22,7 +23,7 @@
    para que los celulares ya instalados reciban la actualización.
    ============================================================ */
 
-const CACHE_NAME = 'tp-negocios-v13';
+const CACHE_NAME = 'tp-negocios-v14';
 
 /* Lo único imprescindible es el HTML. Los demás son opcionales:
    si alguno falta en GitHub, el sitio sigue funcionando igual. */
