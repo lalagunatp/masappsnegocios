@@ -273,6 +273,8 @@
             font-size:12px;font-family:monospace;}
   .nav-item .caducada,.home-card .caducada{font-size:10px;font-weight:700;background:#ffe08a;
             color:#7a5600;border-radius:6px;padding:2px 7px;margin-left:6px;white-space:nowrap;}
+  .nav-item .nueva,.home-card .nueva{font-size:10px;font-weight:700;background:var(--coral);
+            color:#fff;border-radius:6px;padding:2px 7px;margin-left:6px;white-space:nowrap;}
 
   /* ================= VISOR DE IMAGEN AMPLIADA ================= */
   .lightbox{position:fixed;inset:0;z-index:900;background:rgba(10,20,30,.94);
@@ -2613,6 +2615,25 @@ const SECCIONES = [
 ];
 
 /* ============================================================
+   NOVEDADES — qué secciones o servicios (svc:xxx) traen información
+   nueva o actualizada. Se marca con "¡Nuevo!" en el menú, en el
+   inicio y (si aplica) sobre la propia imagen, durante los "dias"
+   que se indiquen a partir de "fecha"; después desaparece solo.
+
+   Para publicar algo nuevo: agrega o actualiza aquí su fecha — es
+   el único lugar que hay que tocar, todo lo demás lo calcula solo.
+   ============================================================ */
+const NOVEDADES = {
+  manteleta: { fecha:'2026-08-20', dias:15 }
+};
+function tieneNovedad(id){
+  const n = NOVEDADES[id];
+  if(!n) return false;
+  const limite = new Date(n.fecha + 'T00:00:00').getTime() + (n.dias || 15) * 24 * 60 * 60 * 1000;
+  return Date.now() < limite;
+}
+
+/* ============================================================
    OTRAS LIGAS — se abren en una pestaña nueva
    ============================================================ */
 const LIGAS = [
@@ -2790,6 +2811,8 @@ function buildNav(){
         marca = seccionBorrada(it.id)
           ? '<span class="caducada">Quitada</span>'
           : '<span class="caducada">Terminó</span>';
+      } else if(tieneNovedad(it.id)){
+        marca = '<span class="nueva">¡Nuevo!</span>';
       }
       html += `<button class="nav-item" data-target="${it.id}"><span class="ic">${it.icon}</span>${it.label}${marca}</button>`;
     });
@@ -2847,7 +2870,8 @@ function buildHome(){
     if(seccionRestringida(p.id)) return false;
     return seccionVisible(p.id);
   }).forEach(p=>{
-    const marca = seccionVencida(p.id) ? '<span class="caducada">Terminó</span>' : '';
+    const marca = seccionVencida(p.id) ? '<span class="caducada">Terminó</span>'
+      : (tieneNovedad(p.id) ? '<span class="nueva">¡Nuevo!</span>' : '');
     promoHtml += `<div class="home-card" data-target="${p.id}"><span class="ic">${p.icon}</span><div class="t">${p.titulo}${marca}</div><div class="s">${p.desc}</div></div>`;
   });
   document.getElementById('homePromoGrid').innerHTML = promoHtml ||
@@ -3922,12 +3946,9 @@ function fechaHoraBonita(iso){
    días de publicada (cambia la fecha aquí cada vez que se suba una
    manteleta nueva) -------- */
 (function(){
-  const FECHA_PUBLICACION_MANTELETA = new Date('2026-08-20T00:00:00');
-  const DIAS_VIGENCIA_BADGE = 15;
   const badge = document.getElementById('mantBadgeNuevo');
   if(!badge) return;
-  const limite = FECHA_PUBLICACION_MANTELETA.getTime() + DIAS_VIGENCIA_BADGE * 24 * 60 * 60 * 1000;
-  if(Date.now() >= limite) badge.style.display = 'none';
+  if(!tieneNovedad('manteleta')) badge.style.display = 'none';
 })();
 
 /* ============================================================
