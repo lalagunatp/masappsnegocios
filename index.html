@@ -3914,20 +3914,32 @@ function fechaHoraBonita(iso){
 /* ============================================================
    Registro del Service Worker
    Guarda una copia del sitio en el celular para que ABRA SIEMPRE,
-   aunque la conexión de datos falle o titubee.
+   aunque la conexión de datos falle o titubee. Cuando se publica un
+   cambio (subiendo CACHE_NAME en sw.js), la página se recarga sola
+   una vez que la nueva versión toma el control — nadie se queda
+   atorado en la versión vieja esperando a cerrar y reabrir.
    ============================================================ */
 if ('serviceWorker' in navigator) {
+  // En cuanto el service worker nuevo toma el control, se recarga la
+  // página sola una vez: así la actualización aplica de inmediato,
+  // sin depender de que la persona cierre y reabra la app a mano.
+  let refrescandoPorActualizacion = false;
+  navigator.serviceWorker.addEventListener('controllerchange', function(){
+    if(refrescandoPorActualizacion) return;
+    refrescandoPorActualizacion = true;
+    location.reload();
+  });
+
   window.addEventListener('load', function(){
     navigator.serviceWorker.register('sw.js')
       .then(function(reg){
         console.log('App lista para abrir sin depender de la conexión.');
-        // si hay una versión nueva publicada, se aplica al reabrir
         reg.addEventListener('updatefound', function(){
           const nuevo = reg.installing;
           if(!nuevo) return;
           nuevo.addEventListener('statechange', function(){
             if(nuevo.state === 'installed' && navigator.serviceWorker.controller){
-              console.log('Hay una versión nueva; se aplicará al reabrir la app.');
+              console.log('Hay una versión nueva; se está aplicando…');
             }
           });
         });
