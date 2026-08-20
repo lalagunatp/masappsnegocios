@@ -1,7 +1,7 @@
 /* ============================================================
    Service Worker — Totalplay Negocios | Guía de ventas
-   VERSIÓN 15 — la app ya se recarga sola cuando hay versión nueva
-   (antes había que cerrarla y volver a abrirla a mano)
+   VERSIÓN 16 — manteleta Negocios agosto 2026 + sello "¡Nuevo!"
+   (se oculta solo a los 15 días)
 
    Qué hace: guarda una copia del sitio en el celular para que la
    app ABRA SIEMPRE, aunque la conexión de datos falle o titubee.
@@ -23,7 +23,7 @@
    para que los celulares ya instalados reciban la actualización.
    ============================================================ */
 
-const CACHE_NAME = 'tp-negocios-v15';
+const CACHE_NAME = 'tp-negocios-v16';
 
 /* Lo único imprescindible es el HTML. Los demás son opcionales:
    si alguno falta en GitHub, el sitio sigue funcionando igual. */
