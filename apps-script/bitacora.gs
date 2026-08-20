@@ -6,9 +6,13 @@
  * limpiarBitacoraAntigua).
  *
  * La pestaña "HISTORICO" es aparte: ahí se pega A MANO, una sola vez,
- * lo viejo que se quiera conservar para siempre. Este script nunca la
- * lee ni la toca — así el historial no se pierde aunque la bitácora
- * viva se vaya limpiando cada 45 días.
+ * lo viejo que se quiera conservar para siempre. Este script LEE esa
+ * pestaña para que "Mi equipo" cuente también las entradas de antes
+ * de la migración, pero NUNCA le escribe ni le borra nada — así el
+ * historial no se pierde aunque la bitácora viva se vaya limpiando
+ * cada 45 días. El formato de HISTORICO es el de la bitácora vieja,
+ * ya agregado por persona: Numero, Nombre, Puesto, Distrito,
+ * Primer acceso, Último acceso, Veces.
  *
  * ---- IMPORTANTE: proyecto NUEVO e independiente ----
  * BASE LA LAGUNA 2026 ya tiene un Apps Script sirviendo el login
@@ -47,11 +51,20 @@
  * 8. Manda esa URL /exec de vuelta: se pega en una sola línea del
  *    index.html (la llamada a "fn:'registrar'" y "fn:'bitacora'" que
  *    hoy usan BUZON_URL) sin tocar nada más de la app.
+ *
+ * ---- SI YA LO TENÍAS DESPLEGADO Y SOLO ACTUALIZAS EL CÓDIGO ----
+ * Editar el script NO actualiza por sí solo la URL /exec que ya está
+ * en uso — hay que decirle explícitamente que use el código nuevo:
+ * Implementar → Administrar implementaciones → ícono de lápiz (editar)
+ * → Versión: "Nueva versión" → Implementar. Así la MISMA URL /exec
+ * empieza a correr el código actualizado, sin tener que volver a
+ * pegarla en el index.html.
  * ============================================================
  */
 
 const ID_HOJA = '1Ph5T-m-Lkbdw1LBq-9wIIMW6C8bljOG1t5GfZQhNZ2o'; // BASE LA LAGUNA 2026
 const HOJA_BITACORA = 'BITACORA NEGOCIOS';
+const HOJA_HISTORICO = 'HISTORICO';
 const DIAS_RETENCION = 45;
 
 function doGet(e){
@@ -99,9 +112,34 @@ function registrar(p){
   return { ok:true };
 }
 
+/* Lee HISTORICO (formato ya agregado: Numero, Nombre, Puesto,
+   Distrito, Primer acceso, Último acceso, Veces) y la deja en el
+   mismo molde { num, ultimo, veces } que usa leerBitacora(). Solo
+   lectura: jamás se escribe ni se borra nada aquí. */
+function leerHistorico_(){
+  const ss = SpreadsheetApp.openById(ID_HOJA);
+  const hoja = ss.getSheetByName(HOJA_HISTORICO);
+  if(!hoja) return {};
+  const filas = hoja.getDataRange().getValues();
+  filas.shift(); // encabezado
+  const porNumero = {};
+  filas.forEach(function(f){
+    const num = String(f[0] || '').trim();
+    if(!num) return;
+    const ultimo = f[5] instanceof Date ? f[5] : new Date(f[5]);
+    const veces = Number(f[6]) || 0;
+    if(isNaN(ultimo.getTime())) return;
+    porNumero[num] = { num: num, ultimo: ultimo, veces: veces };
+  });
+  return porNumero;
+}
+
 /* Devuelve, por número de empleado, cuándo entró por última vez y
    cuántas veces — la misma forma que ya espera traerBitacora() /
-   pintarEquipo() en el index.html (BITACORA[num] = {ultimo, veces}). */
+   pintarEquipo() en el index.html (BITACORA[num] = {ultimo, veces}).
+   Combina la bitácora viva (BITACORA NEGOCIOS) con el archivo
+   permanente (HISTORICO): a quien aparece en las dos, se le suman
+   las veces y se le deja el acceso más reciente de ambas. */
 function leerBitacora(){
   const hoja = hojaBitacora_();
   const filas = hoja.getDataRange().getValues();
@@ -115,6 +153,18 @@ function leerBitacora(){
     porNumero[num].veces++;
     if(fecha > porNumero[num].ultimo) porNumero[num].ultimo = fecha;
   });
+
+  const historico = leerHistorico_();
+  Object.keys(historico).forEach(function(num){
+    const h = historico[num];
+    if(!porNumero[num]){
+      porNumero[num] = { num: num, ultimo: h.ultimo, veces: h.veces };
+    } else {
+      porNumero[num].veces += h.veces;
+      if(h.ultimo > porNumero[num].ultimo) porNumero[num].ultimo = h.ultimo;
+    }
+  });
+
   const datos = Object.keys(porNumero).map(function(k){
     const d = porNumero[k];
     return { num: d.num, ultimo: d.ultimo.toISOString(), veces: d.veces };
