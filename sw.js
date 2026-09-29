@@ -1,7 +1,7 @@
 /* ============================================================
    Service Worker — Totalplay Negocios | Guía de ventas
-   VERSIÓN 18 — manteleta nueva (Negocios Octubre Nacional),
-   vigencia 29 de septiembre al 02 de noviembre 2026
+   VERSIÓN 19 — streaming "Netflix + Más Apps" (Nacional),
+   vigencia hasta el 05 de octubre 2026
 
    Qué hace: guarda una copia del sitio en el celular para que la
    app ABRA SIEMPRE, aunque la conexión de datos falle o titubee.
@@ -23,7 +23,7 @@
    para que los celulares ya instalados reciban la actualización.
    ============================================================ */
 
-const CACHE_NAME = 'tp-negocios-v18';
+const CACHE_NAME = 'tp-negocios-v19';
 
 /* Lo único imprescindible es el HTML. Los demás son opcionales:
    si alguno falta en GitHub, el sitio sigue funcionando igual. */

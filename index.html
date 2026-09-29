@@ -970,7 +970,7 @@
     <div class="eyebrow">Oferta Negocios · Totalplay</div>
     <h1 style="font-size:clamp(22px,4vw,32px);">Llegaron los planes con plataformas de streaming incluido</h1>
     <div class="meta-row">
-      <div class="pill">🗓️ Vigencia: <b data-vig="streaming">22 al 31 de julio 2026</b></div>
+      <div class="pill">🗓️ Vigencia: <b data-vig="streaming">hasta el 05 de octubre de 2026</b></div>
       <div class="pill">📍 Alcance: <b>Nacional</b></div>
       <div class="pill">📋 Informativo para: <b>Centro de Soluciones</b></div>
     </div>
@@ -983,7 +983,7 @@
       <button class="fam-btn" data-family="internet"><span>🌐</span> Solo Internet</button>
     </div>
     <div class="grid" id="cardGrid"></div>
-    <div class="footnote">Las etiquetas <b style="color:#8a5a17">ámbar</b> son promocionales (tiempo limitado); el resto se mantienen incluidas de forma indefinida mientras el cliente conserve su plan y adicionales. Solo los planes de 5,000 y 10,000 Megas incluyen las apps <b>sin anuncios</b>; el resto las incluye <b>con anuncios</b>.</div>
+    <div class="footnote">Las etiquetas <b style="color:#8a5a17">ámbar</b> son promocionales (tiempo limitado); el resto se mantienen incluidas de forma indefinida mientras el cliente conserve su plan y adicionales. Todas las apps se incluyen <b>con anuncios</b> (Apple TV no maneja versión con anuncios). Los planes de <b>Solo Internet no incluyen Universal+</b>. El cliente elige <b>Más Apps</b> o el <b>Descuento Totalamigo</b>: no puede combinar ambas.</div>
 
     <div class="rules-block">
       <div class="rules-title">Cómo modelar esta promoción en sistema</div>
@@ -1303,23 +1303,23 @@ const PLATFORMS = ['netflix','universal','appletv','hbomax','disney'];
 
 const DATA = {
   tv: [
-    {megas:'10,000', plan:'Élite',       pp:'$3,159', adminNeg:true,  row:[2,2,2,'plain',2]},
-    {megas:'5,000',  plan:'Ejecutivo',   pp:'$2,649', adminNeg:true,  row:[2,2,2,'plain',2]},
-    {megas:'1,000',  plan:'Experto',     pp:'$1,240', adminNeg:true,  row:[1,1,1,'plain',1]},
-    {megas:'500',    plan:'Emprendedor', pp:'$1,030', adminNeg:true,  row:[1,1,1,'plain',0]},
-    {megas:'350',    plan:'Dinámico',    pp:'$829',   adminNeg:false, row:[1,1,'plain',0,0]},
-    {megas:'250',    plan:'Esencial',    pp:'$720',   adminNeg:false, row:['5m','5m','5m',0,0]},
-    {megas:'150',    plan:'Elemental',   pp:'$619',   adminNeg:false, row:['5m','5m','5m',0,0]},
+    {megas:'10,000', plan:'Élite',       pp:'$3,159', adminNeg:true,  row:[1,1,'plain',1,1]},
+    {megas:'5,000',  plan:'Ejecutivo',   pp:'$2,649', adminNeg:true,  row:[1,1,'plain',1,1]},
+    {megas:'1,000',  plan:'Experto',     pp:'$1,240', adminNeg:true,  row:[1,1,'plain',1,1]},
+    {megas:'500',    plan:'Emprendedor', pp:'$1,030', adminNeg:true,  row:[1,1,'plain',0,1]},
+    {megas:'350',    plan:'Dinámico',    pp:'$829',   adminNeg:true,  row:[1,1,'plain',0,'5m']},
+    {megas:'250',    plan:'Esencial',    pp:'$720',   adminNeg:false, row:['5m',0,'5m',0,'5m']},
+    {megas:'150',    plan:'Elemental',   pp:'$619',   adminNeg:false, row:['5m',0,'5m',0,'5m']},
     {megas:'100',    plan:'Plan base',   pp:'$510',   adminNeg:false, row:[0,0,0,0,0]},
   ],
   internet: [
-    {megas:'10,000', plan:'Élite',       pp:'$2,659', device:'VSB', adminNeg:true,  row:[2,2,2,'plain',2]},
-    {megas:'5,000',  plan:'Ejecutivo',   pp:'$2,149', device:'VSB', adminNeg:true,  row:[2,2,2,'plain',2]},
-    {megas:'1,000',  plan:'Experto',     pp:'$1,039', device:'VSB', adminNeg:true,  row:[1,1,1,'plain',1]},
-    {megas:'500',    plan:'Emprendedor', pp:'$890',   device:'VSB', adminNeg:true,  row:[1,1,1,'plain',0]},
-    {megas:'350',    plan:'Dinámico',    pp:'$690',   device:'TV',  adminNeg:false, row:[1,1,'plain',0,0]},
-    {megas:'250',    plan:'Esencial',    pp:'$580',   device:'TV',  adminNeg:false, row:['3m','3m','3m',0,0]},
-    {megas:'150',    plan:'Elemental',   pp:'$480',   device:'TV',  adminNeg:false, row:['3m','3m','3m',0,0]},
+    {megas:'10,000', plan:'Élite',       pp:'$2,659', device:'VSB', adminNeg:true,  row:[1,0,'plain',1,1]},
+    {megas:'5,000',  plan:'Ejecutivo',   pp:'$2,149', device:'VSB', adminNeg:true,  row:[1,0,'plain',1,1]},
+    {megas:'1,000',  plan:'Experto',     pp:'$1,039', device:'VSB', adminNeg:true,  row:[1,0,'plain',1,1]},
+    {megas:'500',    plan:'Emprendedor', pp:'$890',   device:'VSB', adminNeg:true,  row:[1,0,'plain',0,1]},
+    {megas:'350',    plan:'Dinámico',    pp:'$690',   device:'TV',  adminNeg:true,  row:[1,0,'plain',0,'3m']},
+    {megas:'250',    plan:'Esencial',    pp:'$580',   device:'TV',  adminNeg:false, row:['3m',0,'3m',0,'3m']},
+    {megas:'150',    plan:'Elemental',   pp:'$480',   device:'TV',  adminNeg:false, row:['3m',0,'3m',0,'3m']},
     {megas:'100',    plan:'Plan base',   pp:'$410',   device:'TV',  adminNeg:false, row:[0,0,0,0,0]},
   ]
 };
@@ -1334,65 +1334,69 @@ const DISCOUNT = [
 
 const RULES = [
   {
-    tier:'150 y 250 Megas', sub:'Elemental 150 · Esencial 250 — Netflix Ads + Apple TV + Universal+',
+    tier:'150 y 250 Megas', sub:'Elemental 150 · Esencial 250 — Netflix Ads + Apple TV + Disney+ (temporal)',
     items:[
-      'Promoción de Netflix Ads por <b>3 meses</b> en la familia Totalplay Internet, y por <b>5 meses</b> en la familia Totalplay TV + Internet.',
+      'Netflix Ads + Apple TV + Disney+ con anuncios por <b>3 meses</b> en la familia Totalplay Internet, y por <b>5 meses</b> en la familia Totalplay TV + Internet.',
       'Aplica para clientes nuevos y existentes (por contención, retención y upsell).',
       'No aplica para planes base, con Bundle Netflix Estándar o Netflix Premium.',
-      'El descuento aplica sobre la renta del plan desde el mes 1 hasta el mes 3 (Internet) o mes 5 (TV+Internet).',
+      'El descuento aplica sobre la renta del plan: del mes 1 al mes 3 (Internet) o del mes 1 al mes 5 (TV + Internet).',
       'A partir del mes 6, el cliente paga la renta de su plan con descuento por lealtad.',
-      'Si el cliente no llama para cancelar al mes siguiente de terminar la promoción, pagará el costo total del plan más los precios vigentes de Netflix, Apple TV y Universal+.',
+      'Si el cliente no llama para cancelar al mes siguiente de terminar la promoción (3 o 5 meses), pagará el costo total del plan más los precios vigentes de Netflix, Apple TV y Universal+.',
       'No conviven con TOTALAMIGO, empleado ni promociones segmentadas.'
     ],
-    codes:['NEG-NETFLIX ADS INCLUIDO X 3 MESES O 5 MESES','NEG-UNIVERSAL+ ESTÁNDAR CON ANUNCIOS INCLUIDO X 3 MESES O 5 MESES']
+    codes:['NEG- NETFLIX ADS CON ANUNCIOS POR 3 MESES','NEG- NETFLIX ADS CON ANUNCIOS POR 5 MESES','MÁS APPS - APPLE TV 3 MESES','MÁS APPS - APPLE TV 5 MESES','MÁS APPS - DISNEY CON ANUNCIOS POR 3 MESES','MÁS APPS - DISNEY CON ANUNCIOS POR 5 MESES']
   },
   {
-    tier:'350 Megas', sub:'Dinámico — Netflix Ads + Apple TV + Universal+ (permanente)',
+    tier:'350 Megas', sub:'Dinámico — Netflix Ads + Apple TV + Disney+ · incluye Administrador de Negocios',
     items:[
-      'Aplica el plan Dinámico 350 Megas con anuncios, en ambas familias (Totalplay Internet y TV + Internet).',
+      'Aplica al plan Dinámico 350 Megas: Netflix Ads + Apple TV + Disney+ con anuncios, en las familias Totalplay Internet y TV + Internet.',
+      'Incluye <b>Administrador de Negocios</b>.',
       'No aplica para planes base, con Bundle Netflix Estándar o Netflix Premium.',
       'Aplica para clientes nuevos y existentes (por contención, retención y upsell).',
       'A partir del mes 6, el cliente paga la renta con descuento por lealtad.',
       'El descuento es <b>permanente</b> mientras el cliente conserve su plan más los adicionales.',
-      'El cliente cuenta con Netflix Ads, Apple TV y Universal+ con anuncios incluidos por permanencia.',
       'No convive con TOTALAMIGO, empleado ni promociones segmentadas.'
     ],
-    codes:['NEG-NETFLIX ADS INCLUIDO','NEG-UNIVERSAL+ ESTÁNDAR CON ANUNCIOS INCLUIDO']
+    codes:['NEG- NETFLIX ADS INCLUIDO','MÁS APPS - APPLE TV INCLUIDO','MÁS APPS - DISNEY CON ANUNCIOS POR 3 MESES','MÁS APPS - DISNEY CON ANUNCIOS POR 5 MESES','NEG ADMINISTRADOR DE NEGOCIOS INCLUIDO']
   },
   {
-    tier:'500 Megas', sub:'Emprendedor — incluye Administrador de Negocios permanente',
+    tier:'500 Megas', sub:'Emprendedor — Netflix Ads + Apple TV + Universal+ + Disney+ · incluye Administrador de Negocios',
     items:[
-      'Aplica en el plan Emprendedor 500 Megas: Netflix Ads + Apple TV + Universal+ con anuncios + Disney+ con anuncios, según la regla de negocio.',
-      'Incluye Administrador de Negocios de manera permanente.',
+      'Aplica al plan Emprendedor 500 Megas: Netflix Ads + Apple TV + Universal+ con anuncios + Disney+ con anuncios. En <b>Solo Internet no incluye Universal+</b>.',
+      'Incluye <b>Administrador de Negocios</b> de manera permanente.',
       'No aplica para planes base, con Bundle Netflix Estándar o Netflix Premium.',
-      'El descuento es permanente mientras el cliente conserve su plan más los adicionales.',
+      'Aplica para clientes nuevos y existentes (por contención, retención y upsell).',
+      'A partir del mes 6, el cliente paga la renta de su plan con descuento por lealtad.',
+      'El descuento es <b>permanente</b> mientras el cliente conserve su plan más los adicionales.',
       'No convive con TOTALAMIGO, empleado ni promociones segmentadas.'
     ],
-    codes:['NEG-NETFLIX ADS INCLUIDO','NEG-UNIVERSAL+ ESTÁNDAR CON ANUNCIOS INCLUIDO','NEG ADMINISTRADOR DE NEGOCIOS INCLUIDO','NEG-DISNEY ADS INCLUIDO'],
-    flag:'⚠️ La tabla de planes de este comunicado muestra HBO Max incluido y Disney+ como NA en el Megaje de 500 — lo contrario a lo que describe esta regla de negocio. Confirma con tu jefe inmediato cuál plataforma aplica antes de ofrecerlo.'
+    codes:['NEG ADMINISTRADOR DE NEGOCIOS INCLUIDO','NEG- NETFLIX ADS INCLUIDO','MÁS APPS - APPLE TV INCLUIDO','MÁS APPS - DISNEY CON ANUNCIOS INCLUIDO']
   },
   {
-    tier:'1,000 Megas', sub:'Experto — incluye Administrador de Negocios permanente',
+    tier:'1,000 Megas', sub:'Experto — Netflix Ads + Apple TV + Universal+ + Disney+ + HBO Max · incluye Administrador de Negocios',
     items:[
-      'Aplica en el plan Experto 1,000 Megas: Netflix Ads + Apple TV + Universal+ con anuncios + Disney+ con anuncios + HBO Max con anuncios.',
-      'Incluye Administrador de Negocios de manera permanente.',
+      'Aplica al plan Experto 1,000 Megas: Netflix Ads + Apple TV + Universal+ con anuncios + Disney+ con anuncios + HBO Max con anuncios. En <b>Solo Internet no incluye Universal+</b>.',
+      'Incluye <b>Administrador de Negocios</b> de manera permanente.',
       'No aplica para planes base, con Bundle Netflix Estándar o Netflix Premium.',
-      'El descuento es permanente mientras el cliente conserve su plan más los adicionales.',
+      'Aplica para clientes nuevos y existentes (por contención, retención y upsell).',
+      'A partir del mes 6, el cliente paga la renta de su plan con descuento por lealtad.',
+      'El descuento es <b>permanente</b> mientras el cliente conserve su plan más los adicionales.',
       'No convive con TOTALAMIGO, empleado ni promociones segmentadas.'
     ],
-    codes:['NEG-NETFLIX ADS INCLUIDO','NEG-UNIVERSAL+ ESTÁNDAR CON ANUNCIOS INCLUIDO','NEG ADMINISTRADOR DE NEGOCIOS INCLUIDO','NEG-HBO MAX CON ANUNCIOS INCLUIDO','NEG-DISNEY ADS INCLUIDO']
+    codes:['NEG ADMINISTRADOR DE NEGOCIOS INCLUIDO','NEG- NETFLIX ADS INCLUIDO','MÁS APPS - APPLE TV INCLUIDO','NEG- MÁS APPS - HBO MAX BÁSICO CON ANUNCIOS','MÁS APPS - DISNEY CON ANUNCIOS INCLUIDO']
   },
   {
-    tier:'5,000 y 10,000 Megas', sub:'Ejecutivo · Élite — streaming estándar sin anuncios',
+    tier:'5,000 y 10,000 Megas', sub:'Ejecutivo · Élite — Más Apps: Netflix + Apple TV + Universal+ + Disney+ + HBO Max',
     items:[
-      'Aplica en los planes Ejecutivo 5,000 y Élite 10,000 Megas: Netflix Estándar + Apple TV + Universal+ estándar sin anuncios + Disney+ estándar sin anuncios + HBO Max estándar sin anuncios.',
-      'Incluye Administrador de Negocios de manera permanente.',
+      'Aplica a los planes Ejecutivo 5,000 y Élite 10,000 Megas: Netflix + Apple TV + Universal+ + Disney+ + HBO Max (Más Apps). En <b>Solo Internet no incluye Universal+</b>.',
+      'Incluye <b>Administrador de Negocios</b> de manera permanente.',
       'No aplica para planes base, con Bundle Netflix Ads o Netflix Premium.',
-      'A partir del 6º mes, se suma el descuento por lealtad.',
-      'El descuento es permanente mientras el cliente conserve su plan más los adicionales.',
+      'Aplica para clientes nuevos y existentes (por contención, retención y upsell).',
+      'A partir del 6º mes se suma el descuento por lealtad.',
+      'El descuento es <b>permanente</b> mientras el cliente conserve su plan más los adicionales.',
       'No convive con TOTALAMIGO, empleado ni promociones segmentadas.'
     ],
-    codes:['NEG ADMINISTRADOR DE NEGOCIOS INCLUIDO','NEG-NETFLIX ESTÁNDAR INCLUIDO','NEG-UNIVERSAL+ ESTÁNDAR CON ANUNCIOS INCLUIDO','NEG-HBO MAX ESTÁNDAR INCLUIDO','NEG-DISNEY ESTÁNDAR INCLUIDO']
+    codes:['NEG ADMINISTRADOR DE NEGOCIOS INCLUIDO','NEG- NETFLIX ADS INCLUIDO','MÁS APPS - APPLE TV INCLUIDO','NEG- MÁS APPS - HBO MAX BÁSICO CON ANUNCIOS','MÁS APPS - DISNEY CON ANUNCIOS INCLUIDO']
   }
 ];
 
@@ -2605,7 +2609,7 @@ function traerConfig(alTerminar){
    actualiza la vigencia.
    ============================================================ */
 const SECCIONES = [
-  { id:'streaming',  nombre:'Streaming incluido',         fin:'2026-07-31' },
+  { id:'streaming',  nombre:'Streaming incluido',         fin:'2026-10-05' },
   { id:'totalamigo', nombre:'Descuento Totalamigo',       fin:'2026-07-31' },
   { id:'mascon',     nombre:'Más con Negocios',            fin:'2026-08-31' },
   { id:'goleador',   nombre:'Goleador · Speakers',         fin:'2026-08-10' },
