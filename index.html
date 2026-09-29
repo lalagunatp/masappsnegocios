@@ -998,7 +998,7 @@
     <div class="section-title">Descuento Totalamigo</div>
     <div class="disc-note">
       <div class="big">Hasta $150 de descuento</div>
-      <div class="sub">Durante 5 meses · Nacional · vigencia al <b data-vig="totalamigo">31 de julio 2026</b></div>
+      <div class="sub">Durante 5 meses · Nacional · vigencia <b data-vig="totalamigo">hasta el 05 de octubre de 2026</b></div>
     </div>
     <div class="table-card">
       <table>
@@ -1018,21 +1018,22 @@
     </div>
     <div class="rules-block">
       <div class="rules-title">Cómo modelar esta promoción en sistema</div>
-      <div class="rules-intro">El código <b>NEG-TOTALAMIGO</b> es el que debes capturar en el sistema al modelar esta promoción. No conviven con él las promociones de Netflix, HBO, Universal+ o Disney+.</div>
+      <div class="rules-intro">Esta es la <b>Opción 2 (Negocio Especial)</b>. Se modela como <b>NEG- TOTALAMIGO + NEGOCIO ESPECIAL</b>, capturando las promociones <b>NEG-TOTALAMIGO</b> y <b>NEG BACK TO SCHOOL</b>. <b>No convive con las promociones de Más Apps:</b> el cliente elige una u otra.</div>
       <div class="acc-item open">
-        <div class="acc-body" style="max-height:600px;">
+        <div class="acc-body" style="max-height:700px;">
           <div class="acc-body-inner">
             <ul>
+              <li><b>No convive con las promociones de Más Apps</b> (streaming incluido): solo puedes ofrecer Más Apps <b>o</b> el Descuento Totalamigo, no ambas.</li>
               <li>Aplica solo para <b>clientes nuevos</b> de las familias Totalplay Internet y Totalplay TV + Internet.</li>
               <li>Aplica para los planes <b>Elemental, Esencial, Dinámico, Emprendedor y Experto</b>.</li>
               <li>Convive con la promoción de <b>portabilidad</b>.</li>
               <li><b>No convive</b> con promociones de Netflix, HBO, Universal+ o Disney+.</li>
-              <li>El descuento aplica del mes 1 al mes 5, sobre la renta del plan.</li>
+              <li>El descuento por 5 meses aplica del mes 1 al mes 5, sobre la renta del plan.</li>
               <li>Habilitado para <b>upsell</b>, siempre que no aplique sobre promociones del mismo adicional o se trate de un upgrade.</li>
             </ul>
             <div class="model-box">
-              <div class="model-label">Código a modelar en sistema</div>
-              <div class="codes"><span class="code-chip">NEG-TOTALAMIGO</span></div>
+              <div class="model-label">Códigos a modelar en sistema</div>
+              <div class="codes"><span class="code-chip">NEG-TOTALAMIGO</span><span class="code-chip">NEG BACK TO SCHOOL</span></div>
             </div>
           </div>
         </div>
@@ -1326,7 +1327,7 @@ const DATA = {
 
 const DISCOUNT = [
   {megas:'1,000', ppNet:'$1,039', descNet:'$889', mes6Net:'$959', ppTv:'$1,240', descTv:'$1,090', mes6Tv:'$1,140'},
-  {megas:'500',   ppNet:'$890',   descNet:'$790', mes6Net:'$820', ppTv:'$1,030', descTv:'$960',   mes6Tv:'$970'},
+  {megas:'500',   ppNet:'$860',   descNet:'$790', mes6Net:'$820', ppTv:'$1,030', descTv:'$960',   mes6Tv:'$970'},
   {megas:'350',   ppNet:'$690',   descNet:'$620', mes6Net:'$660', ppTv:'$829',   descTv:'$759',   mes6Tv:'$789'},
   {megas:'250',   ppNet:'$580',   descNet:'$520', mes6Net:'$560', ppTv:'$720',   descTv:'$660',   mes6Tv:'$690'},
   {megas:'150',   ppNet:'$480',   descNet:'$420', mes6Net:'$460', ppTv:'$619',   descTv:'$559',   mes6Tv:'$589'},
@@ -2610,7 +2611,7 @@ function traerConfig(alTerminar){
    ============================================================ */
 const SECCIONES = [
   { id:'streaming',  nombre:'Streaming incluido',         fin:'2026-10-05' },
-  { id:'totalamigo', nombre:'Descuento Totalamigo',       fin:'2026-07-31' },
+  { id:'totalamigo', nombre:'Descuento Totalamigo',       fin:'2026-10-05' },
   { id:'mascon',     nombre:'Más con Negocios',            fin:'2026-08-31' },
   { id:'goleador',   nombre:'Goleador · Speakers',         fin:'2026-08-10' },
   { id:'consecutivo',nombre:'Consecutivo de Promociones', fin:'2026-09-17' },
