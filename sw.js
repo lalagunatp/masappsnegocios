@@ -1,7 +1,7 @@
 /* ============================================================
    Service Worker — Totalplay Negocios | Guía de ventas
-   VERSIÓN 17 — sello "¡Nuevo!" también en el menú y en inicio,
-   no solo sobre la imagen de la manteleta
+   VERSIÓN 18 — manteleta nueva (Negocios Octubre Nacional),
+   vigencia 29 de septiembre al 02 de noviembre 2026
 
    Qué hace: guarda una copia del sitio en el celular para que la
    app ABRA SIEMPRE, aunque la conexión de datos falle o titubee.
@@ -23,7 +23,7 @@
    para que los celulares ya instalados reciban la actualización.
    ============================================================ */
 
-const CACHE_NAME = 'tp-negocios-v17';
+const CACHE_NAME = 'tp-negocios-v18';
 
 /* Lo único imprescindible es el HTML. Los demás son opcionales:
    si alguno falta en GitHub, el sitio sigue funcionando igual. */
