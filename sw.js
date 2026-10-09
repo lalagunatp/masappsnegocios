@@ -1,7 +1,7 @@
 /* ============================================================
    Service Worker — Totalplay Negocios | Guía de ventas
-   VERSIÓN 20 — Negocio Especial/Totalamigo (Nacional): precio
-   500 a $860, NEG BACK TO SCHOOL, vigencia al 05 de octubre 2026
+   VERSIÓN 21 — consecutivo de promociones sem 40-41 (Nacional),
+   vigencia 08 al 15 de octubre 2026; streaming y Totalamigo al 15 oct
 
    Qué hace: guarda una copia del sitio en el celular para que la
    app ABRA SIEMPRE, aunque la conexión de datos falle o titubee.
@@ -23,7 +23,7 @@
    para que los celulares ya instalados reciban la actualización.
    ============================================================ */
 
-const CACHE_NAME = 'tp-negocios-v20';
+const CACHE_NAME = 'tp-negocios-v21';
 
 /* Lo único imprescindible es el HTML. Los demás son opcionales:
    si alguno falta en GitHub, el sitio sigue funcionando igual. */
