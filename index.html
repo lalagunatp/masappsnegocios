@@ -968,9 +968,9 @@
   <section class="view" id="view-streaming">
     <button class="back-link" onclick="showView('home')">← Volver al inicio</button>
     <div class="eyebrow">Oferta Negocios · Totalplay</div>
-    <h1 style="font-size:clamp(22px,4vw,32px);">Llegaron los planes con plataformas de streaming incluido</h1>
+    <h1 style="font-size:clamp(22px,4vw,32px);">Un buen mes para hacer negocios: Netflix + Más Apps incluidas, manteniendo los precios</h1>
     <div class="meta-row">
-      <div class="pill">🗓️ Vigencia: <b data-vig="streaming">hasta el 15 de octubre de 2026</b></div>
+      <div class="pill">🗓️ Vigencia: <b data-vig="streaming">02 al 30 de noviembre de 2026</b></div>
       <div class="pill">📍 Alcance: <b>Nacional</b></div>
       <div class="pill">📋 Informativo para: <b>Centro de Soluciones</b></div>
     </div>
@@ -983,7 +983,7 @@
       <button class="fam-btn" data-family="internet"><span>🌐</span> Solo Internet</button>
     </div>
     <div class="grid" id="cardGrid"></div>
-    <div class="footnote">Las etiquetas <b style="color:#8a5a17">ámbar</b> son promocionales (tiempo limitado); el resto se mantienen incluidas de forma indefinida mientras el cliente conserve su plan y adicionales. Todas las apps se incluyen <b>con anuncios</b> (Apple TV no maneja versión con anuncios). Los planes de <b>Solo Internet no incluyen Universal+</b>. El cliente elige <b>Más Apps</b> o el <b>Descuento Totalamigo</b>: no puede combinar ambas.</div>
+    <div class="footnote">Las etiquetas <b style="color:#8a5a17">ámbar</b> son promocionales (tiempo limitado); el resto se mantienen incluidas de forma indefinida mientras el cliente conserve su plan y adicionales. Todas las apps se incluyen <b>con anuncios</b> (Apple TV no maneja versión con anuncios). Los planes de <b>Solo Internet no incluyen Disney+</b>. El <b>VSB</b> viene incluido en TV + Internet de 350 Megas en adelante. Precios <b>pronto pago</b>; a partir del 6º mes aplica el descuento por lealtad. El cliente elige <b>Más Apps</b> o el <b>Descuento Totalamigo (Negocio Especial)</b>: no puede combinar ambas.</div>
 
     <div class="rules-block">
       <div class="rules-title">Cómo modelar esta promoción en sistema</div>
@@ -998,7 +998,7 @@
     <div class="section-title">Descuento Totalamigo</div>
     <div class="disc-note">
       <div class="big">Hasta $150 de descuento</div>
-      <div class="sub">Durante 5 meses · Nacional · vigencia <b data-vig="totalamigo">hasta el 15 de octubre de 2026</b></div>
+      <div class="sub">Durante 5 meses · Nacional · vigencia <b data-vig="totalamigo">02 al 30 de noviembre de 2026</b></div>
     </div>
     <div class="table-card">
       <table>
@@ -1018,7 +1018,7 @@
     </div>
     <div class="rules-block">
       <div class="rules-title">Cómo modelar esta promoción en sistema</div>
-      <div class="rules-intro">Esta es la <b>Opción 2 (Negocio Especial)</b>. Se modela como <b>NEG- TOTALAMIGO + NEGOCIO ESPECIAL</b>, capturando las promociones <b>NEG-TOTALAMIGO</b> y <b>NEG BACK TO SCHOOL</b>. <b>No convive con las promociones de Más Apps:</b> el cliente elige una u otra.</div>
+      <div class="rules-intro">Esta es la <b>Opción 2 (Negocio Especial)</b>. Se modela como <b>NEG- TOTALAMIGO + NEGOCIO ESPECIAL</b>, capturando las promociones <b>NEG- TOTALAMIGO</b> y <b>NEGOCIO ESPECIAL</b>. <b>No convive con las promociones de Más Apps:</b> el cliente elige una u otra.</div>
       <div class="acc-item open">
         <div class="acc-body" style="max-height:700px;">
           <div class="acc-body-inner">
@@ -1033,12 +1033,27 @@
             </ul>
             <div class="model-box">
               <div class="model-label">Códigos a modelar en sistema</div>
-              <div class="codes"><span class="code-chip">NEG-TOTALAMIGO</span><span class="code-chip">NEG BACK TO SCHOOL</span></div>
+              <div class="codes"><span class="code-chip">NEG- TOTALAMIGO</span><span class="code-chip">NEGOCIO ESPECIAL</span></div>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </section>
+
+  <!-- ================= PROMOCIONES ESPECIALES BUEN MES ================= -->
+  <section class="view" id="view-buenmes">
+    <button class="back-link" onclick="showView('home')">← Volver al inicio</button>
+    <div id="buenmesAviso"></div>
+    <div class="eyebrow">Oferta Negocios · Promociones especiales</div>
+    <h1 style="font-size:clamp(22px,4vw,32px);">Un buen mes para hacer negocios</h1>
+    <div class="meta-row">
+      <div class="pill">🗓️ Vigencia: <b data-vig="buenmes">02 al 30 de noviembre de 2026</b></div>
+      <div class="pill">📍 Alcance: <b>Nacional</b></div>
+    </div>
+    <div class="warn">⚠️ <b>Nota importante:</b> revisa con cuidado este comunicado. Si tienes alguna duda, acude con tu jefe inmediato.</div>
+    <div class="dirigido"><b>Dirigido a:</b> todos los canales de venta (Telemarketing, Autoempresarios, Cambaceo, Desarrollo, Cadenas, Punto de Venta), Instalaciones (cuadrillas internas y externas), Centro de Soluciones, Cobranza, Mesa de Control y Aseguramiento de Ingresos.</div>
+    <div id="bmContenido"></div>
   </section>
 
   <!-- ================= MANTELETA ================= -->
@@ -1047,7 +1062,7 @@
     <div id="manteletaAviso"></div>
     <div class="section-title">Manteleta Negocios</div>
     <div class="meta-row">
-      <div class="pill">🗓️ Vigencia: <b data-vig="manteleta">29 de septiembre al 02 de noviembre de 2026</b></div>
+      <div class="pill">🗓️ Vigencia: <b data-vig="manteleta">02 al 30 de noviembre de 2026</b></div>
       <div class="pill">📍 Alcance: <b>Nacional</b></div>
     </div>
     <p class="lead">Hoja de consulta rápida con todos los planes, precios y apps incluidas.
@@ -1075,7 +1090,9 @@
     </div>
 
     <div class="footnote">Precio Pronto Pago aplica pagando antes de la fecha de corte.
-    A partir del 6º mes aplica el descuento por lealtad. Consulta las condiciones completas en la segunda imagen.</div>
+    A partir del 6º mes aplica el descuento por lealtad. Todas las soluciones y aplicaciones están incluidas
+    mientras el plan se encuentre vigente; todas las aplicaciones son Estándar con anuncios.
+    La segunda imagen trae las soluciones de negocio, los adicionales de contenido y sus precios.</div>
   </section>
 
   <!-- ================= MI EQUIPO ================= -->
@@ -1254,7 +1271,7 @@
     <div class="web">🌐 <b>Soluciones de negocio + Página Web incluidas sin costo.</b><br>
     Ya vienen incluidas en la solución contratada — no se modela ninguna promoción.<br>
     Invita a tu cliente a activarla en <a href="http://www.asesorvirtual.com.mx" target="_blank">www.asesorvirtual.com.mx</a> o por WhatsApp <a href="#">55 53 50 87 01</a>.</div>
-    <div>Informativo para Centro de Soluciones · Alcance Nacional · Vigencia de promociones: <span data-vig="consecutivo">08 al 15 de octubre de 2026</span></div>
+    <div>Informativo para Centro de Soluciones · Alcance Nacional · Vigencia de promociones: <span data-vig="streaming">02 al 30 de noviembre de 2026</span></div>
     <div class="internal-note">Este material es únicamente de uso interno y está prohibida su distribución.</div>
     <div class="signature">Designed by Lone Wolf | <a href="mailto:lone.wolf.verified@gmail.com">lone.wolf.verified@gmail.com</a></div>
   </div>
@@ -1302,26 +1319,30 @@
 const PLAT_LABEL = {netflix:'Netflix', universal:'Universal+', appletv:'Apple TV', hbomax:'HBO Max', disney:'Disney+'};
 const PLATFORMS = ['netflix','universal','appletv','hbomax','disney'];
 
+/* Manteleta y comunicado NEG BUEN MES · noviembre 2026 (Nacional)
+   row = [netflix, universal, appletv, hbomax, disney]
+   pp = pronto pago · lealtad = pronto pago a partir del 6º mes
+   adminNeg: true = incluido · '12m' = por 12 meses · false = no incluye */
 const DATA = {
   tv: [
-    {megas:'10,000', plan:'Élite',       pp:'$3,159', adminNeg:true,  row:[1,1,'plain',1,1]},
-    {megas:'5,000',  plan:'Ejecutivo',   pp:'$2,649', adminNeg:true,  row:[1,1,'plain',1,1]},
-    {megas:'1,000',  plan:'Experto',     pp:'$1,240', adminNeg:true,  row:[1,1,'plain',1,1]},
-    {megas:'500',    plan:'Emprendedor', pp:'$1,030', adminNeg:true,  row:[1,1,'plain',0,1]},
-    {megas:'350',    plan:'Dinámico',    pp:'$829',   adminNeg:true,  row:[1,1,'plain',0,'5m']},
-    {megas:'250',    plan:'Esencial',    pp:'$720',   adminNeg:false, row:['5m',0,'5m',0,'5m']},
-    {megas:'150',    plan:'Elemental',   pp:'$619',   adminNeg:false, row:['5m',0,'5m',0,'5m']},
-    {megas:'100',    plan:'Plan base',   pp:'$510',   adminNeg:false, row:[0,0,0,0,0]},
+    {megas:'10,000', plan:'Élite',       pp:'$3,159', lealtad:'$3,059', device:'VSB', adminNeg:true,  row:[1,1,'plain',1,1]},
+    {megas:'5,000',  plan:'Ejecutivo',   pp:'$2,649', lealtad:'$2,549', device:'VSB', adminNeg:true,  row:[1,1,'plain',1,1]},
+    {megas:'1,000',  plan:'Experto',     pp:'$1,240', lealtad:'$1,140', device:'VSB', adminNeg:true,  row:[1,1,'plain',1,1]},
+    {megas:'500',    plan:'Emprendedor', pp:'$1,030', lealtad:'$970',   device:'VSB', adminNeg:true,  row:[1,1,'plain',0,1]},
+    {megas:'350',    plan:'Dinámico',    pp:'$829',   lealtad:'$789',   device:'VSB', adminNeg:'12m', row:[1,'5m','plain',0,0]},
+    {megas:'250',    plan:'Esencial',    pp:'$720',   lealtad:'$690',   device:'TV',  adminNeg:false, row:['5m','5m','5m',0,0]},
+    {megas:'150',    plan:'Elemental',   pp:'$619',   lealtad:'$589',   device:'TV',  adminNeg:false, row:['5m','5m','5m',0,0]},
+    {megas:'100',    plan:'Micro 100',   pp:'$510',   lealtad:'$480',   device:'TV',  adminNeg:false, row:[0,0,0,0,0]},
   ],
   internet: [
-    {megas:'10,000', plan:'Élite',       pp:'$2,659', device:'VSB', adminNeg:true,  row:[1,0,'plain',1,1]},
-    {megas:'5,000',  plan:'Ejecutivo',   pp:'$2,149', device:'VSB', adminNeg:true,  row:[1,0,'plain',1,1]},
-    {megas:'1,000',  plan:'Experto',     pp:'$1,039', device:'VSB', adminNeg:true,  row:[1,0,'plain',1,1]},
-    {megas:'500',    plan:'Emprendedor', pp:'$890',   device:'VSB', adminNeg:true,  row:[1,0,'plain',0,1]},
-    {megas:'350',    plan:'Dinámico',    pp:'$690',   device:'TV',  adminNeg:true,  row:[1,0,'plain',0,'3m']},
-    {megas:'250',    plan:'Esencial',    pp:'$580',   device:'TV',  adminNeg:false, row:['3m',0,'3m',0,'3m']},
-    {megas:'150',    plan:'Elemental',   pp:'$480',   device:'TV',  adminNeg:false, row:['3m',0,'3m',0,'3m']},
-    {megas:'100',    plan:'Plan base',   pp:'$410',   device:'TV',  adminNeg:false, row:[0,0,0,0,0]},
+    {megas:'10,000', plan:'Élite',       pp:'$2,659', lealtad:'$2,579', adminNeg:true,  row:[1,1,'plain',1,0]},
+    {megas:'5,000',  plan:'Ejecutivo',   pp:'$2,149', lealtad:'$2,069', adminNeg:true,  row:[1,1,'plain',1,0]},
+    {megas:'1,000',  plan:'Experto',     pp:'$1,039', lealtad:'$959',   adminNeg:true,  row:[1,1,'plain',1,0]},
+    {megas:'500',    plan:'Emprendedor', pp:'$890',   lealtad:'$850',   adminNeg:true,  row:[1,1,'plain',0,0]},
+    {megas:'350',    plan:'Dinámico',    pp:'$690',   lealtad:'$660',   adminNeg:'12m', row:[1,'3m','plain',0,0]},
+    {megas:'250',    plan:'Esencial',    pp:'$580',   lealtad:'$560',   adminNeg:false, row:['3m','3m','3m',0,0]},
+    {megas:'150',    plan:'Elemental',   pp:'$480',   lealtad:'$460',   adminNeg:false, row:['3m','3m','3m',0,0]},
+    {megas:'100',    plan:'Micro Pro',   pp:'$419',   lealtad:'$399',   adminNeg:false, row:[0,0,0,0,0]},
   ]
 };
 
@@ -1335,9 +1356,10 @@ const DISCOUNT = [
 
 const RULES = [
   {
-    tier:'150 y 250 Megas', sub:'Elemental 150 · Esencial 250 — Netflix Ads + Apple TV + Disney+ (temporal)',
+    tier:'150 y 250 Megas', sub:'Elemental 150 · Esencial 250 — Netflix Ads + Apple TV + Universal+ (temporal)',
     items:[
-      'Netflix Ads + Apple TV + Disney+ con anuncios por <b>3 meses</b> en la familia Totalplay Internet, y por <b>5 meses</b> en la familia Totalplay TV + Internet.',
+      'Netflix Ads + Apple TV + Universal+ con anuncios por <b>3 meses</b> en la familia Totalplay Internet, y por <b>5 meses</b> en la familia Totalplay TV + Internet.',
+      'En <b>250 Megas</b> también tienes la <b>oferta especial Buen Mes</b>: Netflix con anuncios incluido de forma permanente ($660 Internet · $800 TV + Internet). Ve a <b>Promociones especiales Buen Mes</b>.',
       'Aplica para clientes nuevos y existentes (por contención, retención y upsell).',
       'No aplica para planes base, con Bundle Netflix Estándar o Netflix Premium.',
       'El descuento aplica sobre la renta del plan: del mes 1 al mes 3 (Internet) o del mes 1 al mes 5 (TV + Internet).',
@@ -1345,25 +1367,26 @@ const RULES = [
       'Si el cliente no llama para cancelar al mes siguiente de terminar la promoción (3 o 5 meses), pagará el costo total del plan más los precios vigentes de Netflix, Apple TV y Universal+.',
       'No conviven con TOTALAMIGO, empleado ni promociones segmentadas.'
     ],
-    codes:['NEG- NETFLIX ADS CON ANUNCIOS POR 3 MESES','NEG- NETFLIX ADS CON ANUNCIOS POR 5 MESES','MÁS APPS - APPLE TV 3 MESES','MÁS APPS - APPLE TV 5 MESES','MÁS APPS - DISNEY CON ANUNCIOS POR 3 MESES','MÁS APPS - DISNEY CON ANUNCIOS POR 5 MESES']
+    codes:['NEG- NETFLIX ADS CON ANUNCIOS POR 3 MESES','NEG- NETFLIX ADS CON ANUNCIOS POR 5 MESES','MÁS APPS - APPLE TV 3 MESES','MÁS APPS - APPLE TV 5 MESES','NEG- MAS APPS UNIVERSAL+ ESPECIAL 3 MESES','NEG- MAS APPS UNIVERSAL+ ESPECIAL 5 MESES']
   },
   {
-    tier:'350 Megas', sub:'Dinámico — Netflix Ads + Apple TV + Disney+ · incluye Administrador de Negocios',
+    tier:'350 Megas', sub:'Dinámico — Netflix Ads + Apple TV incluidos + Universal+ (temporal) · Administrador de Negocios por 12 meses',
     items:[
-      'Aplica al plan Dinámico 350 Megas: Netflix Ads + Apple TV + Disney+ con anuncios, en las familias Totalplay Internet y TV + Internet.',
-      'Incluye <b>Administrador de Negocios</b>.',
+      'Aplica al plan Dinámico 350 Megas: <b>Netflix Ads y Apple TV incluidos</b>, en las familias Totalplay Internet y TV + Internet.',
+      '<b>Universal+</b> con anuncios por <b>3 meses</b> en Totalplay Internet y por <b>5 meses</b> en Totalplay TV + Internet.',
+      'Incluye <b>Administrador de Negocios por 12 meses</b>. En TV + Internet incluye <b>VSB</b>.',
       'No aplica para planes base, con Bundle Netflix Estándar o Netflix Premium.',
       'Aplica para clientes nuevos y existentes (por contención, retención y upsell).',
       'A partir del mes 6, el cliente paga la renta con descuento por lealtad.',
       'El descuento es <b>permanente</b> mientras el cliente conserve su plan más los adicionales.',
       'No convive con TOTALAMIGO, empleado ni promociones segmentadas.'
     ],
-    codes:['NEG- NETFLIX ADS INCLUIDO','MÁS APPS - APPLE TV INCLUIDO','MÁS APPS - DISNEY CON ANUNCIOS POR 3 MESES','MÁS APPS - DISNEY CON ANUNCIOS POR 5 MESES','NEG ADMINISTRADOR DE NEGOCIOS INCLUIDO']
+    codes:['NEG- NETFLIX ADS INCLUIDO','MÁS APPS - APPLE TV INCLUIDO','NEG- MAS APPS UNIVERSAL+ ESPECIAL 3 MESES','NEG- MAS APPS UNIVERSAL+ ESPECIAL 5 MESES','NEG ADMINISTRADOR DE NEGOCIOS INCLUIDO']
   },
   {
-    tier:'500 Megas', sub:'Emprendedor — Netflix Ads + Apple TV + Universal+ + Disney+ · incluye Administrador de Negocios',
+    tier:'500 Megas', sub:'Emprendedor — Netflix Ads + Apple TV + Universal+ (+ Disney+ en TV) · incluye Administrador de Negocios',
     items:[
-      'Aplica al plan Emprendedor 500 Megas: Netflix Ads + Apple TV + Universal+ con anuncios + Disney+ con anuncios. En <b>Solo Internet no incluye Universal+</b>.',
+      'Aplica al plan Emprendedor 500 Megas: Netflix Ads + Apple TV + Universal+ con anuncios. En <b>TV + Internet</b> además incluye <b>Disney+ con anuncios</b> y <b>VSB</b>; en <b>Solo Internet no incluye Disney+</b>.',
       'Incluye <b>Administrador de Negocios</b> de manera permanente.',
       'No aplica para planes base, con Bundle Netflix Estándar o Netflix Premium.',
       'Aplica para clientes nuevos y existentes (por contención, retención y upsell).',
@@ -1376,7 +1399,7 @@ const RULES = [
   {
     tier:'1,000 Megas', sub:'Experto — Netflix Ads + Apple TV + Universal+ + Disney+ + HBO Max · incluye Administrador de Negocios',
     items:[
-      'Aplica al plan Experto 1,000 Megas: Netflix Ads + Apple TV + Universal+ con anuncios + Disney+ con anuncios + HBO Max con anuncios. En <b>Solo Internet no incluye Universal+</b>.',
+      'Aplica al plan Experto 1,000 Megas: Netflix Ads + Apple TV + Universal+ con anuncios + HBO Max con anuncios. En <b>TV + Internet</b> además incluye <b>Disney+ con anuncios</b> y <b>VSB</b>; en <b>Solo Internet no incluye Disney+</b>.',
       'Incluye <b>Administrador de Negocios</b> de manera permanente.',
       'No aplica para planes base, con Bundle Netflix Estándar o Netflix Premium.',
       'Aplica para clientes nuevos y existentes (por contención, retención y upsell).',
@@ -1389,7 +1412,7 @@ const RULES = [
   {
     tier:'5,000 y 10,000 Megas', sub:'Ejecutivo · Élite — Más Apps: Netflix + Apple TV + Universal+ + Disney+ + HBO Max',
     items:[
-      'Aplica a los planes Ejecutivo 5,000 y Élite 10,000 Megas: Netflix + Apple TV + Universal+ + Disney+ + HBO Max (Más Apps). En <b>Solo Internet no incluye Universal+</b>.',
+      'Aplica a los planes Ejecutivo 5,000 y Élite 10,000 Megas: Netflix + Apple TV + Universal+ + HBO Max (Más Apps). En <b>TV + Internet</b> además incluye <b>Disney+</b> y <b>VSB</b>; en <b>Solo Internet no incluye Disney+</b>.',
       'Incluye <b>Administrador de Negocios</b> de manera permanente.',
       'No aplica para planes base, con Bundle Netflix Ads o Netflix Premium.',
       'Aplica para clientes nuevos y existentes (por contención, retención y upsell).',
@@ -1413,6 +1436,7 @@ const SERVICES = [
       'Ingenieros que apoyan en la activación y uso de las herramientas digitales, y resuelven fallas de cómputo.',
       'Asesoría legal en temas de contratos, permisos, sociedades y trámites del negocio (no incluye trámites presenciales ni gestiones ante autoridades).',
       'Asesoría contable y fiscal para cumplir con el SAT sin gastos extra.',
+      'Incluye 5 o 10 usuarios, según el plan contratado.',
       'Se activa fácil: llega un correo "Bienvenid@ a Totalplay Negocios" para crear la contraseña y entrar a la plataforma.'
     ],
     questions:[
@@ -1433,7 +1457,9 @@ const SERVICES = [
     intro:'Internet Seguro protege al negocio contra amenazas digitales, con navegación segura y localización de dispositivos. Usa la tecnología Bitdefender, de primer nivel en ciberseguridad.',
     bullets:[
       'Funciona en Windows, Mac OS, iOS y Android.',
-      'La cantidad de dispositivos protegidos depende del plan contratado.',
+      'Protege 5 o 10 dispositivos, según el plan contratado.',
+      'En caso de robo, permite localizar y/o borrar a distancia la información del celular o la computadora.',
+      'Permite configurar horarios de uso de celulares y computadoras.',
       'Detiene amenazas de red antes de que ocurran, y bloquea sitios infectados.',
       'Ubica dispositivos extraviados por geolocalización.',
       'Permite controlar qué contenido usan los colaboradores, para mejorar su productividad.',
@@ -1457,7 +1483,8 @@ const SERVICES = [
     tag:'HeyValue Cloud — guarda y comparte archivos seguros',
     intro:'Permite guardar, sincronizar y acceder a archivos, fotos, videos y documentos desde cualquier dispositivo y lugar, con seguridad y privacidad. Ideal para negocios que necesitan acceso remoto y respaldo seguro.',
     bullets:[
-      'Espacio disponible: desde 50 GB hasta 1 TB, según el plan contratado.',
+      'Espacio disponible: 500 GB o 1 TB, según el plan contratado.',
+      'Permite compartir archivos pesados con un link seguro y privado.',
       'Acceso desde cualquier dispositivo y sistema operativo.',
       'Sincronización automática en todos los dispositivos.',
       'Copias de seguridad (respaldo) automáticas.',
@@ -1510,7 +1537,9 @@ const SERVICES = [
       'Valida en tiempo real el RFC y el timbrado autorizado por el PAC.',
       'Descarga de XML y PDF, historial de facturación y control de clientes.',
       'Acceso desde la nube, en cualquier dispositivo, con respaldo automático.',
-      'Sin costo adicional: incluido en planes desde 250 Megas.'
+      'Guarda la información hasta por 3 años, y se puede traer la información de otras plataformas de facturación de forma fácil.',
+      'Se personaliza con los colores y el logo del negocio, con soporte 24x7 de contadores.',
+      'Sin costo adicional: incluido en los planes Negocios desde 100 Megas (Micro 100).'
     ],
     questions:[
       '¿Cómo gestiona actualmente la emisión de facturas electrónicas y complementos fiscales?',
@@ -1558,7 +1587,8 @@ const SERVICES = [
       'Módulo de CRM: seguimiento de clientes y oportunidades de negocio.',
       'Módulo de Inventarios: gestión de productos y avisos cuando el stock está bajo.',
       'Módulo de Finanzas: reportes básicos y control de cuentas por cobrar y pagar.',
-      'Todo disponible en la nube, desde cualquier dispositivo, con respaldo automático.'
+      'Todo disponible en la nube, desde cualquier dispositivo, con respaldo automático.',
+      'Incluido en los planes de 500 Megas en adelante, y por 12 meses en Dinámico 350. Para otros planes se contrata como adicional por $199.'
     ],
     questions:[
       '¿Cómo gestiona actualmente las ventas, inventarios y finanzas de su negocio?',
@@ -1569,6 +1599,31 @@ const SERVICES = [
       'Pregunta si el cliente tiene problemas para controlar inventarios, ventas o finanzas.',
       'Destaca la eficiencia: ideal para reducir errores y mejorar la productividad.',
       'Explica que HeyERP centraliza toda la operación del negocio en una sola plataforma.'
+    ],
+    contact:{chat:'asesoriavirtual.com.mx', email:'ayuda@asesorvirtual.com.mx', phone:'(55) 5350-8701'}
+  },
+  {
+    id:'ecommerce', icon:'🛒', title:'Ecommerce', precio:'$600',
+    tag:'Tienda en línea profesional, con control total',
+    intro:'Creamos el e-Commerce profesional del negocio, con control total de la plataforma para gestionar inventario, imagen y reportes. Es una solución con costo adicional.',
+    bullets:[
+      'Se puede integrar cualquier plataforma de cobros y envíos.',
+      'Cuenta con un especialista para resolver las dudas que tenga el cliente.',
+      'Control total de la plataforma para gestionar inventario, imagen y reportes.',
+      'El link de la página lleva el nombre del negocio (.com o .com.mx).',
+      'Incluye cinco cuentas de correo con el nombre del negocio.'
+    ],
+    contact:{chat:'asesoriavirtual.com.mx', email:'ayuda@asesorvirtual.com.mx', phone:'(55) 5350-8701'}
+  },
+  {
+    id:'admin-restaurante', icon:'🍽️', title:'Administrador de Restaurante', precio:'$250',
+    tag:'Menú digital en línea y control del restaurante',
+    intro:'Un menú digital siempre disponible, pedidos en línea directos de los clientes y herramientas para organizar mejor ingredientes, comandas, ventas, gastos y plataformas de Delivery. Es una solución con costo adicional.',
+    bullets:[
+      'Menú digital en línea, siempre disponible y fácil de actualizar.',
+      'Pedidos en línea directos de los clientes.',
+      'Organiza ingredientes, comandas, ventas y gastos.',
+      'Integra la operación con las plataformas de Delivery.'
     ],
     contact:{chat:'asesoriavirtual.com.mx', email:'ayuda@asesorvirtual.com.mx', phone:'(55) 5350-8701'}
   },
@@ -2108,6 +2163,118 @@ function pintarGoleador(){
   r += `<div class="nocon" style="margin-top:10px;"><div class="tt">🚫 No convive con</div>
     <ul>${GOL_NOCONVIVE.map(x=>`<li>${x}</li>`).join('')}</ul></div>`;
   document.getElementById('golReglas').innerHTML = r;
+}
+
+/* ============================================================
+   PROMOCIONES ESPECIALES "UN BUEN MES PARA HACER NEGOCIOS"
+   Comunicado NEG PROMOCIONES ESPECIALES BUEN MES · 02 al 30 nov 2026
+   (solo Nacional)
+   ============================================================ */
+const BM_NO_ESTANDAR = 'No aplica para planes base, con Bundle Netflix Estándar o Netflix Premium.';
+const BM_CLIENTES = 'Aplica para clientes nuevos y existentes (por contención, retención y upsell).';
+const BM_LEALTAD = 'Al sexto mes el cliente obtiene su descuento por lealtad.';
+
+const BM_OFERTA1 = {
+  opciones:[
+    { t:'Opción A · Netflix incluido', sub:'Netflix con anuncios incluido de forma permanente',
+      precios:[['Totalplay Internet','$660'],['Totalplay TV + Internet','$800']],
+      codes:['NEG NETFLIX ADS ESPECIAL'],
+      reglas:[
+        'El cliente tiene la promoción <b>únicamente de Netflix</b> incluido con anuncios.',
+        BM_CLIENTES, BM_NO_ESTANDAR, BM_LEALTAD,
+        '<b>No convive</b> con TOTALAMIGO, empleado, promociones segmentadas ni con las promociones de Más Apps (Netflix, Apple TV, Universal+ y Disney+).'
+      ] },
+    { t:'Opción B · Más Apps', sub:'Netflix + Apple TV + Universal+ con anuncios · 3 meses (Internet) o 5 meses (TV + Internet)',
+      precios:[['Totalplay Internet · 3 meses','$580'],['Totalplay TV + Internet · 5 meses','$720']],
+      codes:['NEG- NETFLIX ADS CON ANUNCIOS POR 3 MESES','MÁS APPS - APPLE TV 3 MESES','NEG- MAS APPS UNIVERSAL+ ESPECIAL 3 MESES',
+             'NEG- NETFLIX ADS CON ANUNCIOS POR 5 MESES','MÁS APPS - APPLE TV 5 MESES','NEG- MAS APPS UNIVERSAL+ ESPECIAL 5 MESES'],
+      reglas:[
+        'El cliente tiene únicamente las promociones de Más Apps: <b>Netflix con anuncios, Apple TV y Universal+</b> por 3 meses (Internet) o 5 meses (TV + Internet).',
+        'Convive con Apple TV y Universal+. El cliente puede obtener solo Netflix con anuncios, Apple TV y Universal+.',
+        BM_CLIENTES, BM_NO_ESTANDAR, BM_LEALTAD,
+        '<b>No convive</b> con TOTALAMIGO, empleado, promociones segmentadas ni con Netflix Ads Especial.',
+        'Modela los 3 códigos de <b>3 meses</b> en Totalplay Internet, o los 3 de <b>5 meses</b> en Totalplay TV + Internet.'
+      ] }
+  ]
+};
+
+/* [plan, app, PP sin streaming, PP con app, PP con promoción, ahorro] */
+const BM_MICRO = [
+  ['Micro 100 TV',  'HBO Max',    '$510', '$659', '$610', '$49'],
+  ['Micro 100 TV',  'Universal+', '$510', '$689', '$610', '$79'],
+  ['Micro 100 Pro', 'HBO Max',    '$419', '$568', '$519', '$49'],
+  ['Micro 100 Pro', 'Universal+', '$419', '$598', '$519', '$79']
+];
+const BM_OFERTA2 = [
+  { t:'Opción 1 · Universal+ incluido', sub:'Micro 100 TV y Micro 100 Pro',
+    codes:['NEG-MÁS APPS UNIVERSAL ESPECIAL'],
+    reglas:[
+      'El cliente tiene la promoción <b>únicamente de Universal+</b> incluido con anuncios.',
+      BM_CLIENTES, BM_NO_ESTANDAR, BM_LEALTAD,
+      '<b>No convive</b> con TOTALAMIGO, empleado, promociones segmentadas ni con las promociones de Más Apps (Apple TV, HBO Max y Disney+).'
+    ] },
+  { t:'Opción 2 · HBO Max incluido', sub:'Micro 100 TV y Micro 100 Pro',
+    codes:['NEG-MÁS APPS HBO ESPECIAL'],
+    reglas:[
+      'El cliente tiene la promoción <b>únicamente de HBO Max</b> incluido con anuncios.',
+      BM_CLIENTES, BM_NO_ESTANDAR, BM_LEALTAD,
+      '<b>No convive</b> con TOTALAMIGO, empleado, promociones segmentadas ni con las promociones de Más Apps (Apple TV, Universal+ y Disney+).'
+    ] }
+];
+const BM_GENERALES = [
+  'Los planes de <b>250 y 100 Megas</b> incluyen Soluciones de Negocio: Facturación ilimitada, Notas de remisión y gestión de ventas, Almacenamiento en la nube, Página Web + Tienda en línea, Aliado Digital e Internet Seguro.',
+  'Para activar las Soluciones de Negocio <b>no es necesario modelar ninguna promoción</b>: ya vienen incluidas en el plan. Invita a tu cliente a activarlas en <b>www.asesorvirtual.com.mx</b> o por WhatsApp <b>55 53 50 87 01</b>.',
+  'El cliente puede crecer su plan a uno con más megas y mayores beneficios en el momento que lo desee.',
+  'Recuerda que también tienes disponible el <b>Micro 100 sin streaming</b>.'
+];
+
+function bmAcordeon(x, abierto){
+  return `<div class="acc-item ${abierto?'open':''}">
+    <div class="acc-head" onclick="toggleAcc(this)">
+      <div class="tier">${x.t}<small>${x.sub}</small></div><div class="chev">+</div>
+    </div>
+    <div class="acc-body"><div class="acc-body-inner">
+      <ul>${x.reglas.map(r=>`<li>${r}</li>`).join('')}</ul>
+      <div class="model-box"><div class="model-label">Modélala en sistema como</div>
+      <div class="codes">${x.codes.map(c=>`<span class="code-chip">${c}</span>`).join('')}</div></div>
+    </div></div>
+  </div>`;
+}
+
+function pintarBuenMes(){
+  const caja = document.getElementById('bmContenido');
+  if(!caja) return;
+  const o = BM_OFERTA1.opciones;
+  let h = `<div class="section-title">Oferta 1 · 250 Megas simétricos</div>
+    <div class="rules-intro">El cliente elige <b>una</b> de las dos opciones: Netflix incluido de forma permanente,
+    <b>o</b> Netflix + Apple TV + Universal+ por tiempo limitado a precio de manteleta.</div>
+    <div class="table-card"><table>
+      <thead><tr><th>Familia</th><th>${o[0].t}<br><small>Netflix permanente</small></th>
+        <th>${o[1].t}<br><small>3 apps por 3 / 5 meses</small></th></tr></thead>
+      <tbody>
+        <tr><td class="megas">Totalplay Internet</td><td class="disc">${o[0].precios[0][1]}</td><td class="price">${o[1].precios[0][1]} <small>· 3 meses</small></td></tr>
+        <tr><td class="megas">Totalplay TV + Internet</td><td class="disc">${o[0].precios[1][1]}</td><td class="price">${o[1].precios[1][1]} <small>· 5 meses</small></td></tr>
+      </tbody></table></div>
+    <div class="footnote" style="margin-top:-6px;margin-bottom:14px;">Precios pronto pago Nacional.</div>
+    ${o.map((x,i)=>bmAcordeon(x, i===0)).join('')}
+
+    <div class="section-title" style="margin-top:30px;">Oferta 2 · Micro 100</div>
+    <div class="rules-intro">Micro 100 con <b>HBO Max</b> o <b>Universal+</b> incluido con anuncios, con ahorro sobre el precio normal.</div>
+    <div class="table-card"><table>
+      <thead><tr><th>Plan</th><th>App</th><th>PP<br><small>sin streaming</small></th><th>PP<br><small>con la app</small></th>
+        <th>PP con<br><small>promoción</small></th><th>Ahorro</th></tr></thead>
+      <tbody>${BM_MICRO.map(f=>`<tr><td class="megas">${f[0]}</td><td>${f[1]}</td><td>${f[2]}</td>
+        <td class="price">${f[3]}</td><td class="disc">${f[4]}</td><td><b>${f[5]}</b></td></tr>`).join('')}</tbody>
+    </table></div>
+    <div class="footnote" style="margin-top:-6px;margin-bottom:14px;">Micro 100 TV = Totalplay TV + Internet · Micro 100 Pro = Totalplay Internet.
+    Además incluye sin costo: Página Web + Tienda en línea, Almacenamiento en la nube, Factura Total y ONT + Wi-Fi Extender.</div>
+    ${BM_OFERTA2.map((x,i)=>bmAcordeon(x, i===0)).join('')}
+
+    <div class="section-title" style="margin-top:30px;">Para las dos ofertas</div>
+    <div class="acc-item open"><div class="acc-body"><div class="acc-body-inner" style="padding-top:14px;">
+      <ul>${BM_GENERALES.map(r=>`<li>${r}</li>`).join('')}</ul>
+    </div></div></div>`;
+  caja.innerHTML = h;
 }
 
 /* Refresca las fechas de vigencia que se ven en pantalla, para que
@@ -2689,12 +2856,13 @@ function traerConfig(alTerminar){
    los textos marcados con data-vig="<id>" se actualizan solos.
    ============================================================ */
 const SECCIONES = [
-  { id:'streaming',  nombre:'Streaming incluido',         fin:'2026-10-15' },
-  { id:'totalamigo', nombre:'Descuento Totalamigo',       fin:'2026-10-15' },
+  { id:'streaming',  nombre:'Streaming incluido',         inicio:'2026-11-02', fin:'2026-11-30' },
+  { id:'buenmes',    nombre:'Promociones especiales Buen Mes', inicio:'2026-11-02', fin:'2026-11-30' },
+  { id:'totalamigo', nombre:'Descuento Totalamigo',       inicio:'2026-11-02', fin:'2026-11-30' },
   { id:'mascon',     nombre:'Más con Negocios',            inicio:'2026-08-01', fin:'2026-08-31' },
   { id:'goleador',   nombre:'Goleador · Speakers',         inicio:'2026-08-04', fin:'2026-08-10' },
   { id:'consecutivo',nombre:'Consecutivo de Promociones', inicio:'2026-10-08', fin:'2026-10-15' },
-  { id:'manteleta',  nombre:'Manteleta Negocios',         inicio:'2026-09-29', fin:'2026-11-02' },
+  { id:'manteleta',  nombre:'Manteleta Negocios',         inicio:'2026-11-02', fin:'2026-11-30' },
   { id:'comisiones', nombre:'Comisiones',                 fin:null }
 ];
 
@@ -2708,7 +2876,9 @@ const SECCIONES = [
    el único lugar que hay que tocar, todo lo demás lo calcula solo.
    ============================================================ */
 const NOVEDADES = {
-  manteleta:   { fecha:'2026-09-29', dias:15 },
+  manteleta:   { fecha:'2026-11-02', dias:15 },
+  streaming:   { fecha:'2026-11-02', dias:8 },
+  buenmes:     { fecha:'2026-11-02', dias:8 },
   consecutivo: { fecha:'2026-10-08', dias:8 }
 };
 function tieneNovedad(id){
@@ -2792,7 +2962,10 @@ function buscarSeccion(id){
   if(!base) return null;
   // lo que haya guardado el administrador manda sobre la fecha de arranque
   const cambio = CONFIG_REMOTA[id];
-  if(cambio){
+  // si lo guardado termina antes de que arranque el comunicado actual, es de una
+  // edición anterior (p. ej. la vigencia de octubre) y ya no debe mandar
+  const caduco = cambio && cambio.fin && base.inicio && cambio.fin < base.inicio;
+  if(cambio && !caduco){
     return { id: base.id, nombre: base.nombre, inicio: base.inicio || null,
              fin: (cambio.fin !== undefined && cambio.fin !== null) ? cambio.fin : base.fin,
              oculta: !!cambio.oculta };
@@ -2869,6 +3042,7 @@ const NAV_STRUCTURE = [
   {group:'Inicio', items:[{id:'home', icon:'🏠', label:'Inicio'}]},
   {group:'Promociones vigentes', items:[
     {id:'streaming', icon:'📺', label:'Streaming incluido'},
+    {id:'buenmes', icon:'⭐', label:'Promociones especiales Buen Mes'},
     {id:'totalamigo', icon:'🎁', label:'Descuento Totalamigo'},
     {id:'mascon', icon:'🏆', label:'Más con Negocios'},
     {id:'goleador', icon:'🔊', label:'Goleador · Speakers'},
@@ -2958,6 +3132,7 @@ function buildNav(){
 function buildHome(){
   const promos = [
     {id:'streaming',   icon:'📺', titulo:'Streaming incluido',         desc:'Qué apps trae incluido cada plan, con sus precios.'},
+    {id:'buenmes',     icon:'⭐', titulo:'Promociones especiales Buen Mes', desc:'250 Megas con Netflix desde $660 y Micro 100 con HBO Max o Universal+ por $519.'},
     {id:'totalamigo',  icon:'🎁', titulo:'Descuento Totalamigo',       desc:'Hasta $150 de descuento durante 5 meses para clientes nuevos.'},
     {id:'mascon',      icon:'🏆', titulo:'Más con Negocios',           desc:'Gana hasta 50% más comprobando el RFC de tu cliente.'},
     {id:'goleador',    icon:'🔊', titulo:'Goleador · Speakers',        desc:'Speakers, Totalplay TV y Página Web incluidos en el plan Emprendedor.'},
@@ -3030,9 +3205,10 @@ function renderCards(){
     if(anyNoAds) statusTag += '<span class="tag green">Sin anuncios</span>';
     if(anyAds) statusTag += '<span class="tag coral">Con anuncios</span>';
     let deviceTag = '';
-    if(r.device === 'VSB') deviceTag = '<span class="tag teal">Módem VSB incluido</span>';
+    if(r.device === 'VSB') deviceTag = '<span class="tag teal">VSB (Nuevo Totalplay TV) incluido</span>';
     if(r.device === 'TV') deviceTag = '<span class="tag teal">Decodificador TV incluido</span>';
-    let adminTag = r.adminNeg ? '<span class="tag teal">Administrador de Negocios</span>' : '';
+    let adminTag = r.adminNeg === '12m' ? '<span class="tag amber">Administrador de Negocios · 12 meses</span>'
+                 : (r.adminNeg ? '<span class="tag teal">Administrador de Negocios</span>' : '');
     // Todos los planes Negocios traen la Página Web incluida de forma permanente
     const webTag = '<span class="tag green">🌐 Página Web permanente</span>';
 
@@ -3040,6 +3216,7 @@ function renderCards(){
       <h3>${r.megas}</h3>
       <div class="plan-sub">${r.plan} · Simétricos</div>
       <div class="price">${r.pp}<small>/mes</small></div>
+      ${r.lealtad ? `<div class="plan-sub" style="margin:2px 0 0;">Desde el 6º mes: <b style="color:var(--navy)">${r.lealtad}</b> (lealtad)</div>` : ''}
       <hr class="divider">
       ${anyIncluded ? `<div class="tag-row">${tags}</div><div class="tag-row">${statusTag}${adminTag}${deviceTag}${webTag}</div>` : `<div class="empty-state">Sin streaming incluido</div><div class="tag-row" style="margin-top:8px;">${deviceTag}${webTag}</div>`}
     </div>`;
@@ -3114,7 +3291,9 @@ function openService(id){
       <div class="contact-card"><div class="lbl">Teléfono / WhatsApp</div><div class="val">${s.contact.phone}</div></div>
     </div>`;
   }
-  html += `<span class="included-badge">✔ Incluido en los planes</span>`;
+  html += s.precio
+    ? `<span class="included-badge" style="background:var(--amber-bg);color:var(--amber-text);">💲 Se contrata como adicional: ${s.precio}</span>`
+    : `<span class="included-badge">✔ Incluido en los planes</span>`;
 
   document.getElementById('serviceContent').innerHTML = html;
   showView('service', s.title);
@@ -3144,6 +3323,7 @@ function showView(id, titleOverride){
   if(id === 'admin'){ pintarAdmin(); }
   if(id === 'mascon'){ pintarMasCon(); }
   if(id === 'goleador'){ pintarGoleador(); }
+  if(id === 'buenmes'){ pintarBuenMes(); }
   if(id === 'consecutivo'){ catAbierta = null; pintarConsecutivo(); }
   if(id === 'comisiones'){ pintarComisiones(); pintarAdicionales(); }
   if(id === 'equipo'){
@@ -3162,7 +3342,7 @@ function showView(id, titleOverride){
 
   window.scrollTo({top:0, behavior:'smooth'});
 
-  const titles = {home:'Inicio', streaming:'Streaming incluido',
+  const titles = {home:'Inicio', streaming:'Streaming incluido', buenmes:'Buen Mes',
                   totalamigo:'Descuento Totalamigo', manteleta:'Manteleta',
                   mascon:'Más con Negocios', goleador:'Goleador · Speakers',
                   consecutivo:'Consecutivo de Promociones', comisiones:'Comisiones',

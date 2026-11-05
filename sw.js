@@ -1,7 +1,8 @@
 /* ============================================================
    Service Worker — Totalplay Negocios | Guía de ventas
-   VERSIÓN 21 — consecutivo de promociones sem 40-41 (Nacional),
-   vigencia 08 al 15 de octubre 2026; streaming y Totalamigo al 15 oct
+   VERSIÓN 22 — "Un buen mes para hacer negocios" (Nacional): streaming,
+   Totalamigo, promociones especiales y manteleta del 02 al 30 de
+   noviembre 2026
 
    Qué hace: guarda una copia del sitio en el celular para que la
    app ABRA SIEMPRE, aunque la conexión de datos falle o titubee.
@@ -23,7 +24,7 @@
    para que los celulares ya instalados reciban la actualización.
    ============================================================ */
 
-const CACHE_NAME = 'tp-negocios-v21';
+const CACHE_NAME = 'tp-negocios-v22';
 
 /* Lo único imprescindible es el HTML. Los demás son opcionales:
    si alguno falta en GitHub, el sitio sigue funcionando igual. */
