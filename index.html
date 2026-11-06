@@ -4062,10 +4062,18 @@ function mensajeAdmin(sec, texto, bien){
   m.className = 'adm-msg show ' + (bien ? 'bien' : 'mal');
 }
 
+// El buzón exige la sesión del login con PIN (TOKEN_NIP) y de ahí saca quién guarda:
+// ya no basta con mandar el número del administrador. "num" se sigue mandando para
+// el buzón anterior mientras se publica el nuevo.
 function aplicarCambio(sec, fecha, oculta, textoExito){
+  if(!TOKEN_NIP){
+    mensajeAdmin(sec, '❌ No se pudo guardar: vuelve a entrar con tu número y PIN.', false);
+    return;
+  }
   mensajeAdmin(sec, 'Guardando…', true);
   llamarBuzon({
     fn:'guardar',
+    token: TOKEN_NIP,
     num: (EMPLEADO_ACTUAL && EMPLEADO_ACTUAL.numero) || '',
     seccion: sec,
     fin: fecha || '',
